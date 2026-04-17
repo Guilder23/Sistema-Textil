@@ -1,0 +1,70 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: #1e3a8a;
+    border-radius: 0.5rem;
+    color: white;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.page-subtitle {
+    margin: 0.25rem 0 0;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.card-filtros {
+    margin-bottom: 1rem;
+    border: 1px solid #e5e7eb;
+}
+
+.card-tabla {
+    border: 1px solid #e5e7eb;
+}
+
+.tabla-categorias thead {
+    background: #3b82f6;
+}
+
+.tabla-categorias thead th {
+    color: #fff;
+    border: none;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.categoria-badge {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    border-radius: 1rem;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+    background: #dbeafe;
+    font-weight: 600;
+}
+
+.badge-estado {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid;
+    font-size: 0.72rem;
+}
+
+.badge-estado-activo {
+    color: #065f46;
+    background: #d1fae5;
+    border-color: #6ee7b7;
+}
+
+.badge-estado-inactivo {
+    color: #991b1b;
+    background: #fee2e2;
+    border-color: #fca5a5;
+}

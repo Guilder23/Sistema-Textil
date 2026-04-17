@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block titulo %}Historial de Cambios{% endblock %}
+
+{% block estilos_extra %}
+<link rel="stylesheet" href="{% static 'css/historial/historial.css' %}">
+<link rel="stylesheet" href="{% static 'css/historial/modals/crear.css' %}">
+<link rel="stylesheet" href="{% static 'css/historial/modals/ver.css' %}">
+<link rel="stylesheet" href="{% static 'css/historial/modals/editar.css' %}">
+<link rel="stylesheet" href="{% static 'css/historial/modals/eliminar.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<div class="container-fluid gestion-wrap">
+    <div class="page-header">
+        <h1><i class="fas fa-history"></i> Historial de Cambios</h1>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-sm mb-0">
+                <thead>
+                    <tr><th>Fecha</th><th>Usuario</th><th>Accion</th><th>Producto</th><th class="text-center">Acciones</th></tr>
+                </thead>
+                <tbody>
+                    {% for item in cambios %}
+                    <tr>
+                        <td>{{ item.fecha|date:'d/m/Y H:i' }}</td>
+                        <td>{{ item.usuario.username|default:'Sistema' }}</td>
+                        <td>{{ item.accion }}</td>
+                        <td>{{ item.producto.detalle|default:'Sin producto' }}</td>
+                        <td class="text-center">{{ item.descripcion|default:'-' }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center py-3 text-muted">No hay cambios registrados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script src="{% static 'js/historial/modals/crear.js' %}"></script>
+<script src="{% static 'js/historial/modals/ver.js' %}"></script>
+<script src="{% static 'js/historial/modals/editar.js' %}"></script>
+<script src="{% static 'js/historial/modals/eliminar.js' %}"></script>
+<script src="{% static 'js/historial/historial.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesion</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/auth/login.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-login">
+        <a class="navbar-brand" href="{% url 'core:inicio' %}"><i class="fas fa-book"></i> Sistema Libreria</a>
+        <div class="ml-auto">
+            <a href="{% url 'core:inicio' %}" class="btn btn-outline-light btn-sm">Volver al catalogo</a>
+        </div>
+    </nav>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <h2><i class="fas fa-store"></i> Sistema Inventario</h2>
+            <p>Accede con tu usuario y contrasena</p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Contrasena</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger py-2">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                <button class="btn btn-primary btn-block" type="submit">Entrar</button>
+            </form>
+        </div>
+    </div>
+    <script src="{% static 'js/auth/login.js' %}"></script>
+</body>
+</html>

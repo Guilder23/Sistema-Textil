@@ -1,0 +1,42 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block titulo %}Estadisticas Basicas{% endblock %}
+
+{% block estilos_extra %}
+<link rel="stylesheet" href="{% static 'css/estadisticas/estadisticas.css' %}">
+<link rel="stylesheet" href="{% static 'css/estadisticas/modals/crear.css' %}">
+<link rel="stylesheet" href="{% static 'css/estadisticas/modals/ver.css' %}">
+<link rel="stylesheet" href="{% static 'css/estadisticas/modals/editar.css' %}">
+<link rel="stylesheet" href="{% static 'css/estadisticas/modals/eliminar.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<div class="container-fluid gestion-wrap">
+    <div class="page-header">
+        <h1><i class="fas fa-chart-bar"></i> Estadisticas Basicas</h1>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3 mb-2"><div class="card p-3 text-center"><small>Total productos</small><h3>{{ metricas.total_productos }}</h3></div></div>
+        <div class="col-md-3 mb-2"><div class="card p-3 text-center"><small>Total categorias</small><h3>{{ metricas.total_categorias }}</h3></div></div>
+        <div class="col-md-3 mb-2"><div class="card p-3 text-center"><small>Activos</small><h3>{{ metricas.productos_activos }}</h3></div></div>
+        <div class="col-md-3 mb-2"><div class="card p-3 text-center"><small>Bajo stock</small><h3>{{ metricas.productos_bajo_stock }}</h3></div></div>
+    </div>
+
+    <button class="btn btn-primary" data-toggle="modal" data-target="#modalVerEstadistica">Ver detalle</button>
+
+    {% include 'estadisticas/modals/crear.html' %}
+    {% include 'estadisticas/modals/ver.html' %}
+    {% include 'estadisticas/modals/editar.html' %}
+    {% include 'estadisticas/modals/eliminar.html' %}
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script src="{% static 'js/estadisticas/modals/crear.js' %}"></script>
+<script src="{% static 'js/estadisticas/modals/ver.js' %}"></script>
+<script src="{% static 'js/estadisticas/modals/editar.js' %}"></script>
+<script src="{% static 'js/estadisticas/modals/eliminar.js' %}"></script>
+<script src="{% static 'js/estadisticas/estadisticas.js' %}"></script>
+{% endblock %}

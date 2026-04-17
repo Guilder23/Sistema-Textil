@@ -1,0 +1,95 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block titulo %}Productos Destacados{% endblock %}
+
+{% block estilos_extra %}
+<link rel="stylesheet" href="{% static 'css/destacados/destacados.css' %}">
+<link rel="stylesheet" href="{% static 'css/destacados/modals/crear.css' %}">
+<link rel="stylesheet" href="{% static 'css/destacados/modals/ver.css' %}">
+<link rel="stylesheet" href="{% static 'css/destacados/modals/editar.css' %}">
+<link rel="stylesheet" href="{% static 'css/destacados/modals/eliminar.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<div class="container-fluid gestion-wrap">
+    <div class="page-header">
+        <h1><i class="fas fa-star"></i> Productos Destacados</h1>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-sm mb-0">
+                <thead>
+                    <tr><th>Codigo</th><th>Detalle</th><th>Categoria</th><th>Estado</th><th class="text-center">Acciones</th></tr>
+                </thead>
+                <tbody>
+                    {% for item in productos_destacados %}
+                    <tr>
+                        <td>{{ item.codigo }}</td>
+                        <td>{{ item.detalle }}</td>
+                        <td>{{ item.categoria.nombre }}</td>
+                        <td>{% if item.activo %}ACTIVO{% else %}INACTIVO{% endif %}</td>
+                        <td class="text-center">
+                            {% if can_manage %}
+                            <form method="post" action="{% url 'productos:toggle_destacado' item.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button class="btn btn-warning btn-sm" type="submit"><i class="fas fa-star-half-alt"></i> Quitar</button>
+                            </form>
+                            {% else %}
+                            <span class="text-muted">Solo lectura</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center py-3 text-muted">No hay productos destacados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header bg-light"><strong>Todos los productos</strong></div>
+        <div class="table-responsive">
+            <table class="table table-sm mb-0">
+                <thead>
+                    <tr><th>Codigo</th><th>Detalle</th><th>Categoria</th><th>Destacado</th><th class="text-center">Accion</th></tr>
+                </thead>
+                <tbody>
+                    {% for p in productos %}
+                    <tr>
+                        <td>{{ p.codigo }}</td>
+                        <td>{{ p.detalle }}</td>
+                        <td>{{ p.categoria.nombre }}</td>
+                        <td>{% if p.destacado %}SI{% else %}NO{% endif %}</td>
+                        <td class="text-center">
+                            {% if can_manage %}
+                            <form method="post" action="{% url 'productos:toggle_destacado' p.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button class="btn btn-sm {% if p.destacado %}btn-secondary{% else %}btn-primary{% endif %}" type="submit">
+                                    {% if p.destacado %}Quitar{% else %}Destacar{% endif %}
+                                </button>
+                            </form>
+                            {% else %}
+                            <span class="text-muted">Solo lectura</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center py-3 text-muted">No hay productos registrados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script src="{% static 'js/destacados/modals/crear.js' %}"></script>
+<script src="{% static 'js/destacados/modals/ver.js' %}"></script>
+<script src="{% static 'js/destacados/modals/editar.js' %}"></script>
+<script src="{% static 'js/destacados/modals/eliminar.js' %}"></script>
+<script src="{% static 'js/destacados/destacados.js' %}"></script>
+{% endblock %}

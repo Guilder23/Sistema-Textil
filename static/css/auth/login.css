@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 55%, #065f46 100%);
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.navbar-login {
+    background: rgba(15, 23, 42, 0.25);
+    backdrop-filter: blur(3px);
+    padding: 0.75rem 1rem;
+}
+
+.navbar-login .navbar-brand {
+    color: #fff;
+    font-weight: 700;
+}
+
+.navbar-login .navbar-brand:hover,
+.navbar-login .navbar-brand:focus {
+    color: #dbeafe;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 420px;
+    padding: 1rem;
+    min-height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.login-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+    padding: 1.8rem;
+}
+
+.login-card h2 {
+    margin-bottom: 0.25rem;
+    color: #1e3a8a;
+    font-size: 1.5rem;
+}
+
+.login-card p {
+    color: #6b7280;
+    margin-bottom: 1rem;
+}

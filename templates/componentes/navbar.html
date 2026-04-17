@@ -1,0 +1,52 @@
+<nav class="navbar navbar-principal">
+    <div class="navbar-container">
+        <div class="navbar-left">
+            <button class="sidebar-toggle-btn" id="sidebarToggle" title="Alternar menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="navbar-logo">
+                <a href="{% url 'core:inicio' %}">
+                    <i class="fas fa-store"></i>
+                    <span class="navbar-brand-text">Sistema Inventario</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="navbar-right">
+            <div class="navbar-notificaciones">
+                <button class="navbar-icon-btn" id="notificacionesBtn" title="Notificaciones">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="notificacionesBadge">5</span>
+                </button>
+                <div class="navbar-dropdown notificaciones-dropdown" id="notificacionesDropdown">
+                    <div class="dropdown-header">
+                        <span>Notificaciones</span>
+                        <small class="text-muted">5 nuevas</small>
+                    </div>
+                    <div class="dropdown-items p-3">
+                        <small class="text-muted">Demo visual de notificaciones</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navbar-usuario">
+                <button class="navbar-user-btn" id="usuarioBtn" title="Mi cuenta">
+                    <div class="user-avatar"><i class="fas fa-user"></i></div>
+                    <div class="user-info">
+                        <span class="user-name">{{ user.username|title }}</span>
+                        <span class="user-role">{% if user.is_staff %}Administrador{% else %}Usuario{% endif %}</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="navbar-dropdown usuario-dropdown" id="usuarioDropdown">
+                    <a href="#" class="dropdown-item"><i class="fas fa-user-circle"></i> {{ user.get_full_name|default:user.username }}</a>
+                    {% if user.is_staff %}
+                    <a href="{% url 'core:registro' %}" class="dropdown-item"><i class="fas fa-user-plus"></i> Registrar Usuarios</a>
+                    {% endif %}
+                    <div class="dropdown-divider"></div>
+                    <a href="{% url 'core:logout' %}" class="dropdown-item dropdown-item-logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesion</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

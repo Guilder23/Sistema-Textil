@@ -1,0 +1,36 @@
+﻿<div class="modal fade" id="modalVerProducto" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-producto-dialog" role="document">
+        <div class="modal-content modal-ver-productos">
+            <div class="modal-header">
+                <h5 class="modal-title">Ver Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="preview-box">
+                            <img id="verImagen" src="" alt="Imagen producto" class="preview-img" style="display:none;">
+                            <span id="verImagenSinDato" class="text-muted">Sin imagen</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Nombre:</strong> <span id="verNombre"></span></li>
+                            <li class="list-group-item"><strong>Codigo:</strong> <span id="verCodigo"></span></li>
+                            <li class="list-group-item"><strong>Detalle:</strong> <span id="verDetalle"></span></li>
+                            <li class="list-group-item"><strong>Categoria:</strong> <span id="verCategoria"></span></li>
+                            <li class="list-group-item"><strong>Stock:</strong> <span id="verStock"></span></li>
+                            <li class="list-group-item"><strong>Precio por unidad (Bs):</strong> <span id="verPrecioUnidadBs"></span></li>
+                            <li class="list-group-item"><strong>Precio por caja (Bs):</strong> <span id="verPrecioCajaBs"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

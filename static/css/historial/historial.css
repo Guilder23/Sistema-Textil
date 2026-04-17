@@ -1,0 +1,16 @@
+.gestion-wrap .page-header {
+    margin-bottom: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    background: #1e3a8a;
+}
+
+.gestion-wrap .card {
+    border: 1px solid #e5e7eb;
+}
+
+.gestion-wrap thead {
+    background: #3b82f6;
+    color: #fff;
+}

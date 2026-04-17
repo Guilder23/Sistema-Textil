@@ -1,0 +1,225 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block titulo %}Gestion de Productos{% endblock %}
+
+{% block estilos_extra %}
+<link rel="stylesheet" href="{% static 'css/productos/productos.css' %}">
+<link rel="stylesheet" href="{% static 'css/productos/modals/crear.css' %}">
+<link rel="stylesheet" href="{% static 'css/productos/modals/ver.css' %}">
+<link rel="stylesheet" href="{% static 'css/productos/modals/editar.css' %}">
+<link rel="stylesheet" href="{% static 'css/productos/modals/eliminar.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<div class="container-fluid">
+    <div class="page-header">
+        <div class="page-header-content">
+            <h1 class="page-title"><i class="fas fa-box"></i> Gestion de Productos</h1>
+            <p class="page-subtitle">Administra el catalogo de productos</p>
+        </div>
+        {% if can_manage %}
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalCrearProducto">
+            <i class="fas fa-plus"></i> Nuevo Producto
+        </button>
+        {% endif %}
+    </div>
+
+    <div class="card card-filtros">
+        <div class="card-body py-3">
+            <form method="get" id="formFiltrosProductos" class="filtros-productos-form">
+                <div class="filtros-productos-linea">
+                    <div class="filtro-busqueda">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white border-right-0"><i class="fas fa-search text-muted"></i></span>
+                            </div>
+                            <input type="text" class="form-control form-control-sm border-left-0" id="buscar" name="q" value="{{ q }}" placeholder="Buscar por codigo, nombre o categoria...">
+                        </div>
+                    </div>
+
+                    <div class="filtro-item">
+                    <select class="form-control form-control-sm" id="estado" name="estado">
+                        <option value="">Todos los estados</option>
+                        <option value="ACTIVO" {% if estado == 'ACTIVO' %}selected{% endif %}>Activos</option>
+                        <option value="INACTIVO" {% if estado == 'INACTIVO' %}selected{% endif %}>Inactivos</option>
+                    </select>
+                    </div>
+
+                    <div class="filtro-item">
+                    <select class="form-control form-control-sm" id="categoriaProducto" name="categoria">
+                        <option value="">Todas las categorias</option>
+                        {% for c in categorias %}
+                        <option value="{{ c.id }}" {% if categoria_id == c.id|stringformat:'s' %}selected{% endif %}>{{ c.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+
+                    <div class="filtro-item">
+                    <select class="form-control form-control-sm" id="publicadoProducto" name="publicado">
+                        <option value="">Publicacion</option>
+                        <option value="SI" {% if publicado == 'SI' %}selected{% endif %}>Publicados</option>
+                        <option value="NO" {% if publicado == 'NO' %}selected{% endif %}>No publicados</option>
+                    </select>
+                    </div>
+
+                    <div class="filtro-item">
+                    <select class="form-control form-control-sm" id="stockProducto" name="stock">
+                        <option value="">Disponibilidad</option>
+                        <option value="CON" {% if stock == 'CON' %}selected{% endif %}>Con stock</option>
+                        <option value="SIN" {% if stock == 'SIN' %}selected{% endif %}>Sin stock</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <small class="text-muted">Busqueda y filtros en tiempo real.</small>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card card-tabla">
+        <div class="table-responsive">
+            <table class="table table-sm tabla-productos mb-0">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Detalle</th>
+                        <th>Categoria</th>
+                        <th>Stock Unidad</th>
+                        <th>Unid/Caja</th>
+                        {% comment %} <th>Stock Caja</th> {% endcomment %}
+                        <th>Precio Unidad (Bs)</th>
+                        <th>Precio Caja (Bs)</th>
+                        <th>Publicado</th>
+                        <th>Estado</th>
+                        <th class="text-center acciones-col-head">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td>
+                            {% if producto.imagen %}
+                            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="producto-thumb">
+                            {% elif producto.imagen_url %}
+                            <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}" class="producto-thumb">
+                            {% else %}
+                            <div class="producto-thumb placeholder"><i class="fas fa-image"></i></div>
+                            {% endif %}
+                        </td>
+                        <td><span class="codigo-badge">{{ producto.codigo }}</span></td>
+                        <td><span class="producto-nombre">{{ producto.nombre }}</span></td>
+                        <td><span class="producto-detalle">{{ producto.detalle }}</span></td>
+                        <td>{{ producto.categoria.nombre }}</td>
+                        <td><span class="badge-stock">{{ producto.stock_unidad }} unidades</span></td>
+                        <td>{{ producto.unidades_por_caja }}</td>
+                        {% comment %} <td><span class="badge-stock">{{ producto.stock_caja }} cajas</span></td> {% endcomment %}
+                        <td>Bs. {{ producto.precio_usd|floatformat:2 }}</td>
+                        <td>Bs. {{ producto.precio_caja_bs|floatformat:2 }}</td>
+                        <td>
+                            <span class="badge-estado {% if producto.publicado %}badge-estado-activo{% else %}badge-estado-inactivo{% endif %}">
+                                {% if producto.publicado %}PUBLICADO{% else %}NO PUBLICADO{% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge-estado {% if producto.activo %}badge-estado-activo{% else %}badge-estado-inactivo{% endif %}">
+                                {% if producto.activo %}ACTIVO{% else %}INACTIVO{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center acciones-col">
+                            <button
+                                class="btn btn-info btn-sm btn-ver-producto"
+                                data-toggle="modal"
+                                data-target="#modalVerProducto"
+                                data-codigo="{{ producto.codigo }}"
+                                data-nombre="{{ producto.nombre }}"
+                                data-detalle="{{ producto.detalle }}"
+                                data-categoria="{{ producto.categoria.nombre }}"
+                                data-stock="{{ producto.stock_unidad }}"
+                                data-precio-unidad-bs="{{ producto.precio_usd }}"
+                                data-precio-caja-bs="{{ producto.precio_caja_bs }}"
+                                data-imagen-url="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{{ producto.imagen_url }}{% endif %}"
+                            ><i class="fas fa-eye"></i></button>
+                            {% if can_manage %}
+                            <button
+                                class="btn btn-warning btn-sm btn-editar-producto"
+                                data-toggle="modal"
+                                data-target="#modalEditarProducto"
+                                data-id="{{ producto.id }}"
+                                data-codigo="{{ producto.codigo }}"
+                                data-nombre="{{ producto.nombre }}"
+                                data-detalle="{{ producto.detalle }}"
+                                data-imagen-url="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{{ producto.imagen_url }}{% endif %}"
+                                data-categoria-id="{{ producto.categoria.id }}"
+                                data-stock="{{ producto.stock_unidad }}"
+                                data-unidades="{{ producto.unidades_por_caja }}"
+                                data-precio-unidad-bs="{{ producto.precio_usd }}"
+                                data-precio-caja-bs="{{ producto.precio_caja_bs }}"
+                                data-activo="{{ producto.activo|yesno:'1,0' }}"
+                                data-publicado="{{ producto.publicado|yesno:'1,0' }}"
+                            ><i class="fas fa-edit"></i></button>
+
+                            <form method="post" action="{% url 'productos:toggle_publicado' producto.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button class="btn btn-secondary btn-sm" type="submit" title="Publicar / No publicar">
+                                    <i class="fas fa-bullhorn"></i>
+                                </button>
+                            </form>
+
+                            <button
+                                class="btn btn-danger btn-sm btn-eliminar-producto"
+                                data-toggle="modal"
+                                data-target="#modalEliminarProducto"
+                                data-id="{{ producto.id }}"
+                                data-nombre="{{ producto.nombre }}"
+                            ><i class="fas fa-trash"></i></button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="13" class="text-center py-3 text-muted">No hay productos registrados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% if productos.paginator.num_pages > 1 %}
+    <nav class="mt-3">
+        <ul class="pagination pagination-sm mb-0">
+            {% if productos.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ productos.previous_page_number }}&q={{ q }}&estado={{ estado }}&categoria={{ categoria_id }}&publicado={{ publicado }}&stock={{ stock }}">Anterior</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item active"><span class="page-link">{{ productos.number }}</span></li>
+
+            {% if productos.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ productos.next_page_number }}&q={{ q }}&estado={{ estado }}&categoria={{ categoria_id }}&publicado={{ publicado }}&stock={{ stock }}">Siguiente</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% if can_manage %}
+    {% include 'productos/modals/crear.html' %}
+    {% include 'productos/modals/editar.html' %}
+    {% include 'productos/modals/eliminar.html' %}
+    {% endif %}
+    {% include 'productos/modals/ver.html' %}
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script src="{% static 'js/productos/modals/crear.js' %}"></script>
+<script src="{% static 'js/productos/modals/ver.js' %}"></script>
+<script src="{% static 'js/productos/modals/editar.js' %}"></script>
+<script src="{% static 'js/productos/modals/eliminar.js' %}"></script>
+<script src="{% static 'js/productos/productos.js' %}"></script>
+{% endblock %}

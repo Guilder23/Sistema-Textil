@@ -1,0 +1,92 @@
+﻿<div class="modal fade" id="modalEditarProducto" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-producto-dialog" role="document">
+        <div class="modal-content modal-editar-productos">
+            <form method="post" id="formEditarProducto" action="#" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label>Codigo</label>
+                                <input type="text" name="codigo" id="editCodigo" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Nombre</label>
+                                <input type="text" name="nombre" id="editNombre" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Detalle</label>
+                            <input type="text" name="detalle" id="editDetalle" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select name="categoria_id" id="editCategoria" class="form-control" required>
+                                {% for c in categorias %}
+                                <option value="{{ c.id }}">{{ c.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label>Stock unidad</label>
+                                <input type="number" name="stock_unidad" id="editStock" class="form-control" min="0" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Unidades/caja</label>
+                                <input type="number" name="unidades_por_caja" id="editUnidades" class="form-control" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label>Precio por unidad (Bs)</label>
+                                <input type="number" step="0.01" name="precio_usd" id="editPrecioUsd" class="form-control">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Precio por caja (Bs)</label>
+                                <input type="number" step="0.01" name="precio_caja_bs" id="editPrecioBs" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-check mt-2">
+                            <input type="checkbox" class="form-check-input" id="editActivo" name="activo">
+                            <label class="form-check-label" for="editActivo">Activo</label>
+                        </div>
+                        <div class="form-check mt-2">
+                            <input type="checkbox" class="form-check-input" id="editPublicado" name="publicado">
+                            <label class="form-check-label" for="editPublicado">Publicado</label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label>Imagen del producto (opcional, reemplaza la actual)</label>
+                            <input type="file" name="imagen" id="editImagen" class="form-control-file" accept="image/*">
+                        </div>
+
+                        <div class="preview-box">
+                            <img id="editImagenPreview" src="" alt="Preview imagen" class="preview-img" style="display:none;">
+                            <span id="editImagenSinDato" class="text-muted">Sin imagen cargada</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

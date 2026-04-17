@@ -1,0 +1,214 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block estilos_extra %}
+<link rel="stylesheet" href="{% static 'css/core/inicio.css' %}">
+{% endblock %}
+
+{% block contenido %}
+{% if not user.is_authenticated %}
+<nav class="navbar navbar-expand-lg navbar-publica">
+    <a class="navbar-brand" href="{% url 'core:inicio' %}"><i class="fas fa-store"></i> Sistema Libreria</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarPublica" aria-controls="navbarPublica" aria-expanded="false" aria-label="Alternar navegacion">
+        <span><i class="fas fa-bars"></i></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarPublica">
+        <ul class="navbar-nav ml-auto align-items-lg-center">
+            <li class="nav-item mr-lg-2"><span class="texto-navbar">Catalogo de productos</span></li>
+            <li class="nav-item">
+                <a class="btn btn-light btn-sm" href="{% url 'core:login' %}">Iniciar sesion</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endif %}
+
+<div class="container-fluid py-3">
+    <div class="page-header">
+        <div class="page-header-content">
+            <h1 class="page-title"><i class="fas fa-store"></i> Productos Publicados</h1>
+            <p class="page-subtitle">Catalogo visible para todos los usuarios del sistema</p>
+        </div>
+    </div>
+
+    <div class="card card-filtros mb-3">
+        <div class="card-body py-3">
+            <form method="get" id="formFiltrosInicio" class="row align-items-center">
+                <div class="col-md-9 mb-2 mb-md-0">
+                    <input type="text" class="form-control form-control-sm" id="buscarInicio" name="q" value="{{ q }}" placeholder="Buscar por nombre o categoria...">
+                </div>
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <select class="form-control form-control-sm" id="categoriaInicio" name="categoria">
+                        <option value="">Todas las categorias</option>
+                        {% for c in categorias %}
+                        <option value="{{ c.id }}" {% if categoria_id == c.id|stringformat:'s' %}selected{% endif %}>{{ c.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12 mt-2">
+                    <small class="text-muted filtro-auto-ayuda">Busqueda y filtros en tiempo real.</small>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for p in productos_publicados %}
+        <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
+            <div class="card producto-card h-100 producto-click"
+                 data-toggle="modal"
+                 data-target="#modalProductoInicio"
+                 data-nombre="{{ p.nombre }}"
+                 data-categoria="{{ p.categoria.nombre }}"
+                 data-detalle="{{ p.detalle }}"
+                 data-codigo="{{ p.codigo }}"
+                 data-stock="{{ p.stock_unidad }}"
+                 data-precio-unidad-bs="{{ p.precio_usd }}"
+                 data-precio-caja-bs="{{ p.precio_caja_bs }}"
+                 data-imagen="{% if p.imagen %}{{ p.imagen.url }}{% else %}{{ p.imagen_url }}{% endif %}">
+                {% if p.imagen %}
+                <img src="{{ p.imagen.url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
+                {% elif p.imagen_url %}
+                <img src="{{ p.imagen_url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
+                {% else %}
+                <div class="card-img-top producto-card-img placeholder d-flex align-items-center justify-content-center">
+                    <i class="fas fa-image fa-2x text-muted"></i>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title mb-1">{{ p.nombre }}</h5>
+                    <p class="text-muted mb-2">{{ p.categoria.nombre }}</p>
+                    <p class="card-text mb-2">{{ p.detalle }}</p>
+                    <p class="mb-1"><strong>Codigo:</strong> {{ p.codigo }}</p>
+                    <p class="mb-1"><strong>Stock:</strong> {{ p.stock_unidad }} unidades</p>
+                    <p class="mb-0"><strong>Precio:</strong> Bs {{ p.precio_usd|floatformat:2 }} unidad / Bs {{ p.precio_caja_bs|floatformat:2 }} caja</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No hay productos publicados por el momento.</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if productos_publicados.paginator.num_pages > 1 %}
+    <nav class="mt-2">
+        <ul class="pagination pagination-sm mb-0">
+            {% if productos_publicados.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.previous_page_number }}&q={{ q }}&categoria={{ categoria_id }}">Anterior</a></li>
+            {% endif %}
+            <li class="page-item active"><span class="page-link">{{ productos_publicados.number }}</span></li>
+            {% if productos_publicados.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.next_page_number }}&q={{ q }}&categoria={{ categoria_id }}">Siguiente</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% if not user.is_authenticated %}
+    <section class="landing-hero mt-4 mb-3">
+        <div class="row align-items-center">
+            <div class="col-lg-7 mb-3 mb-lg-0">
+                <h2 class="landing-titulo">Una experiencia de compra confiable</h2>
+                <p class="landing-texto">Trabajamos con inventario real, atencion cercana y procesos agiles para que compres con confianza.</p>
+                <ul class="landing-puntos">
+                    <li><i class="fas fa-check-circle"></i> Catalogo actualizado todos los dias.</li>
+                    <li><i class="fas fa-check-circle"></i> Informacion clara de stock y precios.</li>
+                    <li><i class="fas fa-check-circle"></i> Asesoria personalizada en tienda.</li>
+                </ul>
+            </div>
+            <div class="col-lg-5">
+                <div class="landing-info-card">
+                    <h5><i class="fas fa-clock"></i> Horario de atencion</h5>
+                    <p class="mb-2">Lunes a Sabado, de 8:00 AM a 7:00 PM.</p>
+                    <h5><i class="fas fa-map-marker-alt"></i> Ubicacion</h5>
+                    <p class="mb-2">Centro Comercial Principal, Planta Baja.</p>
+                    <h5><i class="fas fa-phone-alt"></i> Contacto directo</h5>
+                    <p class="mb-0">+58 000-0000000</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-profesional mb-3">
+        <div class="info-profesional-header">
+            <h3>Lo que ofrecemos</h3>
+            <p>Servicios pensados para una compra rapida, clara y segura.</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 mb-3 mb-lg-0">
+                <article class="servicio-card h-100">
+                    <div class="servicio-icono"><i class="fas fa-shipping-fast"></i></div>
+                    <h4>Entrega rapida</h4>
+                    <p>Gestionamos pedidos de forma agil para que recibas tus productos en el menor tiempo posible.</p>
+                </article>
+            </div>
+            <div class="col-lg-4 mb-3 mb-lg-0">
+                <article class="servicio-card h-100">
+                    <div class="servicio-icono"><i class="fas fa-certificate"></i></div>
+                    <h4>Calidad garantizada</h4>
+                    <p>Seleccionamos productos confiables y verificados para ofrecer una experiencia profesional.</p>
+                </article>
+            </div>
+            <div class="col-lg-4">
+                <article class="servicio-card h-100">
+                    <div class="servicio-icono"><i class="fas fa-shield-alt"></i></div>
+                    <h4>Compra segura</h4>
+                    <p>Te guiamos en cada paso, desde la seleccion del producto hasta la confirmacion de compra.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <div class="modal fade" id="modalProductoInicio" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="inicioModalNombre">Detalle del producto</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 mb-3 mb-md-0">
+                            <img id="inicioModalImagen" src="" alt="Imagen" class="img-fluid border rounded" style="max-height:260px; width: 100%; object-fit: cover;">
+                        </div>
+                        <div class="col-md-7">
+                            <p><strong>Categoria:</strong> <span id="inicioModalCategoria"></span></p>
+                            <p><strong>Codigo:</strong> <span id="inicioModalCodigo"></span></p>
+                            <p><strong>Descripcion:</strong> <span id="inicioModalDetalle"></span></p>
+                            <p><strong>Stock:</strong> <span id="inicioModalStock"></span> unidades</p>
+                            <p><strong>Precio por unidad (Bs):</strong> <span id="inicioModalPrecioUnidadBs"></span></p>
+                            <p><strong>Precio por caja (Bs):</strong> <span id="inicioModalPrecioCajaBs"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if not user.is_authenticated %}
+    <footer class="footer-publico mt-4">
+        <div class="row align-items-center">
+            <div class="col-md-7 mb-2 mb-md-0">
+                <h5 class="mb-1">Sistema Libreria</h5>
+                <p class="mb-0">Tu tienda de confianza para encontrar productos con stock y precios actualizados.</p>
+            </div>
+            <div class="col-md-5 text-md-right">
+                <span class="footer-dato"><i class="fas fa-phone-alt"></i> +58 000-0000000</span>
+                <span class="footer-dato ml-md-3"><i class="fas fa-envelope"></i> contacto@sistemalibreria.com</span>
+            </div>
+        </div>
+    </footer>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script src="{% static 'js/core/inicio.js' %}"></script>
+{% endblock %}
