@@ -1,5 +1,5 @@
 """
-ASGI config for sistema_libreria project.
+ASGI config for sistema_textil project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sistema_libreria.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sistema_textil.settings')
 
 application = get_asgi_application()
