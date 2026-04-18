@@ -53,10 +53,18 @@ function initializeModals() {
    ================================================ */
 
 function initializeFilterAnimations() {
-    const filterForm = document.getElementById('filterForm');
-    const filterInputs = document.querySelectorAll('.form-control-sm');
+    const filterForm = document.getElementById('formFiltrosInicio');
+    const filterInputs = filterForm ? filterForm.querySelectorAll('input, select') : [];
     
     if (!filterForm) return;
+
+    let submitTimer = null;
+    const scheduleSubmit = (delay = 250) => {
+        if (submitTimer) window.clearTimeout(submitTimer);
+        submitTimer = window.setTimeout(() => {
+            filterForm.submit();
+        }, delay);
+    };
 
     filterInputs.forEach(input => {
         // Efecto focus con sombra
@@ -68,9 +76,20 @@ function initializeFilterAnimations() {
             this.style.boxShadow = '';
         });
 
-        // Auto-submit cuando se cambia el filtro
+        const tag = (input.tagName || '').toLowerCase();
+        if (tag === 'select') {
+            input.addEventListener('change', function() {
+                scheduleSubmit(0);
+            });
+            return;
+        }
+
+        input.addEventListener('input', function() {
+            scheduleSubmit(300);
+        });
+
         input.addEventListener('change', function() {
-            filterForm.submit();
+            scheduleSubmit(0);
         });
     });
 }

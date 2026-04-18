@@ -18,16 +18,16 @@
     <div class="hero-portada-overlay"></div>
     <div class="hero-portada-inner">
         <div class="hero-portada-copy">
-            <p class="hero-kicker"><i class="fas fa-cut"></i> Taller y distribución textil</p>
-            <h1 class="hero-portada-title">Compra textil profesional, fácil y segura</h1>
-            <p class="hero-portada-desc">Catálogo de telas y productos para confección. Diseño, calidad y stock en un solo lugar.</p>
-            <ul class="hero-portada-bullets">
+            <p class="hero-kicker hero-anim hero-anim-1"><i class="fas fa-cut"></i> Taller y distribución textil</p>
+            <h1 class="hero-portada-title hero-anim hero-anim-2">Compra textil profesional, fácil y segura</h1>
+            <p class="hero-portada-desc hero-anim hero-anim-3">Catálogo de telas y productos para confección. Diseño, calidad y stock en un solo lugar.</p>
+            <ul class="hero-portada-bullets hero-anim hero-anim-4">
                 <li><i class="fas fa-check-circle"></i> Inventario real y actualizado</li>
                 <li><i class="fas fa-check-circle"></i> Asesoría en confección y materiales</li>
                 <li><i class="fas fa-check-circle"></i> Entrega ágil y segura</li>
             </ul>
         </div>
-        <div class="hero-portada-gallery" aria-hidden="true">
+        <div class="hero-portada-gallery hero-anim hero-anim-5" aria-hidden="true">
             <img class="hero-thumb hero-thumb-1" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
             <img class="hero-thumb hero-thumb-2" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
             <img class="hero-thumb hero-thumb-3" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
@@ -41,17 +41,18 @@
         <div class="filtros-titulo mb-2">
             <i class="fas fa-filter"></i> Buscar y filtrar catálogo
         </div>
-        <div class="row align-items-end">
-            <div class="col-lg-3 col-md-6 mb-2 mb-lg-0">
+        <div class="filtros-inline">
+            <div class="filtro-item filtro-item-busqueda">
                 <label class="filtro-label" for="buscarInicio">Búsqueda</label>
-                <div class="input-group">
+                <div class="input-group input-group-filtro">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
                     <input type="text" class="form-control" id="buscarInicio" name="q" value="{{ q }}" placeholder="Producto, código o categoría...">
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-2 mb-lg-0">
+
+            <div class="filtro-item filtro-item-categoria">
                 <label class="filtro-label" for="categoriaInicio">Categoría</label>
-                <div class="input-group">
+                <div class="input-group input-group-filtro">
                     <span class="input-group-text"><i class="fas fa-list"></i></span>
                     <select class="select-modern" id="categoriaInicio" name="categoria">
                         <option value="">Todas las categorías</option>
@@ -61,62 +62,44 @@
                     </select>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 mb-2 mb-lg-0">
+
+            <div class="filtro-item filtro-item-precio">
                 <label class="filtro-label" for="precioMin">Precio mín. (Bs)</label>
-                <input type="text" class="form-control" id="precioMin" name="precio_min" value="{{ precio_min }}" inputmode="decimal" placeholder="0" autocomplete="off">
+                <div class="input-group input-group-filtro">
+                    <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                    <input type="text" class="form-control" id="precioMin" name="precio_min" value="{{ precio_min }}" inputmode="decimal" placeholder="0" autocomplete="off">
+                </div>
             </div>
-            <div class="col-lg-2 col-md-4 mb-2 mb-lg-0">
+
+            <div class="filtro-item filtro-item-precio">
                 <label class="filtro-label" for="precioMax">Precio máx. (Bs)</label>
-                <input type="text" class="form-control" id="precioMax" name="precio_max" value="{{ precio_max }}" inputmode="decimal" placeholder="—" autocomplete="off">
+                <div class="input-group input-group-filtro">
+                    <span class="input-group-text"><i class="fas fa-tags"></i></span>
+                    <input type="text" class="form-control" id="precioMax" name="precio_max" value="{{ precio_max }}" inputmode="decimal" placeholder="—" autocomplete="off">
+                </div>
             </div>
-            <div class="col-lg-2 col-md-4 mb-2 mb-lg-0">
+
+            <div class="filtro-item filtro-item-orden">
                 <label class="filtro-label" for="ordenInicio">Orden</label>
-                <select class="select-modern select-orden" id="ordenInicio" name="orden">
-                    <option value="" {% if not orden %}selected{% endif %}>Recientes</option>
-                    <option value="precio_asc" {% if orden == 'precio_asc' %}selected{% endif %}>Precio ↑</option>
-                    <option value="precio_desc" {% if orden == 'precio_desc' %}selected{% endif %}>Precio ↓</option>
-                </select>
+                <div class="input-group input-group-filtro">
+                    <span class="input-group-text"><i class="fas fa-sort"></i></span>
+                    <select class="select-modern select-orden" id="ordenInicio" name="orden">
+                        <option value="" {% if not orden %}selected{% endif %}>Recientes</option>
+                        <option value="precio_asc" {% if orden == 'precio_asc' %}selected{% endif %}>Precio ↑</option>
+                        <option value="precio_desc" {% if orden == 'precio_desc' %}selected{% endif %}>Precio ↓</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="filtros-actions mt-2">
-            <button type="submit" class="btn btn-filtro-aplicar"><i class="fas fa-check"></i> Aplicar filtros</button>
-            <a href="{% url 'core:inicio' %}" class="btn btn-filtro-limpiar">Limpiar</a>
         </div>
     </form>
 
-    <!-- SERVICIOS VISUALES -->
-    <section class="servicios-section mb-4">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="servicio-card h-100">
-                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=600&q=80" alt="Confección y costura">
-                    <h4>Entrega rápida</h4>
-                    <p>Recibe tus productos en tiempo récord, gestionamos tu pedido de forma ágil y segura.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="servicio-card h-100">
-                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=600&q=80" alt="Telas y rollos">
-                    <h4>Calidad garantizada</h4>
-                    <p>Solo productos verificados y confiables, seleccionados para una experiencia profesional.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="servicio-card h-100">
-                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80" alt="Diseño de moda">
-                    <h4>Asesoría personalizada</h4>
-                    <p>Te guiamos en cada paso, desde la selección hasta la compra, para que elijas lo mejor.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- CATÁLOGO DE PRODUCTOS -->
-    <h2 class="mb-3" style="font-size:1.3rem; color:#1e3a8a; font-weight:700;"><i class="fas fa-store"></i> Catálogo de productos</h2>
-    <div class="row">
-        {% for p in productos_publicados %}
-        <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
-            <div class="card producto-card h-100 producto-click"
+    <section id="catalogo" class="inicio-section">
+        <h2 class="mb-3" style="font-size:1.3rem; color:#1e3a8a; font-weight:700;"><i class="fas fa-store"></i> Catálogo de productos</h2>
+        <div class="row">
+            {% for p in productos_publicados %}
+            <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
+                <div class="card producto-card h-100 producto-click"
                      data-toggle="modal"
                      data-target="#modalProductoInicio"
                      data-nombre="{{ p.nombre }}"
@@ -127,45 +110,46 @@
                      data-precio-unidad-bs="{{ p.precio_usd }}"
                      data-precio-caja-bs="{{ p.precio_caja_bs }}"
                      data-imagen="{% if p.imagen %}{{ p.imagen.url }}{% else %}{{ p.imagen_url }}{% endif %}">
-                {% if p.imagen %}
-                <img src="{{ p.imagen.url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
-                {% elif p.imagen_url %}
-                <img src="{{ p.imagen_url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
-                {% else %}
-                <div class="card-img-top producto-card-img placeholder d-flex align-items-center justify-content-center">
-                    <i class="fas fa-image fa-2x text-muted"></i>
-                </div>
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title mb-1">{{ p.nombre }}</h5>
-                    <p class="text-muted mb-2">{{ p.categoria.nombre }}</p>
-                    <p class="card-text mb-2">{{ p.detalle }}</p>
-                    <p class="mb-1"><strong>Código:</strong> {{ p.codigo }}</p>
-                    <p class="mb-1"><strong>Stock:</strong> {{ p.stock_unidad }} unidades</p>
-                    <p class="mb-0"><strong>Precio:</strong> Bs {{ p.precio_usd|floatformat:2 }} unidad / Bs {{ p.precio_caja_bs|floatformat:2 }} caja</p>
+                    {% if p.imagen %}
+                    <img src="{{ p.imagen.url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
+                    {% elif p.imagen_url %}
+                    <img src="{{ p.imagen_url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
+                    {% else %}
+                    <div class="card-img-top producto-card-img placeholder d-flex align-items-center justify-content-center">
+                        <i class="fas fa-image fa-2x text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title mb-1">{{ p.nombre }}</h5>
+                        <p class="text-muted mb-2">{{ p.categoria.nombre }}</p>
+                        <p class="card-text mb-2">{{ p.detalle }}</p>
+                        <p class="mb-1"><strong>Código:</strong> {{ p.codigo }}</p>
+                        <p class="mb-1"><strong>Stock:</strong> {{ p.stock_unidad }} unidades</p>
+                        <p class="mb-0"><strong>Precio:</strong> Bs {{ p.precio_usd|floatformat:2 }} unidad / Bs {{ p.precio_caja_bs|floatformat:2 }} caja</p>
+                    </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">No hay productos publicados por el momento.</div>
+            </div>
+            {% endfor %}
         </div>
-        {% empty %}
-        <div class="col-12">
-            <div class="alert alert-info">No hay productos publicados por el momento.</div>
-        </div>
-        {% endfor %}
-    </div>
 
-    {% if productos_publicados.paginator.num_pages > 1 %}
-    <nav class="mt-2">
-        <ul class="pagination pagination-sm mb-0">
-            {% if productos_publicados.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.previous_page_number }}&q={{ q|urlencode }}&categoria={{ categoria_id }}&precio_min={{ precio_min|urlencode }}&precio_max={{ precio_max|urlencode }}&orden={{ orden|urlencode }}">Anterior</a></li>
-            {% endif %}
-            <li class="page-item active"><span class="page-link">{{ productos_publicados.number }}</span></li>
-            {% if productos_publicados.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.next_page_number }}&q={{ q|urlencode }}&categoria={{ categoria_id }}&precio_min={{ precio_min|urlencode }}&precio_max={{ precio_max|urlencode }}&orden={{ orden|urlencode }}">Siguiente</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
+        {% if productos_publicados.paginator.num_pages > 1 %}
+        <nav class="mt-2">
+            <ul class="pagination pagination-sm mb-0">
+                {% if productos_publicados.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.previous_page_number }}&q={{ q|urlencode }}&categoria={{ categoria_id }}&precio_min={{ precio_min|urlencode }}&precio_max={{ precio_max|urlencode }}&orden={{ orden|urlencode }}">Anterior</a></li>
+                {% endif %}
+                <li class="page-item active"><span class="page-link">{{ productos_publicados.number }}</span></li>
+                {% if productos_publicados.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.next_page_number }}&q={{ q|urlencode }}&categoria={{ categoria_id }}&precio_min={{ precio_min|urlencode }}&precio_max={{ precio_max|urlencode }}&orden={{ orden|urlencode }}">Siguiente</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </section>
 
     <!-- MODAL PRODUCTO -->
     <div class="modal fade" id="modalProductoInicio" tabindex="-1" role="dialog" aria-hidden="true">
@@ -195,7 +179,197 @@
             </div>
         </div>
     </div>
+    
+    <!-- SERVICIOS VISUALES -->
+    <section id="servicios" class="servicios-section mb-4 inicio-section">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="servicio-card h-100">
+                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1457972657980-4c0a9fdb6f8d?auto=format&fit=crop&w=1200&q=80" alt="Confección y costura" loading="lazy">
+                    <h4>Entrega rápida</h4>
+                    <p>Recibe tus productos en tiempo récord, gestionamos tu pedido de forma ágil y segura.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="servicio-card h-100">
+                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1520975682071-0c73c8d4b2e3?auto=format&fit=crop&w=1200&q=80" alt="Telas y rollos" loading="lazy">
+                    <h4>Calidad garantizada</h4>
+                    <p>Solo productos verificados y confiables, seleccionados para una experiencia profesional.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="servicio-card h-100">
+                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80" alt="Diseño de moda" loading="lazy">
+                    <h4>Asesoría personalizada</h4>
+                    <p>Te guiamos en cada paso, desde la selección hasta la compra, para que elijas lo mejor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="proceso" class="inicio-section">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-3" style="font-size:1.3rem; color:#1e3a8a; font-weight:700;"><i class="fas fa-route"></i> Cómo trabajamos</h2>
+            </div>
+            <div class="col-lg-5 mb-3">
+                <div class="inicio-media-card h-100">
+                    <img class="inicio-media-img" src="https://images.unsplash.com/photo-1520975661595-6453be3f7070?auto=format&fit=crop&w=1400&q=80" alt="Proceso de confección" loading="lazy">
+                    <div class="inicio-media-body">
+                        <h5 class="mb-1" style="color:#0f172a; font-weight:800;">De la idea a la entrega</h5>
+                        <p class="mb-0" style="color:#64748b;">Acompañamiento desde la selección del material hasta la entrega final.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 mb-3">
+                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
+                            <div class="card-body">
+                                <h5 class="mb-2" style="color:#1e3a8a; font-weight:700;"><i class="fas fa-magnifying-glass"></i> 1. Encuentra</h5>
+                                <p class="mb-0" style="color:#64748b;">Filtra por categoría y precio, y revisa stock real.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 mb-3">
+                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
+                            <div class="card-body">
+                                <h5 class="mb-2" style="color:#1e3a8a; font-weight:700;"><i class="fas fa-comments"></i> 2. Asesoría</h5>
+                                <p class="mb-0" style="color:#64748b;">Te guiamos según tu tipo de confección y necesidad.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 mb-3">
+                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
+                            <div class="card-body">
+                                <h5 class="mb-2" style="color:#1e3a8a; font-weight:700;"><i class="fas fa-box"></i> 3. Preparamos</h5>
+                                <p class="mb-0" style="color:#64748b;">Armamos tu pedido con control de calidad.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 mb-3">
+                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
+                            <div class="card-body">
+                                <h5 class="mb-2" style="color:#1e3a8a; font-weight:700;"><i class="fas fa-truck"></i> 4. Entregamos</h5>
+                                <p class="mb-0" style="color:#64748b;">Entrega rápida y seguimiento del envío.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="inicio-section">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-3" style="font-size:1.3rem; color:#1e3a8a; font-weight:700;"><i class="fas fa-circle-question"></i> Preguntas frecuentes</h2>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="inicio-media-card h-100">
+                    <img class="inicio-media-img" src="https://images.unsplash.com/photo-1520975759230-6bbab3f79c1b?auto=format&fit=crop&w=1400&q=80" alt="Asesoría textil" loading="lazy">
+                    <div class="inicio-media-body">
+                        <h5 class="mb-1" style="color:#0f172a; font-weight:800;">Respuestas claras</h5>
+                        <p class="mb-0" style="color:#64748b;">Información rápida sobre stock, compras y pedidos.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
+                            <div class="card-body">
+                                <h6 class="mb-2" style="color:#0f172a; font-weight:700;">¿El stock es real?</h6>
+                                <p class="mb-0" style="color:#64748b;">Sí, trabajamos con inventario actualizado para que compres con confianza.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
+                            <div class="card-body">
+                                <h6 class="mb-2" style="color:#0f172a; font-weight:700;">¿Puedo pedir por caja o unidad?</h6>
+                                <p class="mb-0" style="color:#64748b;">Sí, los productos muestran precio por unidad y por caja cuando aplica.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
+                            <div class="card-body">
+                                <h6 class="mb-2" style="color:#0f172a; font-weight:700;">¿Tienen asesoría para elegir materiales?</h6>
+                                <p class="mb-0" style="color:#64748b;">Sí, te orientamos según tu tipo de confección y uso final.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
+                            <div class="card-body">
+                                <h6 class="mb-2" style="color:#0f172a; font-weight:700;">¿Cómo se realizan las entregas?</h6>
+                                <p class="mb-0" style="color:#64748b;">Coordinamos entrega y te mantenemos informado durante el proceso.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="inicio-section" aria-hidden="false">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-3" style="font-size:1.3rem; color:#1e3a8a; font-weight:700;"><i class="fas fa-star"></i> Opiniones</h2>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="inicio-testimonio h-100">
+                    <p class="inicio-testimonio-txt">“Encontré rápido lo que necesitaba y el stock coincidió al 100%. Excelente.”</p>
+                    <div class="inicio-testimonio-meta">
+                        <span class="inicio-testimonio-nombre">Cliente</span>
+                        <span class="inicio-testimonio-rol">Confección</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="inicio-testimonio h-100">
+                    <p class="inicio-testimonio-txt">“Muy buena asesoría para seleccionar materiales. El pedido llegó rápido.”</p>
+                    <div class="inicio-testimonio-meta">
+                        <span class="inicio-testimonio-nombre">Cliente</span>
+                        <span class="inicio-testimonio-rol">Diseño</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="inicio-testimonio h-100">
+                    <p class="inicio-testimonio-txt">“Catálogo claro y profesional. Filtrar por precio ayuda muchísimo.”</p>
+                    <div class="inicio-testimonio-meta">
+                        <span class="inicio-testimonio-nombre">Cliente</span>
+                        <span class="inicio-testimonio-rol">Taller</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="inicio-section" aria-hidden="false">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-3" style="font-size:1.3rem; color:#1e3a8a; font-weight:700;"><i class="fas fa-images"></i> Galería</h2>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="inicio-galeria-card">
+                    <img class="inicio-galeria-img" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80" alt="Galería 1" loading="lazy">
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="inicio-galeria-card">
+                    <img class="inicio-galeria-img" src="https://images.unsplash.com/photo-1520975958221-35a6d7f2b7b2?auto=format&fit=crop&w=1200&q=80" alt="Galería 2" loading="lazy">
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="inicio-galeria-card">
+                    <img class="inicio-galeria-img" src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80" alt="Galería 3" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- FOOTER INICIO SOLO PARA NO AUTENTICADOS -->
     {% if not user.is_authenticated %}
         {% include 'componentes/footer-inicio.html' %}
