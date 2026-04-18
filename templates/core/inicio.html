@@ -4,70 +4,129 @@
 {% block titulo %}Inicio{% endblock %}
 
 {% block estilos_extra %}
+<link rel="stylesheet" href="{% static 'css/componentes/navbar-inicio.css' %}">
+<link rel="stylesheet" href="{% static 'css/componentes/footer-inicio.css' %}">
 <link rel="stylesheet" href="{% static 'css/core/inicio.css' %}">
 {% endblock %}
 
-{% block contenido %}
-{% if not user.is_authenticated %}
-<nav class="navbar navbar-expand-lg navbar-publica">
-    <a class="navbar-brand" href="{% url 'core:inicio' %}"><i class="fas fa-store"></i> Sistema Textil</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarPublica" aria-controls="navbarPublica" aria-expanded="false" aria-label="Alternar navegacion">
-        <span><i class="fas fa-bars"></i></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarPublica">
-        <ul class="navbar-nav ml-auto align-items-lg-center">
-            <li class="nav-item mr-lg-2"><span class="texto-navbar">Catalogo de productos</span></li>
-            <li class="nav-item">
-                <a class="btn btn-light btn-sm" href="{% url 'core:login' %}">Iniciar sesion</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-{% endif %}
 
-<div class="container-fluid py-3">
-    <div class="page-header">
-        <div class="page-header-content">
-            <h1 class="page-title"><i class="fas fa-store"></i> Productos Publicados</h1>
-            <p class="page-subtitle">Catalogo visible para todos los usuarios del sistema</p>
+{% block contenido %}
+{% include 'componentes/navbar-inicio.html' %}
+
+<!-- PORTADA: imagen grande a ancho completo + contenido encima -->
+<section class="hero-portada" style="--hero-img: url('https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=1920&q=85');">
+    <div class="hero-portada-overlay"></div>
+    <div class="hero-portada-inner">
+        <div class="hero-portada-copy">
+            <p class="hero-kicker"><i class="fas fa-cut"></i> Taller y distribución textil</p>
+            <h1 class="hero-portada-title">Compra textil profesional, fácil y segura</h1>
+            <p class="hero-portada-desc">Catálogo de telas y productos para confección. Diseño, calidad y stock en un solo lugar.</p>
+            <ul class="hero-portada-bullets">
+                <li><i class="fas fa-check-circle"></i> Inventario real y actualizado</li>
+                <li><i class="fas fa-check-circle"></i> Asesoría en confección y materiales</li>
+                <li><i class="fas fa-check-circle"></i> Entrega ágil y segura</li>
+            </ul>
+        </div>
+        <div class="hero-portada-gallery" aria-hidden="true">
+            <img class="hero-thumb hero-thumb-1" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
+            <img class="hero-thumb hero-thumb-2" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
+            <img class="hero-thumb hero-thumb-3" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
         </div>
     </div>
+</section>
 
-    <div class="card card-filtros mb-3">
-        <div class="card-body py-3">
-            <form method="get" id="formFiltrosInicio" class="row align-items-center">
-                <div class="col-md-9 mb-2 mb-md-0">
-                    <input type="text" class="form-control form-control-sm" id="buscarInicio" name="q" value="{{ q }}" placeholder="Buscar por nombre o categoria...">
+<div class="container-fluid py-3 inicio-page-wrap">
+    <!-- Buscador y filtros (debajo de la portada) -->
+    <form method="get" id="formFiltrosInicio" class="modern-filtros mb-4">
+        <div class="filtros-titulo mb-2">
+            <i class="fas fa-filter"></i> Buscar y filtrar catálogo
+        </div>
+        <div class="row align-items-end">
+            <div class="col-lg-3 col-md-6 mb-2 mb-lg-0">
+                <label class="filtro-label" for="buscarInicio">Búsqueda</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control" id="buscarInicio" name="q" value="{{ q }}" placeholder="Producto, código o categoría...">
                 </div>
-                <div class="col-md-3 mb-2 mb-md-0">
-                    <select class="form-control form-control-sm" id="categoriaInicio" name="categoria">
-                        <option value="">Todas las categorias</option>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-2 mb-lg-0">
+                <label class="filtro-label" for="categoriaInicio">Categoría</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-list"></i></span>
+                    <select class="select-modern" id="categoriaInicio" name="categoria">
+                        <option value="">Todas las categorías</option>
                         {% for c in categorias %}
                         <option value="{{ c.id }}" {% if categoria_id == c.id|stringformat:'s' %}selected{% endif %}>{{ c.nombre }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-12 mt-2">
-                    <small class="text-muted filtro-auto-ayuda">Busqueda y filtros en tiempo real.</small>
-                </div>
-            </form>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-2 mb-lg-0">
+                <label class="filtro-label" for="precioMin">Precio mín. (Bs)</label>
+                <input type="text" class="form-control" id="precioMin" name="precio_min" value="{{ precio_min }}" inputmode="decimal" placeholder="0" autocomplete="off">
+            </div>
+            <div class="col-lg-2 col-md-4 mb-2 mb-lg-0">
+                <label class="filtro-label" for="precioMax">Precio máx. (Bs)</label>
+                <input type="text" class="form-control" id="precioMax" name="precio_max" value="{{ precio_max }}" inputmode="decimal" placeholder="—" autocomplete="off">
+            </div>
+            <div class="col-lg-2 col-md-4 mb-2 mb-lg-0">
+                <label class="filtro-label" for="ordenInicio">Orden</label>
+                <select class="select-modern select-orden" id="ordenInicio" name="orden">
+                    <option value="" {% if not orden %}selected{% endif %}>Recientes</option>
+                    <option value="precio_asc" {% if orden == 'precio_asc' %}selected{% endif %}>Precio ↑</option>
+                    <option value="precio_desc" {% if orden == 'precio_desc' %}selected{% endif %}>Precio ↓</option>
+                </select>
+            </div>
         </div>
-    </div>
+        <div class="filtros-actions mt-2">
+            <button type="submit" class="btn btn-filtro-aplicar"><i class="fas fa-check"></i> Aplicar filtros</button>
+            <a href="{% url 'core:inicio' %}" class="btn btn-filtro-limpiar">Limpiar</a>
+        </div>
+    </form>
 
+    <!-- SERVICIOS VISUALES -->
+    <section class="servicios-section mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="servicio-card h-100">
+                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=600&q=80" alt="Confección y costura">
+                    <h4>Entrega rápida</h4>
+                    <p>Recibe tus productos en tiempo récord, gestionamos tu pedido de forma ágil y segura.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="servicio-card h-100">
+                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=600&q=80" alt="Telas y rollos">
+                    <h4>Calidad garantizada</h4>
+                    <p>Solo productos verificados y confiables, seleccionados para una experiencia profesional.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="servicio-card h-100">
+                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80" alt="Diseño de moda">
+                    <h4>Asesoría personalizada</h4>
+                    <p>Te guiamos en cada paso, desde la selección hasta la compra, para que elijas lo mejor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATÁLOGO DE PRODUCTOS -->
+    <h2 class="mb-3" style="font-size:1.3rem; color:#1e3a8a; font-weight:700;"><i class="fas fa-store"></i> Catálogo de productos</h2>
     <div class="row">
         {% for p in productos_publicados %}
         <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
             <div class="card producto-card h-100 producto-click"
-                 data-toggle="modal"
-                 data-target="#modalProductoInicio"
-                 data-nombre="{{ p.nombre }}"
-                 data-categoria="{{ p.categoria.nombre }}"
-                 data-detalle="{{ p.detalle }}"
-                 data-codigo="{{ p.codigo }}"
-                 data-stock="{{ p.stock_unidad }}"
-                 data-precio-unidad-bs="{{ p.precio_usd }}"
-                 data-precio-caja-bs="{{ p.precio_caja_bs }}"
-                 data-imagen="{% if p.imagen %}{{ p.imagen.url }}{% else %}{{ p.imagen_url }}{% endif %}">
+                     data-toggle="modal"
+                     data-target="#modalProductoInicio"
+                     data-nombre="{{ p.nombre }}"
+                     data-categoria="{{ p.categoria.nombre }}"
+                     data-detalle="{{ p.detalle }}"
+                     data-codigo="{{ p.codigo }}"
+                     data-stock="{{ p.stock_unidad }}"
+                     data-precio-unidad-bs="{{ p.precio_usd }}"
+                     data-precio-caja-bs="{{ p.precio_caja_bs }}"
+                     data-imagen="{% if p.imagen %}{{ p.imagen.url }}{% else %}{{ p.imagen_url }}{% endif %}">
                 {% if p.imagen %}
                 <img src="{{ p.imagen.url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
                 {% elif p.imagen_url %}
@@ -81,7 +140,7 @@
                     <h5 class="card-title mb-1">{{ p.nombre }}</h5>
                     <p class="text-muted mb-2">{{ p.categoria.nombre }}</p>
                     <p class="card-text mb-2">{{ p.detalle }}</p>
-                    <p class="mb-1"><strong>Codigo:</strong> {{ p.codigo }}</p>
+                    <p class="mb-1"><strong>Código:</strong> {{ p.codigo }}</p>
                     <p class="mb-1"><strong>Stock:</strong> {{ p.stock_unidad }} unidades</p>
                     <p class="mb-0"><strong>Precio:</strong> Bs {{ p.precio_usd|floatformat:2 }} unidad / Bs {{ p.precio_caja_bs|floatformat:2 }} caja</p>
                 </div>
@@ -98,72 +157,17 @@
     <nav class="mt-2">
         <ul class="pagination pagination-sm mb-0">
             {% if productos_publicados.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.previous_page_number }}&q={{ q }}&categoria={{ categoria_id }}">Anterior</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.previous_page_number }}&q={{ q|urlencode }}&categoria={{ categoria_id }}&precio_min={{ precio_min|urlencode }}&precio_max={{ precio_max|urlencode }}&orden={{ orden|urlencode }}">Anterior</a></li>
             {% endif %}
             <li class="page-item active"><span class="page-link">{{ productos_publicados.number }}</span></li>
             {% if productos_publicados.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.next_page_number }}&q={{ q }}&categoria={{ categoria_id }}">Siguiente</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.next_page_number }}&q={{ q|urlencode }}&categoria={{ categoria_id }}&precio_min={{ precio_min|urlencode }}&precio_max={{ precio_max|urlencode }}&orden={{ orden|urlencode }}">Siguiente</a></li>
             {% endif %}
         </ul>
     </nav>
     {% endif %}
 
-    {% if not user.is_authenticated %}
-    <section class="landing-hero mt-4 mb-3">
-        <div class="row align-items-center">
-            <div class="col-lg-7 mb-3 mb-lg-0">
-                <h2 class="landing-titulo">Una experiencia de compra confiable</h2>
-                <p class="landing-texto">Trabajamos con inventario real, atencion cercana y procesos agiles para que compres con confianza.</p>
-                <ul class="landing-puntos">
-                    <li><i class="fas fa-check-circle"></i> Catalogo actualizado todos los dias.</li>
-                    <li><i class="fas fa-check-circle"></i> Informacion clara de stock y precios.</li>
-                    <li><i class="fas fa-check-circle"></i> Asesoria personalizada en tienda.</li>
-                </ul>
-            </div>
-            <div class="col-lg-5">
-                <div class="landing-info-card">
-                    <h5><i class="fas fa-clock"></i> Horario de atencion</h5>
-                    <p class="mb-2">Lunes a Sabado, de 8:00 AM a 7:00 PM.</p>
-                    <h5><i class="fas fa-map-marker-alt"></i> Ubicacion</h5>
-                    <p class="mb-2">Centro Comercial Principal, Planta Baja.</p>
-                    <h5><i class="fas fa-phone-alt"></i> Contacto directo</h5>
-                    <p class="mb-0">+58 000-0000000</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="info-profesional mb-3">
-        <div class="info-profesional-header">
-            <h3>Lo que ofrecemos</h3>
-            <p>Servicios pensados para una compra rapida, clara y segura.</p>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 mb-3 mb-lg-0">
-                <article class="servicio-card h-100">
-                    <div class="servicio-icono"><i class="fas fa-shipping-fast"></i></div>
-                    <h4>Entrega rapida</h4>
-                    <p>Gestionamos pedidos de forma agil para que recibas tus productos en el menor tiempo posible.</p>
-                </article>
-            </div>
-            <div class="col-lg-4 mb-3 mb-lg-0">
-                <article class="servicio-card h-100">
-                    <div class="servicio-icono"><i class="fas fa-certificate"></i></div>
-                    <h4>Calidad garantizada</h4>
-                    <p>Seleccionamos productos confiables y verificados para ofrecer una experiencia profesional.</p>
-                </article>
-            </div>
-            <div class="col-lg-4">
-                <article class="servicio-card h-100">
-                    <div class="servicio-icono"><i class="fas fa-shield-alt"></i></div>
-                    <h4>Compra segura</h4>
-                    <p>Te guiamos en cada paso, desde la seleccion del producto hasta la confirmacion de compra.</p>
-                </article>
-            </div>
-        </div>
-    </section>
-    {% endif %}
-
+    <!-- MODAL PRODUCTO -->
     <div class="modal fade" id="modalProductoInicio" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -179,9 +183,9 @@
                             <img id="inicioModalImagen" src="" alt="Imagen" class="img-fluid border rounded" style="max-height:260px; width: 100%; object-fit: cover;">
                         </div>
                         <div class="col-md-7">
-                            <p><strong>Categoria:</strong> <span id="inicioModalCategoria"></span></p>
-                            <p><strong>Codigo:</strong> <span id="inicioModalCodigo"></span></p>
-                            <p><strong>Descripcion:</strong> <span id="inicioModalDetalle"></span></p>
+                            <p><strong>Categoría:</strong> <span id="inicioModalCategoria"></span></p>
+                            <p><strong>Código:</strong> <span id="inicioModalCodigo"></span></p>
+                            <p><strong>Descripción:</strong> <span id="inicioModalDetalle"></span></p>
                             <p><strong>Stock:</strong> <span id="inicioModalStock"></span> unidades</p>
                             <p><strong>Precio por unidad (Bs):</strong> <span id="inicioModalPrecioUnidadBs"></span></p>
                             <p><strong>Precio por caja (Bs):</strong> <span id="inicioModalPrecioCajaBs"></span></p>
@@ -192,23 +196,15 @@
         </div>
     </div>
 
+    <!-- FOOTER INICIO SOLO PARA NO AUTENTICADOS -->
     {% if not user.is_authenticated %}
-    <footer class="footer-publico mt-4">
-        <div class="row align-items-center">
-            <div class="col-md-7 mb-2 mb-md-0">
-                <h5 class="mb-1">Sistema Textil</h5>
-                <p class="mb-0">Tu tienda de confianza para encontrar productos con stock y precios actualizados.</p>
-            </div>
-            <div class="col-md-5 text-md-right">
-                <span class="footer-dato"><i class="fas fa-phone-alt"></i> +58 000-0000000</span>
-                <span class=\"footer-dato ml-md-3\"><i class=\"fas fa-envelope\"></i> contacto@sistematextil.com</span>
-            </div>
-        </div>
-    </footer>
+        {% include 'componentes/footer-inicio.html' %}
     {% endif %}
 </div>
 {% endblock %}
 
 {% block scripts_extra %}
+<script src="{% static 'js/componentes/navbar-inicio.js' %}"></script>
+<script src="{% static 'js/componentes/footer-inicio.js' %}"></script>
 <script src="{% static 'js/core/inicio.js' %}"></script>
 {% endblock %}

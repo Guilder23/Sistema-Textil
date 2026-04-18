@@ -1,0 +1,23 @@
+{% load static %}
+
+{% if not user.is_authenticated %}
+<nav class="navbar-inicio navbar-expand-lg">
+    <div class="container-fluid navbar-inicio-container">
+        <a class="navbar-brand-inicio" href="{% url 'core:inicio' %}">
+            <div class="navbar-logo-wrapper">
+                <i class="fas fa-layer-group"></i>
+                <span class="navbar-brand-text">Sistema Textil</span>
+            </div>
+        </a>
+        <button class="navbar-toggler-inicio" type="button" data-toggle="collapse" data-target="#navbarInicio" aria-controls="navbarInicio" aria-expanded="false" aria-label="Menú">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse navbar-collapse-inicio" id="navbarInicio">
+            <a href="{% url 'core:login' %}" class="btn-inicio-login ml-lg-auto">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Iniciar sesión</span>
+            </a>
+        </div>
+    </div>
+</nav>
+{% endif %}

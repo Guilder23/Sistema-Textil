@@ -1,3 +1,5 @@
+from decimal import Decimal, InvalidOperation
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -11,15 +13,38 @@ from apps.productos.models import Producto
 
 
 def inicio(request):
-	productos_qs = Producto.objects.select_related('categoria').filter(publicado=True, activo=True).order_by('-fecha_creacion')
 	q = request.GET.get('q', '').strip()
 	categoria_id = request.GET.get('categoria', '').strip()
+	precio_min_raw = request.GET.get('precio_min', '').strip()
+	precio_max_raw = request.GET.get('precio_max', '').strip()
+	orden = request.GET.get('orden', '').strip()
+
+	productos_qs = Producto.objects.select_related('categoria').filter(publicado=True, activo=True)
 
 	if q:
 		productos_qs = productos_qs.filter(Q(nombre__icontains=q) | Q(categoria__nombre__icontains=q))
 
 	if categoria_id:
 		productos_qs = productos_qs.filter(categoria_id=categoria_id)
+
+	if precio_min_raw:
+		try:
+			productos_qs = productos_qs.filter(precio_usd__gte=Decimal(precio_min_raw.replace(',', '.')))
+		except (InvalidOperation, ValueError):
+			pass
+
+	if precio_max_raw:
+		try:
+			productos_qs = productos_qs.filter(precio_usd__lte=Decimal(precio_max_raw.replace(',', '.')))
+		except (InvalidOperation, ValueError):
+			pass
+
+	if orden == 'precio_asc':
+		productos_qs = productos_qs.order_by('precio_usd', '-fecha_creacion')
+	elif orden == 'precio_desc':
+		productos_qs = productos_qs.order_by('-precio_usd', '-fecha_creacion')
+	else:
+		productos_qs = productos_qs.order_by('-fecha_creacion')
 
 	paginator = Paginator(productos_qs, 12)
 	page_number = request.GET.get('page')
@@ -35,6 +60,9 @@ def inicio(request):
 			'categorias': categorias,
 			'q': q,
 			'categoria_id': categoria_id,
+			'precio_min': precio_min_raw,
+			'precio_max': precio_max_raw,
+			'orden': orden,
 		},
 	)
 
