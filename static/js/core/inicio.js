@@ -7,6 +7,31 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeModals();
     initializeFilterAnimations();
     initializePaginationAnimations();
+
+    // Modal producto index: poblar datos y WhatsApp
+    const productoCards = document.querySelectorAll('.producto-card');
+    const modal = document.getElementById('modalProductoInicio');
+    if (productoCards && modal) {
+        productoCards.forEach(card => {
+            card.addEventListener('click', function() {
+                document.getElementById('inicioModalNombre').textContent = this.dataset.nombre || '';
+                document.getElementById('inicioModalCategoria').textContent = this.dataset.categoria || '';
+                document.getElementById('inicioModalCodigo').textContent = this.dataset.codigo || '';
+                document.getElementById('inicioModalDetalle').textContent = this.dataset.detalle || '';
+                document.getElementById('inicioModalStock').textContent = this.dataset.stock || '';
+                document.getElementById('inicioModalPrecioUnidadBs').textContent = this.dataset['precioUnidadBs'] || '';
+                document.getElementById('inicioModalPrecioCajaBs').textContent = this.dataset['precioCajaBs'] || '';
+                document.getElementById('inicioModalImagen').src = this.dataset.imagen || '';
+                // WhatsApp
+                var nombre = this.dataset.nombre || '';
+                var codigo = this.dataset.codigo || '';
+                var whatsapp = document.getElementById('btnWhatsappModalInicio');
+                var numero = '591XXXXXXXXX'; // Cambia por el número real
+                var mensaje = encodeURIComponent('Hola, quiero información sobre el producto ' + nombre + ' (código: ' + codigo + ')');
+                if (whatsapp) whatsapp.href = 'https://wa.me/' + numero + '?text=' + mensaje;
+            });
+        });
+    }
 });
 
 /* ================================================
@@ -62,7 +87,13 @@ function initializeFilterAnimations() {
     const scheduleSubmit = (delay = 250) => {
         if (submitTimer) window.clearTimeout(submitTimer);
         submitTimer = window.setTimeout(() => {
-            filterForm.submit();
+            // Agregar hash para mantener el scroll en catálogo
+            const form = filterForm;
+            if (form) {
+                const action = form.getAttribute('action') || window.location.pathname;
+                const params = new URLSearchParams(new FormData(form)).toString();
+                window.location.href = action + '?' + params + '#catalogo';
+            }
         }, delay);
     };
 

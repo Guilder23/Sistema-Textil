@@ -111,13 +111,11 @@
                      data-precio-caja-bs="{{ p.precio_caja_bs }}"
                      data-imagen="{% if p.imagen %}{{ p.imagen.url }}{% else %}{{ p.imagen_url }}{% endif %}">
                     {% if p.imagen %}
-                    <img src="{{ p.imagen.url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
+                        <img src="{{ p.imagen.url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
                     {% elif p.imagen_url %}
-                    <img src="{{ p.imagen_url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
+                        <img src="{{ p.imagen_url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
                     {% else %}
-                    <div class="card-img-top producto-card-img placeholder d-flex align-items-center justify-content-center">
-                        <i class="fas fa-image fa-2x text-muted"></i>
-                    </div>
+                        <img src="{% static 'img/imagenes/imagen1.png' %}" class="card-img-top producto-card-img" alt="Imagen por defecto">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title mb-1">{{ p.nombre }}</h5>
@@ -126,6 +124,10 @@
                         <p class="mb-1"><strong>Código:</strong> {{ p.codigo }}</p>
                         <p class="mb-1"><strong>Stock:</strong> {{ p.stock_unidad }} unidades</p>
                         <p class="mb-0"><strong>Precio:</strong> Bs {{ p.precio_usd|floatformat:2 }} unidad / Bs {{ p.precio_caja_bs|floatformat:2 }} caja</p>
+                        <a class="btn btn-success btn-sm mt-2" target="_blank"
+                           href="https://wa.me/591XXXXXXXXX?text=Hola,%20quiero%20información%20sobre%20el%20producto%20{{ p.nombre }}%20(código:%20{{ p.codigo }})">
+                            <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                        </a>
                     </div>
                 </div>
             </div>
@@ -173,6 +175,9 @@
                             <p><strong>Stock:</strong> <span id="inicioModalStock"></span> unidades</p>
                             <p><strong>Precio por unidad (Bs):</strong> <span id="inicioModalPrecioUnidadBs"></span></p>
                             <p><strong>Precio por caja (Bs):</strong> <span id="inicioModalPrecioCajaBs"></span></p>
+                            <a id="btnWhatsappModalInicio" class="btn btn-success mt-2" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -185,21 +190,21 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="servicio-card h-100">
-                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1457972657980-4c0a9fdb6f8d?auto=format&fit=crop&w=1200&q=80" alt="Confección y costura" loading="lazy">
+                    <img class="servicio-card-img" src="{% static 'img/imagenes/imagen2.png' %}" alt="Confección y costura" loading="lazy">
                     <h4>Entrega rápida</h4>
                     <p>Recibe tus productos en tiempo récord, gestionamos tu pedido de forma ágil y segura.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="servicio-card h-100">
-                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1520975682071-0c73c8d4b2e3?auto=format&fit=crop&w=1200&q=80" alt="Telas y rollos" loading="lazy">
+                    <img class="servicio-card-img" src="{% static 'img/imagenes/imagen3.png' %}" alt="Telas y rollos" loading="lazy">
                     <h4>Calidad garantizada</h4>
                     <p>Solo productos verificados y confiables, seleccionados para una experiencia profesional.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="servicio-card h-100">
-                    <img class="servicio-card-img" src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80" alt="Diseño de moda" loading="lazy">
+                    <img class="servicio-card-img" src="{% static 'img/imagenes/imagen5.png' %}" alt="Diseño de moda" loading="lazy">
                     <h4>Asesoría personalizada</h4>
                     <p>Te guiamos en cada paso, desde la selección hasta la compra, para que elijas lo mejor.</p>
                 </div>
@@ -214,7 +219,7 @@
             </div>
             <div class="col-lg-5 mb-3">
                 <div class="inicio-media-card h-100">
-                    <img class="inicio-media-img" src="https://images.unsplash.com/photo-1520975661595-6453be3f7070?auto=format&fit=crop&w=1400&q=80" alt="Proceso de confección" loading="lazy">
+                    <img class="inicio-media-img" src="{% static 'img/imagenes/imagen6.png' %}" alt="Proceso de confección" loading="lazy">
                     <div class="inicio-media-body">
                         <h5 class="mb-1" style="color:#0f172a; font-weight:800;">De la idea a la entrega</h5>
                         <p class="mb-0" style="color:#64748b;">Acompañamiento desde la selección del material hasta la entrega final.</p>
@@ -267,7 +272,7 @@
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="inicio-media-card h-100">
-                    <img class="inicio-media-img" src="https://images.unsplash.com/photo-1520975759230-6bbab3f79c1b?auto=format&fit=crop&w=1400&q=80" alt="Asesoría textil" loading="lazy">
+                    <img class="inicio-media-img" src="{% static 'img/imagenes/imagen7.png' %}" alt="Asesoría textil" loading="lazy">
                     <div class="inicio-media-body">
                         <h5 class="mb-1" style="color:#0f172a; font-weight:800;">Respuestas claras</h5>
                         <p class="mb-0" style="color:#64748b;">Información rápida sobre stock, compras y pedidos.</p>
@@ -355,17 +360,47 @@
             </div>
             <div class="col-md-4 mb-3">
                 <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80" alt="Galería 1" loading="lazy">
+                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen1.png' %}" alt="Galería 1" loading="lazy">
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="https://images.unsplash.com/photo-1520975958221-35a6d7f2b7b2?auto=format&fit=crop&w=1200&q=80" alt="Galería 2" loading="lazy">
+                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen2.png' %}" alt="Galería 2" loading="lazy">
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80" alt="Galería 3" loading="lazy">
+                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen3.png' %}" alt="Galería 3" loading="lazy">
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="inicio-galeria-card">
+                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen5.png' %}" alt="Galería 4" loading="lazy">
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="inicio-galeria-card">
+                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen6.png' %}" alt="Galería 5" loading="lazy">
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="inicio-galeria-card">
+                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen7.png' %}" alt="Galería 6" loading="lazy">
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="inicio-galeria-card">
+                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen8.png' %}" alt="Galería 7" loading="lazy">
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="inicio-galeria-card">
+                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen9.png' %}" alt="Galería 8" loading="lazy">
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="inicio-galeria-card">
+                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen10.png' %}" alt="Galería 9" loading="lazy">
                 </div>
             </div>
         </div>
