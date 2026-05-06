@@ -1,2 +1,10 @@
-Django==4.2.7
-Pillow==10.4.0
+Django==5.1.1
+python-decouple==3.8
+psycopg2-binary==2.9.9
+psycopg==3.3.4
+
+# Imágenes
+Pillow==11.0.0
+
+# Reportes PDF
+reportlab==4.0.9
