@@ -6,9 +6,8 @@
     background: var(--color-primario);
     color: rgba(255, 255, 255, 0.9);
     padding: 2rem 0 1rem;
-    margin-top: 2rem;
-    margin-left: 220px;
-    transition: margin-left 0.2s ease;
+    margin: 2rem 0 0;
+    transition: none;
     border-top: 2px solid var(--color-secundario);
 }
 
@@ -127,11 +126,6 @@
 
 .footer-legal a:hover {
     color: white;
-}
-
-/* Ajuste cuando sidebar está colapsado */
-body.sidebar-collapsed .footer {
-    margin-left: 60px;
 }
 
 /* RESPONSIVE FOOTER */
