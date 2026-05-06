@@ -76,6 +76,14 @@
     white-space: nowrap;
 }
 
+.navbar-brand-text .brand-primary {
+    color: #ffffff;
+}
+
+.navbar-brand-text .brand-secondary {
+    color: #f87171;
+}
+
 /* ===== SECCIÓN DERECHA ===== */
 .navbar-right {
     display: flex;
