@@ -199,6 +199,21 @@
     transform: scale(1.08);
 }
 
+/* Badge de oferta en el catálogo */
+.badge-oferta-inicio {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ef4444;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
 .producto-card-img.placeholder {
     background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
     display: flex;

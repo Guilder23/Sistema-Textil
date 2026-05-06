@@ -99,37 +99,44 @@
         <div class="row">
             {% for p in productos_publicados %}
             <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
-                <div class="card producto-card h-100 producto-click"
-                     data-toggle="modal"
-                     data-target="#modalProductoInicio"
-                     data-nombre="{{ p.nombre }}"
-                     data-categoria="{{ p.categoria.nombre }}"
-                     data-detalle="{{ p.detalle }}"
-                     data-codigo="{{ p.codigo }}"
-                     data-stock="{{ p.stock_unidad }}"
-                     data-precio-unidad-bs="{{ p.precio_usd }}"
-                     data-precio-caja-bs="{{ p.precio_caja_bs }}"
-                     data-imagen="{% if p.imagen %}{{ p.imagen.url }}{% else %}{{ p.imagen_url }}{% endif %}">
-                    {% if p.imagen %}
-                        <img src="{{ p.imagen.url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
-                    {% elif p.imagen_url %}
-                        <img src="{{ p.imagen_url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
-                    {% else %}
-                        <img src="{% static 'img/imagenes/imagen1.png' %}" class="card-img-top producto-card-img" alt="Imagen por defecto">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title mb-1">{{ p.nombre }}</h5>
-                        <p class="text-muted mb-2">{{ p.categoria.nombre }}</p>
-                        <p class="card-text mb-2">{{ p.detalle }}</p>
-                        <p class="mb-1"><strong>Código:</strong> {{ p.codigo }}</p>
-                        <p class="mb-1"><strong>Stock:</strong> {{ p.stock_unidad }} unidades</p>
-                        <p class="mb-0"><strong>Precio:</strong> Bs {{ p.precio_usd|floatformat:2 }} unidad / Bs {{ p.precio_caja_bs|floatformat:2 }} caja</p>
-                        <a class="btn btn-success btn-sm mt-2" target="_blank"
-                           href="https://wa.me/591XXXXXXXXX?text=Hola,%20quiero%20información%20sobre%20el%20producto%20{{ p.nombre }}%20(código:%20{{ p.codigo }})">
-                            <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                        </a>
+                <a href="{% url 'core:detalle_producto' p.id %}" class="card producto-card h-100 text-decoration-none">
+                    <div class="position-relative">
+                        {% if p.tiene_descuento %}
+                        <div class="badge-oferta-inicio">
+                            Oferta -{% if p.descuento_tipo == 'PORCENTAJE' %}{{ p.descuento_valor|floatformat:0 }}%{% else %}Bs {{ p.descuento_valor|floatformat:0 }}{% endif %}
+                        </div>
+                        {% endif %}
+                        {% if p.imagen %}
+                            <img src="{{ p.imagen.url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
+                        {% elif p.imagen_url %}
+                            <img src="{{ p.imagen_url }}" class="card-img-top producto-card-img" alt="{{ p.nombre }}">
+                        {% else %}
+                            <img src="{% static 'img/imagenes/imagen1.png' %}" class="card-img-top producto-card-img" alt="Imagen por defecto">
+                        {% endif %}
                     </div>
-                </div>
+                    <div class="card-body">
+                        <h5 class="card-title mb-1 text-dark" style="font-weight: 700;">{{ p.nombre }}</h5>
+                        <p class="text-muted mb-2" style="font-size: 0.85rem;">{{ p.categoria.nombre }}</p>
+                        
+                        <div class="mb-2">
+                            {% if p.tiene_descuento %}
+                                <span class="text-muted" style="text-decoration: line-through; font-size: 0.9rem;">Bs {{ p.precio_usd|floatformat:2 }}</span>
+                                <span class="text-danger font-weight-bold ml-1" style="font-size: 1.1rem;">Bs {{ p.precio_oferta|floatformat:2 }}</span>
+                            {% else %}
+                                <span class="text-dark font-weight-bold" style="font-size: 1.1rem;">Bs {{ p.precio_usd|floatformat:2 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="text-muted mb-3" style="font-size: 0.85rem;">
+                            <i class="fas fa-tag"></i> {{ p.codigo }} | 
+                            <i class="fas fa-box"></i> {{ p.stock_unidad }} unid.
+                        </div>
+
+                        <span class="btn btn-primary btn-sm btn-block">
+                            <i class="fas fa-info-circle"></i> Más detalle
+                        </span>
+                    </div>
+                </a>
             </div>
             {% empty %}
             <div class="col-12">
@@ -152,38 +159,6 @@
         </nav>
         {% endif %}
     </section>
-
-    <!-- MODAL PRODUCTO -->
-    <div class="modal fade" id="modalProductoInicio" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="inicioModalNombre">Detalle del producto</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-5 mb-3 mb-md-0">
-                            <img id="inicioModalImagen" src="" alt="Imagen" class="img-fluid border rounded" style="max-height:260px; width: 100%; object-fit: cover;">
-                        </div>
-                        <div class="col-md-7">
-                            <p><strong>Categoría:</strong> <span id="inicioModalCategoria"></span></p>
-                            <p><strong>Código:</strong> <span id="inicioModalCodigo"></span></p>
-                            <p><strong>Descripción:</strong> <span id="inicioModalDetalle"></span></p>
-                            <p><strong>Stock:</strong> <span id="inicioModalStock"></span> unidades</p>
-                            <p><strong>Precio por unidad (Bs):</strong> <span id="inicioModalPrecioUnidadBs"></span></p>
-                            <p><strong>Precio por caja (Bs):</strong> <span id="inicioModalPrecioCajaBs"></span></p>
-                            <a id="btnWhatsappModalInicio" class="btn btn-success mt-2" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     
     <!-- SERVICIOS VISUALES -->
     <section id="servicios" class="servicios-section mb-4 inicio-section">

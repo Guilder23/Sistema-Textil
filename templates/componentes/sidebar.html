@@ -53,6 +53,11 @@
                     <i class="fas fa-tags"></i><span>Categorias</span>
                 </a>
             </li>
+                        <li class="sidebar-item">
+                <a href="{% url 'destacados:listar_destacados' %}" class="sidebar-link {% if '/destacados/' in request.path %}active{% endif %}">
+                    <i class="fas fa-star"></i><span>Destacados</span>
+                </a>
+            </li>
             <li class="sidebar-item">
                 <a href="{% url 'historial:historial_cambios' %}" class="sidebar-link {% if '/historial/' in request.path %}active{% endif %}">
                     <i class="fas fa-history"></i><span>Historial</span>

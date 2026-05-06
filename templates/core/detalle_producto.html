@@ -1,0 +1,102 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block titulo %}{{ producto.nombre }} - Detalle{% endblock %}
+
+{% block estilos_extra %}
+<link rel="stylesheet" href="{% static 'css/core/inicio.css' %}">
+<link rel="stylesheet" href="{% static 'css/core/detalle_producto.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<div class="container pb-5">
+    <nav aria-label="breadcrumb" class="mt-4">
+        <ol class="breadcrumb bg-transparent p-0">
+            <li class="breadcrumb-item"><a href="{% url 'core:inicio' %}">Inicio</a></li>
+            <li class="breadcrumb-item active">{{ producto.nombre }}</li>
+        </ol>
+    </nav>
+
+    <div class="product-detail-container">
+        <div class="row">
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="product-image-container">
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" class="img-fluid w-100" alt="{{ producto.nombre }}">
+                    {% elif producto.imagen_url %}
+                        <img src="{{ producto.imagen_url }}" class="img-fluid w-100" alt="{{ producto.nombre }}">
+                    {% else %}
+                        <img src="{% static 'img/imagenes/imagen1.png' %}" class="img-fluid w-100" alt="Sin imagen">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge badge-primary px-3 py-2" style="border-radius: 50px;">{{ producto.categoria.nombre }}</span>
+                    {% if producto.tiene_descuento %}
+                        <span class="badge-discount">
+                            -{% if producto.descuento_tipo == 'PORCENTAJE' %}{{ producto.descuento_valor|floatformat:0 }}%{% else %}Bs {{ producto.descuento_valor|floatformat:0 }}{% endif %}
+                        </span>
+                    {% endif %}
+                </div>
+                
+                <h1 class="display-4 font-weight-bold mb-3" style="color: #0f172a; font-size: 2.5rem;">{{ producto.nombre }}</h1>
+                
+                <div class="d-flex align-items-baseline mb-4">
+                    {% if producto.tiene_descuento %}
+                        <span class="price-normal">Bs {{ producto.precio_usd|floatformat:2 }}</span>
+                        <span class="price-offer">Bs {{ producto.precio_oferta|floatformat:2 }}</span>
+                    {% else %}
+                        <span class="price-regular">Bs {{ producto.precio_usd|floatformat:2 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="detail-label">Código</div>
+                        <div class="detail-value font-weight-bold">{{ producto.codigo }}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="detail-label">Disponibilidad</div>
+                        <div class="detail-value">
+                            {% if producto.stock_unidad > 0 %}
+                                <span class="text-success font-weight-bold"><i class="fas fa-check-circle"></i> {{ producto.stock_unidad }} unidades en stock</span>
+                            {% else %}
+                                <span class="text-danger font-weight-bold"><i class="fas fa-times-circle"></i> Sin stock</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-label">Descripción</div>
+                <div class="detail-value text-muted" style="line-height: 1.6;">{{ producto.detalle }}</div>
+
+                {% if producto.get_tallas_list %}
+                    <div class="detail-label">Tallas disponibles</div>
+                    <div class="tag-list mb-4">
+                        {% for talla in producto.get_tallas_list %}
+                            <span class="tag-item">{{ talla }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if producto.get_colores_list %}
+                    <div class="detail-label">Colores</div>
+                    <div class="tag-list mb-4">
+                        {% for color in producto.get_colores_list %}
+                            <span class="tag-item">{{ color }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="mt-4">
+                    <a href="https://wa.me/591XXXXXXXXX?text=Hola,%20estoy%20interesado%20en%20el%20producto%20{{ producto.nombre }}%20(Código:%20{{ producto.codigo }})" 
+                       class="whatsapp-btn-large" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Consultar disponibilidad por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

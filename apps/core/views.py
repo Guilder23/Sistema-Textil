@@ -67,6 +67,11 @@ def inicio(request):
 	)
 
 
+def detalle_producto(request, producto_id):
+	producto = get_object_or_404(Producto, id=producto_id, publicado=True, activo=True)
+	return render(request, 'core/detalle_producto.html', {'producto': producto})
+
+
 def iniciar_sesion(request):
 	if request.user.is_authenticated:
 		return redirect('productos:listar_productos')

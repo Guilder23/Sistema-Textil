@@ -71,6 +71,12 @@ def listar_productos(request):
 
 
 @login_required
+def detalle_producto_admin(request, producto_id):
+	producto = get_object_or_404(Producto, id=producto_id)
+	return render(request, 'productos/detalle.html', {'producto': producto})
+
+
+@login_required
 @user_passes_test(can_manage_inventory, login_url='/login/')
 def crear_producto(request):
 	if request.method == 'POST':
@@ -84,8 +90,12 @@ def crear_producto(request):
 			categoria=categoria,
 			stock_unidad=int(request.POST.get('stock_unidad', 0) or 0),
 			unidades_por_caja=int(request.POST.get('unidades_por_caja', 1) or 1),
-			precio_usd=Decimal(request.POST.get('precio_usd', '0') or '0'),
-			precio_caja_bs=Decimal(request.POST.get('precio_caja_bs', '0') or '0'),
+			precio_usd=Decimal(request.POST.get('precio_usd', '0').replace(',', '.') or '0'),
+			precio_oferta=Decimal(request.POST.get('precio_oferta', '0').replace(',', '.') or '0') if request.POST.get('precio_oferta') else 0,
+			descuento_valor=Decimal(request.POST.get('descuento_valor', '0').replace(',', '.') or '0'),
+			descuento_tipo=request.POST.get('descuento_tipo', 'PORCENTAJE'),
+			tallas=request.POST.get('tallas', '').strip(),
+			colores=request.POST.get('colores', '').strip(),
 			activo=request.POST.get('activo') == 'on',
 			publicado=request.POST.get('publicado') == 'on',
 		)
@@ -106,8 +116,12 @@ def editar_producto(request, producto_id):
 		producto.categoria = categoria
 		producto.stock_unidad = int(request.POST.get('stock_unidad', 0) or 0)
 		producto.unidades_por_caja = int(request.POST.get('unidades_por_caja', 1) or 1)
-		producto.precio_usd = Decimal(request.POST.get('precio_usd', '0') or '0')
-		producto.precio_caja_bs = Decimal(request.POST.get('precio_caja_bs', '0') or '0')
+		producto.precio_usd = Decimal(request.POST.get('precio_usd', '0').replace(',', '.') or '0')
+		producto.precio_oferta = Decimal(request.POST.get('precio_oferta', '0').replace(',', '.') or '0') if request.POST.get('precio_oferta') else 0
+		producto.descuento_valor = Decimal(request.POST.get('descuento_valor', '0').replace(',', '.') or '0')
+		producto.descuento_tipo = request.POST.get('descuento_tipo', 'PORCENTAJE')
+		producto.tallas = request.POST.get('tallas', '').strip()
+		producto.colores = request.POST.get('colores', '').strip()
 		producto.activo = request.POST.get('activo') == 'on'
 		producto.publicado = request.POST.get('publicado') == 'on'
 

@@ -140,7 +140,11 @@
                                 data-categoria="{{ producto.categoria.nombre }}"
                                 data-stock="{{ producto.stock_unidad }}"
                                 data-precio-unidad-bs="{{ producto.precio_usd }}"
-                                data-precio-caja-bs="{{ producto.precio_caja_bs }}"
+                                data-precio-oferta="{{ producto.precio_oferta|default:0 }}"
+                                data-descuento-valor="{{ producto.descuento_valor|default:0 }}"
+                                data-descuento-tipo="{{ producto.descuento_tipo }}"
+                                data-tallas="{{ producto.tallas }}"
+                                data-colores="{{ producto.colores }}"
                                 data-imagen-url="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{{ producto.imagen_url }}{% endif %}"
                             ><i class="fas fa-eye"></i></button>
                             {% if can_manage %}

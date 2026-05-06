@@ -74,8 +74,14 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('verDetalle').textContent = this.dataset.detalle || '';
             document.getElementById('verCategoria').textContent = this.dataset.categoria || '';
             document.getElementById('verStock').textContent = this.dataset.stock || '';
-            document.getElementById('verPrecioUnidadBs').textContent = this.dataset.precioUnidadBs || '';
-            document.getElementById('verPrecioCajaBs').textContent = this.dataset.precioCajaBs || '';
+            document.getElementById('verTallas').textContent = this.dataset.tallas || 'No especificado';
+            document.getElementById('verColores').textContent = this.dataset.colores || 'No especificado';
+            document.getElementById('verPrecioUnidadBs').textContent = this.dataset.precioUnidadBs || '0.00';
+            document.getElementById('verPrecioOferta').textContent = this.dataset.precioOferta || '0.00';
+            
+            const descValor = this.dataset.descuentoValor || '0';
+            const descTipo = this.dataset.descuentoTipo === 'PORCENTAJE' ? '%' : 'Bs';
+            document.getElementById('verDescuento').textContent = descValor > 0 ? `${descValor} ${descTipo}` : 'Sin descuento';
 
             const imagen = document.getElementById('verImagen');
             const imagenSinDato = document.getElementById('verImagenSinDato');
@@ -104,7 +110,11 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('editStock').value = this.dataset.stock || 0;
             document.getElementById('editUnidades').value = this.dataset.unidades || 1;
             document.getElementById('editPrecioUsd').value = this.dataset.precioUnidadBs || 0;
-            document.getElementById('editPrecioBs').value = this.dataset.precioCajaBs || 0;
+            document.getElementById('editPrecioOferta').value = this.dataset.precioOferta || 0;
+            document.getElementById('editDescuentoValor').value = this.dataset.descuentoValor || 0;
+            document.getElementById('editDescuentoTipo').value = this.dataset.descuentoTipo || 'PORCENTAJE';
+            document.getElementById('editTallas').value = this.dataset.tallas || '';
+            document.getElementById('editColores').value = this.dataset.colores || '';
             document.getElementById('editActivo').checked = this.dataset.activo === '1';
             document.getElementById('editPublicado').checked = this.dataset.publicado === '1';
 

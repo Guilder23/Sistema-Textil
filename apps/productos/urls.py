@@ -6,6 +6,7 @@ from .views import (
     editar_producto,
     eliminar_producto,
     listar_productos,
+    detalle_producto_admin,
     toggle_destacado,
     toggle_publicado,
 )
@@ -14,6 +15,7 @@ app_name = 'productos'
 
 urlpatterns = [
     path('', listar_productos, name='listar_productos'),
+    path('<int:producto_id>/', detalle_producto_admin, name='detalle_producto_admin'),
     path('crear/', crear_producto, name='crear_producto'),
     path('<int:producto_id>/editar/', editar_producto, name='editar_producto'),
     path('<int:producto_id>/eliminar/', eliminar_producto, name='eliminar_producto'),

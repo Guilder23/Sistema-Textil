@@ -4,34 +4,8 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeProductoCards();
-    initializeModals();
     initializeFilterAnimations();
     initializePaginationAnimations();
-
-    // Modal producto index: poblar datos y WhatsApp
-    const productoCards = document.querySelectorAll('.producto-card');
-    const modal = document.getElementById('modalProductoInicio');
-    if (productoCards && modal) {
-        productoCards.forEach(card => {
-            card.addEventListener('click', function() {
-                document.getElementById('inicioModalNombre').textContent = this.dataset.nombre || '';
-                document.getElementById('inicioModalCategoria').textContent = this.dataset.categoria || '';
-                document.getElementById('inicioModalCodigo').textContent = this.dataset.codigo || '';
-                document.getElementById('inicioModalDetalle').textContent = this.dataset.detalle || '';
-                document.getElementById('inicioModalStock').textContent = this.dataset.stock || '';
-                document.getElementById('inicioModalPrecioUnidadBs').textContent = this.dataset['precioUnidadBs'] || '';
-                document.getElementById('inicioModalPrecioCajaBs').textContent = this.dataset['precioCajaBs'] || '';
-                document.getElementById('inicioModalImagen').src = this.dataset.imagen || '';
-                // WhatsApp
-                var nombre = this.dataset.nombre || '';
-                var codigo = this.dataset.codigo || '';
-                var whatsapp = document.getElementById('btnWhatsappModalInicio');
-                var numero = '591XXXXXXXXX'; // Cambia por el número real
-                var mensaje = encodeURIComponent('Hola, quiero información sobre el producto ' + nombre + ' (código: ' + codigo + ')');
-                if (whatsapp) whatsapp.href = 'https://wa.me/' + numero + '?text=' + mensaje;
-            });
-        });
-    }
 });
 
 /* ================================================
@@ -42,33 +16,9 @@ function initializeProductoCards() {
     const cards = document.querySelectorAll('.producto-card');
     
     cards.forEach(card => {
-        // Efecto hover con ripple
+        // Efecto hover
         card.addEventListener('mouseenter', function() {
             this.style.animation = 'none';
-        });
-
-        // Click para abrir modal
-        card.addEventListener('click', function(e) {
-            if (e.target.closest('.btn')) return;
-            const modalId = this.getAttribute('data-modal-id');
-            if (modalId) {
-                const modal = new bootstrap.Modal(document.getElementById(modalId));
-                modal.show();
-            }
-        });
-    });
-}
-
-/* ================================================
-   MODAL - INTERACCIONES
-   ================================================ */
-
-function initializeModals() {
-    const modals = document.querySelectorAll('.modal');
-    
-    modals.forEach(modal => {
-        modal.addEventListener('show.bs.modal', function(e) {
-            this.style.animation = 'fadeInUp 0.3s ease';
         });
     });
 }
