@@ -2,7 +2,7 @@ services:
   - type: web
     name: sistema-textil
     env: python
-    pythonVersion: 3.11.9
+    pythonVersion: 3.14.3
     plan: starter
     buildCommand: bash build.sh
-    startCommand: gunicorn sistema_textil.wsgi:application
+    startCommand: bash start.sh
