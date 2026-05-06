@@ -6,6 +6,7 @@ from .views import (
     eliminar_usuario,
     inicio,
     detalle_producto,
+    ver_carrito,
     iniciar_sesion,
     registrar_usuario,
     toggle_bloqueo_usuario,
@@ -16,6 +17,7 @@ app_name = 'core'
 urlpatterns = [
     path('', inicio, name='inicio'),
     path('producto/<int:producto_id>/', detalle_producto, name='detalle_producto'),
+    path('carrito/', ver_carrito, name='ver_carrito'),
     path('login/', iniciar_sesion, name='login'),
     path('logout/', cerrar_sesion, name='logout'),
     path('registro/', registrar_usuario, name='registro'),

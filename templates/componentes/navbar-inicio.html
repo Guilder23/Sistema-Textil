@@ -26,10 +26,17 @@
                 <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
             </ul>
-            <a href="{% url 'core:login' %}" class="btn-inicio-login ml-lg-auto">
-                <i class="fas fa-sign-in-alt"></i>
-                <span>Iniciar sesión</span>
-            </a>
+            <div class="d-flex align-items-center ml-lg-auto">
+                <a href="{% url 'core:ver_carrito' %}" class="nav-link position-relative mr-3" title="Ver Carrito">
+                    <i class="fas fa-shopping-cart" style="font-size: 1.1rem; color: #475569;"></i>
+                    <span id="cart-counter" class="position-absolute badge badge-pill badge-danger" 
+                          style="top: -5px; right: -5px; font-size: 0.65rem; display: none; width: 18px; height: 18px; align-items: center; justify-content: center;">0</span>
+                </a>
+                <a href="{% url 'core:login' %}" class="btn-inicio-login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Iniciar sesión</span>
+                </a>
+            </div>
         </div>
     </div>
 </nav>

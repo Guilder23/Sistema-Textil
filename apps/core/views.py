@@ -72,6 +72,10 @@ def detalle_producto(request, producto_id):
 	return render(request, 'core/detalle_producto.html', {'producto': producto})
 
 
+def ver_carrito(request):
+	return render(request, 'core/carrito.html')
+
+
 def iniciar_sesion(request):
 	if request.user.is_authenticated:
 		return redirect('productos:listar_productos')
