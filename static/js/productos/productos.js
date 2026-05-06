@@ -101,27 +101,52 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.addEventListener('click', function () {
             const productoId = this.dataset.id;
             const form = document.getElementById('formEditarProducto');
-            form.action = `/productos/${productoId}/editar/`;
+            if (form) {
+                form.action = `/productos/${productoId}/editar/`;
+            }
 
-            document.getElementById('editCodigo').value = this.dataset.codigo || '';
-            document.getElementById('editNombre').value = this.dataset.nombre || '';
-            document.getElementById('editDetalle').value = this.dataset.detalle || '';
-            document.getElementById('editCategoria').value = this.dataset.categoriaId || '';
-            document.getElementById('editStock').value = this.dataset.stock || 0;
-            document.getElementById('editUnidades').value = this.dataset.unidades || 1;
-            document.getElementById('editPrecioUsd').value = this.dataset.precioUnidadBs || 0;
-            document.getElementById('editPrecioOferta').value = this.dataset.precioOferta || 0;
-            document.getElementById('editDescuentoValor').value = this.dataset.descuentoValor || 0;
-            document.getElementById('editDescuentoTipo').value = this.dataset.descuentoTipo || 'PORCENTAJE';
-            document.getElementById('editTallas').value = this.dataset.tallas || '';
-            document.getElementById('editColores').value = this.dataset.colores || '';
-            document.getElementById('editActivo').checked = this.dataset.activo === '1';
-            document.getElementById('editPublicado').checked = this.dataset.publicado === '1';
+            // Mapeo de campos para asegurar que todos se llenen
+            const fields = {
+                'editNombre': this.dataset.nombre,
+                'editCodigo': this.dataset.codigo,
+                'editDetalle': this.dataset.detalle,
+                'editCategoria': this.dataset.categoriaId,
+                'editStock': this.dataset.stock,
+                'editUnidades': this.dataset.unidades,
+                'editPrecioUsd': this.dataset.precioUnidadBs,
+                'editPrecioOferta': this.dataset.precioOferta,
+                'editDescuentoValor': this.dataset.descuentoValor,
+                'editDescuentoTipo': this.dataset.descuentoTipo,
+                'editTallas': this.dataset.tallas,
+                'editColores': this.dataset.colores
+            };
 
+            for (const [id, value] of Object.entries(fields)) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.value = value || (element.type === 'number' ? '0' : '');
+                }
+            }
+
+            // Checkboxes
+            const activoCheck = document.getElementById('editActivo');
+            if (activoCheck) activoCheck.checked = this.dataset.activo === '1';
+
+            const publicadoCheck = document.getElementById('editPublicado');
+            if (publicadoCheck) publicadoCheck.checked = this.dataset.publicado === '1';
+
+            // Limpiar input de archivo al abrir
             if (editImagenInput) {
                 editImagenInput.value = '';
             }
-            pintarPreview(this.dataset.imagenUrl || '', 'editImagenPreview', 'editImagenSinDato');
+
+            // Imagen
+            const imgPreview = document.getElementById('editImagenPreview');
+            const imagenUrl = this.dataset.imagenUrl || '';
+            if (imgPreview) {
+                imgPreview.src = imagenUrl;
+            }
+            pintarPreview(imagenUrl, 'editImagenPreview', 'editImagenSinDato');
         });
     });
 

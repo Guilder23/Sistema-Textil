@@ -156,14 +156,18 @@
                                 data-codigo="{{ producto.codigo }}"
                                 data-nombre="{{ producto.nombre }}"
                                 data-detalle="{{ producto.detalle }}"
-                                data-imagen-url="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{{ producto.imagen_url }}{% endif %}"
                                 data-categoria-id="{{ producto.categoria.id }}"
                                 data-stock="{{ producto.stock_unidad }}"
                                 data-unidades="{{ producto.unidades_por_caja }}"
-                                data-precio-unidad-bs="{{ producto.precio_usd }}"
-                                data-precio-caja-bs="{{ producto.precio_caja_bs }}"
+                                data-precio-unidad-bs="{{ producto.precio_usd|stringformat:".2f" }}"
+                                data-precio-oferta="{{ producto.precio_oferta|default:0|stringformat:".2f" }}"
+                                data-descuento-valor="{{ producto.descuento_valor|default:0|stringformat:".2f" }}"
+                                data-descuento-tipo="{{ producto.descuento_tipo }}"
+                                data-tallas="{{ producto.tallas }}"
+                                data-colores="{{ producto.colores }}"
                                 data-activo="{{ producto.activo|yesno:'1,0' }}"
                                 data-publicado="{{ producto.publicado|yesno:'1,0' }}"
+                                data-imagen-url="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{{ producto.imagen_url }}{% endif %}"
                             ><i class="fas fa-edit"></i></button>
 
                             <form method="post" action="{% url 'productos:toggle_publicado' producto.id %}" class="d-inline">
