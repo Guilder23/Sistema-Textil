@@ -30,5 +30,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Serve media files in production when DEBUG=False.
+# This is acceptable for a simple Render app with repository-stored media assets.
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
