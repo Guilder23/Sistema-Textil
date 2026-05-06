@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: sistema-textil
-    env: python
-    pythonVersion: 3.14.3
-    plan: starter
-    buildCommand: bash build.sh
-    startCommand: bash start.sh
