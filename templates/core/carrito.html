@@ -7,114 +7,7 @@
 <link rel="stylesheet" href="{% static 'css/componentes/navbar-inicio.css' %}">
 <link rel="stylesheet" href="{% static 'css/componentes/footer-inicio.css' %}">
 <link rel="stylesheet" href="{% static 'css/core/inicio.css' %}">
-<style>
-    .cart-container {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-        padding: 2.5rem;
-        margin-top: 2rem;
-        margin-bottom: 4rem;
-    }
-    .cart-item {
-        border-bottom: 1px solid #f1f5f9;
-        padding: 1.5rem 0;
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-    }
-    .cart-item:last-child {
-        border-bottom: none;
-    }
-    .cart-item-img {
-        width: 100px;
-        height: 100px;
-        object-fit: contain;
-        background: #f8fafc;
-        border-radius: 12px;
-        border: 1px solid #f1f5f9;
-    }
-    .cart-item-info {
-        flex-grow: 1;
-    }
-    .cart-item-title {
-        font-weight: 700;
-        color: #0f172a;
-        font-size: 1.1rem;
-        margin-bottom: 0.25rem;
-    }
-    .cart-item-details {
-        color: #64748b;
-        font-size: 0.875rem;
-    }
-    .cart-item-price {
-        font-weight: 700;
-        color: #0f172a;
-        font-size: 1.1rem;
-    }
-    .btn-remove {
-        color: #ef4444;
-        background: #fef2f2;
-        border: none;
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s;
-    }
-    .btn-remove:hover {
-        background: #ef4444;
-        color: white;
-    }
-    .cart-summary {
-        background: #f8fafc;
-        border-radius: 16px;
-        padding: 1.5rem;
-    }
-    .summary-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-    }
-    .summary-total {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: #0f172a;
-        border-top: 2px solid #e2e8f0;
-        padding-top: 1rem;
-        margin-top: 1rem;
-    }
-    .whatsapp-order-btn {
-        background: #22c55e;
-        color: white;
-        border: none;
-        padding: 1.25rem;
-        border-radius: 14px;
-        font-weight: 700;
-        font-size: 1.1rem;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        transition: all 0.3s;
-        text-decoration: none;
-        box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
-    }
-    .whatsapp-order-btn:hover {
-        background: #16a34a;
-        color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
-        text-decoration: none;
-    }
-    .empty-cart-msg {
-        text-align: center;
-        padding: 4rem 0;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/core/carrito.css' %}">
 {% endblock %}
 
 {% block contenido %}
@@ -122,15 +15,10 @@
 
 <div class="container min-vh-100">
     <div class="cart-container">
-        <h2 class="font-weight-bold mb-4" style="color: #0f172a;">Mi Carrito de Compras</h2>
+        <h2 class="cart-title"><i class="fas fa-shopping-cart"></i> Mi Carrito</h2>
         
         <div id="cart-content">
-            <!-- Cargado por JS -->
-            <div class="empty-cart-msg">
-                <i class="fas fa-shopping-basket fa-4x mb-3" style="color: #e2e8f0;"></i>
-                <h4 class="text-muted">Tu carrito está vacío</h4>
-                <a href="{% url 'core:inicio' %}" class="btn btn-primary mt-3 px-4 py-2" style="border-radius: 10px;">Volver al catálogo</a>
-            </div>
+            <!-- Cargado por carrito.js -->
         </div>
     </div>
 </div>
@@ -140,85 +28,6 @@
 
 {% block scripts_extra %}
 <script src="{% static 'js/core/cart.js' %}"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        renderCart();
-    });
-
-    function renderCart() {
-        const cart = CartSystem.getCart();
-        const container = document.getElementById('cart-content');
-        
-        if (cart.length === 0) {
-            return; // Ya tiene el mensaje de vacío por defecto
-        }
-
-        let html = '<div class="row">';
-        html += '<div class="col-lg-8">';
-        
-        cart.forEach((item, index) => {
-            html += `
-                <div class="cart-item">
-                    <img src="${item.imagen}" class="cart-item-img" alt="${item.nombre}">
-                    <div class="cart-item-info">
-                        <div class="cart-item-title">${item.nombre}</div>
-                        <div class="cart-item-details">Talla: ${item.talla} | Color: ${item.color} | Cantidad: ${item.cantidad}</div>
-                    </div>
-                    <div class="cart-item-price">Bs ${(item.precio * item.cantidad).toFixed(2)}</div>
-                    <button class="btn-remove" onclick="removeItem(${index})"><i class="fas fa-trash"></i></button>
-                </div>
-            `;
-        });
-
-        const total = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-
-        html += '</div>'; // Fin col-lg-8
-        html += `
-            <div class="col-lg-4">
-                <div class="cart-summary">
-                    <h5 class="font-weight-bold mb-4">Resumen del Pedido</h5>
-                    <div class="summary-row">
-                        <span>Subtotal</span>
-                        <span>Bs ${total.toFixed(2)}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Envío</span>
-                        <span class="text-success font-weight-bold">A coordinar</span>
-                    </div>
-                    <div class="summary-row summary-total">
-                        <span>Total</span>
-                        <span>Bs ${total.toFixed(2)}</span>
-                    </div>
-                    <button onclick="sendOrder()" class="whatsapp-order-btn mt-4">
-                        <i class="fab fa-whatsapp"></i> Enviar pedido por WhatsApp
-                    </button>
-                    <button onclick="clearCart()" class="btn btn-link btn-block text-muted mt-2" style="font-size: 0.85rem;">Vaciar carrito</button>
-                </div>
-            </div>
-        `;
-        html += '</div>';
-
-        container.innerHTML = html;
-    }
-
-    function removeItem(index) {
-        CartSystem.removeFromCart(index);
-        renderCart();
-    }
-
-    function clearCart() {
-        if(confirm('¿Estás seguro de vaciar el carrito?')) {
-            CartSystem.clearCart();
-            location.reload();
-        }
-    }
-
-    function sendOrder() {
-        const message = CartSystem.formatWhatsAppMessage();
-        if (message) {
-            const phoneNumber = '59168440201';
-            window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
-        }
-    }
-</script>
+<script src="{% static 'js/core/carrito.js' %}"></script>
+<script src="{% static 'js/componentes/navbar-inicio.js' %}"></script>
 {% endblock %}

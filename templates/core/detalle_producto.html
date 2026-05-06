@@ -107,7 +107,15 @@
                         </div>
                     </div>
                 </div>
-
+                
+                <div class="guide-box mb-4">
+                    <div class="guide-title"><i class="fas fa-magic"></i> Paso a paso</div>
+                    <ul class="guide-list">
+                        <li>Selecciona tu talla y color favorito.</li>
+                        <li>Ajusta la cantidad que necesites.</li>
+                        <li>Agrégalo al carrito para seguir comprando.</li>
+                    </ul>
+                </div>
                 <div class="mt-4">
                     <button id="add-to-cart-btn" class="whatsapp-btn-large" style="background: #2563eb; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);">
                         <i class="fas fa-shopping-cart"></i> Agregar al carrito
@@ -124,4 +132,5 @@
 {% block scripts_extra %}
 <script src="{% static 'js/core/cart.js' %}"></script>
 <script src="{% static 'js/core/detalle_producto.js' %}"></script>
+<script src="{% static 'js/componentes/navbar-inicio.js' %}"></script>
 {% endblock %}
