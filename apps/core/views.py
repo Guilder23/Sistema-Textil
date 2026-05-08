@@ -51,6 +51,12 @@ def inicio(request):
 	productos_publicados = paginator.get_page(page_number)
 
 	categorias = Categoria.objects.filter(productos__publicado=True, productos__activo=True).distinct().order_by('nombre')
+	productos_destacados = Producto.objects.select_related('categoria').filter(
+		publicado=True, 
+		activo=True, 
+		precio_oferta__gt=0,
+		descuento_valor__gt=0
+	).order_by('-fecha_creacion')[:8]
 
 	return render(
 		request,
@@ -58,6 +64,7 @@ def inicio(request):
 		{
 			'productos_publicados': productos_publicados,
 			'categorias': categorias,
+			'productos_destacados': productos_destacados,
 			'q': q,
 			'categoria_id': categoria_id,
 			'precio_min': precio_min_raw,

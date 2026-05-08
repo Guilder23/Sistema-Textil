@@ -7,31 +7,58 @@
 <link rel="stylesheet" href="{% static 'css/componentes/navbar-inicio.css' %}">
 <link rel="stylesheet" href="{% static 'css/componentes/footer-inicio.css' %}">
 <link rel="stylesheet" href="{% static 'css/core/inicio.css' %}">
+<link rel="stylesheet" href="{% static 'css/core/carousel-overlay.css' %}">
 {% endblock %}
 
 
 {% block contenido %}
 {% include 'componentes/navbar-inicio.html' %}
 
-<!-- PORTADA: imagen grande a ancho completo + contenido encima -->
-<section class="hero-portada" style="--hero-img: url('https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=1920&q=85');">
+<!-- PORTADA CON CARRUSEL ENCIMA: imagen grande a ancho completo con carrusel transparente -->
+<section class="hero-portada hero-portada-with-carousel" style="--hero-img: url('https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=1920&q=85');">
     <div class="hero-portada-overlay"></div>
+    
+    <!-- CARRUSEL DE PRODUCTOS DESTACADOS (TRANSPARENTE) -->
+    <section class="featured-carousel-overlay">
+        <div class="featured-carousel-wrapper">
+            <button class="carousel-nav-btn carousel-nav-prev" id="carouselPrev" title="Anterior">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="featured-carousel-track" id="carouselTrack">
+                {% for p in productos_destacados %}
+                <div class="featured-carousel-item" data-product-id="{{ p.id }}">
+                    <a href="{% url 'core:detalle_producto' p.id %}" class="featured-item-link">
+                        <div class="featured-item-image">
+                            {% if p.imagen %}
+                                <img src="{{ p.imagen.url }}" alt="{{ p.nombre }}" class="featured-item-img">
+                            {% elif p.imagen_url %}
+                                <img src="{{ p.imagen_url }}" alt="{{ p.nombre }}" class="featured-item-img">
+                            {% else %}
+                                <img src="{% static 'img/imagenes/imagen1.png' %}" alt="{{ p.nombre }}" class="featured-item-img">
+                            {% endif %}
+                            {% if p.tiene_descuento %}
+                            <div class="featured-offer-badge">Oferta</div>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <button class="carousel-nav-btn carousel-nav-next" id="carouselNext" title="Siguiente">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        
+        <div class="carousel-indicators" id="carouselIndicators">
+            {% for i in productos_destacados %}
+            <button class="indicator-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}"></button>
+            {% endfor %}
+        </div>
+    </section>
+    
     <div class="hero-portada-inner">
-        <div class="hero-portada-copy">
-            <p class="hero-kicker hero-anim hero-anim-1"><i class="fas fa-cut"></i> Taller y distribución textil</p>
-            <h1 class="hero-portada-title hero-anim hero-anim-2">Compra textil profesional, fácil y segura</h1>
-            <p class="hero-portada-desc hero-anim hero-anim-3">Catálogo de telas y productos para confección. Diseño, calidad y stock en un solo lugar.</p>
-            <ul class="hero-portada-bullets hero-anim hero-anim-4">
-                <li><i class="fas fa-check-circle"></i> Inventario real y actualizado</li>
-                <li><i class="fas fa-check-circle"></i> Asesoría en confección y materiales</li>
-                <li><i class="fas fa-check-circle"></i> Entrega ágil y segura</li>
-            </ul>
-        </div>
-        <div class="hero-portada-gallery hero-anim hero-anim-5" aria-hidden="true">
-            <img class="hero-thumb hero-thumb-1" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
-            <img class="hero-thumb hero-thumb-2" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
-            <img class="hero-thumb hero-thumb-3" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
-        </div>
     </div>
 </section>
 
@@ -383,6 +410,7 @@
 {% endblock %}
 
 {% block scripts_extra %}
+<script src="{% static 'js/core/featured-carousel.js' %}"></script>
 <script src="{% static 'js/core/inicio.js' %}"></script>
 <script src="{% static 'js/componentes/navbar-inicio.js' %}"></script>
 {% endblock %}
