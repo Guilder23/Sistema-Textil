@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div class="card-body">
                         <h5 class="card-title mb-1 text-dark" style="font-weight: 700;">{{ p.nombre }}</h5>
-                        <p class="text-muted mb-2" style="font-size: 0.85rem;">{{ p.categoria.nombre }}</p>
+                        {% comment %} <p class="text-muted mb-2" style="font-size: 0.85rem;">{{ p.categoria.nombre }}</p> {% endcomment %}
                         
                         <div class="mb-2">
                             {% if p.tiene_descuento %}

@@ -806,6 +806,48 @@
         margin-bottom: 1rem;
     }
 
+    .producto-card .card-body {
+      padding: 0.85rem 0.8rem 0.8rem;
+    }
+
+    .producto-card h5 {
+      font-size: 0.94rem;
+      margin-bottom: 0.2rem;
+      line-height: 1.2;
+    }
+
+    .producto-card p {
+      font-size: 0.78rem;
+      margin-bottom: 0.25rem;
+      line-height: 1.15;
+    }
+
+    .producto-card .mb-2 {
+      margin-bottom: 0.4rem !important;
+    }
+
+    .producto-card .text-muted[style*="font-size: 0.9rem"] {
+      font-size: 0.78rem !important;
+    }
+
+    .producto-card .text-danger,
+    .producto-card .text-dark.font-weight-bold {
+      font-size: 0.95rem !important;
+    }
+
+    .producto-card .btn {
+      padding: 0.32rem 0.55rem;
+      font-size: 0.8rem;
+      line-height: 1.1;
+    }
+
+    .badge-oferta-inicio {
+      top: 9px;
+      right: 9px;
+      padding: 4px 8px;
+      font-size: 0.68rem;
+    }
+
     .page-header {
         padding: 1.25rem;
         margin-bottom: 1rem;
@@ -897,9 +939,14 @@
   .inicio-metricas {
     grid-template-columns: 1fr;
   }
+
+    /* Productos: 2 columnas en móvil */
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
 }
 
-/* === CARDS CON IMAGEN (PROCESO/FAQ) === */
 .inicio-media-card {
   background: #fff;
   border: 1px solid #e5e7eb;
@@ -1075,6 +1122,20 @@
   background: linear-gradient(rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.3)), var(--hero-img) center/cover no-repeat;
   background-attachment: fixed;
   overflow: hidden;
+}
+
+@media (max-width: 991px) {
+  .hero-portada-with-carousel {
+    min-height: 280px;
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-portada-with-carousel {
+    min-height: 200px;
+    background-attachment: scroll;
+  }
 }
 
 .featured-carousel-overlay {
