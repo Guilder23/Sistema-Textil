@@ -86,6 +86,7 @@
                         <th>Imagen</th>
                         <th>Codigo</th>
                         <th>Nombre</th>
+                        <th>Sexo</th>
                         <th>Detalle</th>
                         <th>Categoria</th>
                         <th>Stock Unidad</th>
@@ -112,6 +113,7 @@
                         </td>
                         <td><span class="codigo-badge">{{ producto.codigo }}</span></td>
                         <td><span class="producto-nombre">{{ producto.nombre }}</span></td>
+                        <td>{{ producto.get_sexo_display }}</td>
                         <td><span class="producto-detalle">{{ producto.detalle }}</span></td>
                         <td>{{ producto.categoria.nombre }}</td>
                         <td><span class="badge-stock">{{ producto.stock_unidad }} unidades</span></td>
@@ -137,6 +139,7 @@
                                 data-codigo="{{ producto.codigo }}"
                                 data-nombre="{{ producto.nombre }}"
                                 data-detalle="{{ producto.detalle }}"
+                                data-sexo="{{ producto.sexo }}"
                                 data-categoria="{{ producto.categoria.nombre }}"
                                 data-stock="{{ producto.stock_unidad }}"
                                 data-precio-unidad-bs="{{ producto.precio_usd }}"
@@ -145,6 +148,7 @@
                                 data-descuento-tipo="{{ producto.descuento_tipo }}"
                                 data-tallas="{{ producto.tallas }}"
                                 data-colores="{{ producto.colores }}"
+                                data-imagenes="{% for imagen in producto.imagenes_disponibles %}{{ imagen.url }}{% if not forloop.last %}|{% endif %}{% endfor %}"
                                 data-imagen-url="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{{ producto.imagen_url }}{% endif %}"
                             ><i class="fas fa-eye"></i></button>
                             {% if can_manage %}
@@ -160,11 +164,13 @@
                                 data-stock="{{ producto.stock_unidad }}"
                                 data-unidades="{{ producto.unidades_por_caja }}"
                                 data-precio-unidad-bs="{{ producto.precio_usd|stringformat:".2f" }}"
-                                data-precio-oferta="{{ producto.precio_oferta|default:0|stringformat:".2f" }}"
-                                data-descuento-valor="{{ producto.descuento_valor|default:0|stringformat:".2f" }}"
+                                data-precio-oferta="{{ producto.precio_oferta|default:0|stringformat:'.2f' }}"
+                                data-descuento-valor="{{ producto.descuento_valor|default:0|stringformat:'.2f' }}"
                                 data-descuento-tipo="{{ producto.descuento_tipo }}"
                                 data-tallas="{{ producto.tallas }}"
                                 data-colores="{{ producto.colores }}"
+                                data-sexo="{{ producto.sexo }}"
+                                data-existing-images="{% if producto.imagen %}main|{{ producto.imagen.url }}|1{% endif %}{% if producto.imagenes.all %}{% if producto.imagen %};{% endif %}{% for imagen in producto.imagenes.all %}{{ imagen.id }}|{{ imagen.imagen.url }}|0{% if not forloop.last %};{% endif %}{% endfor %}{% endif %}"
                                 data-activo="{{ producto.activo|yesno:'1,0' }}"
                                 data-publicado="{{ producto.publicado|yesno:'1,0' }}"
                                 data-imagen-url="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{{ producto.imagen_url }}{% endif %}"

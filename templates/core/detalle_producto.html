@@ -25,13 +25,43 @@
         <div class="row">
             <div class="col-lg-5 mb-4 mb-lg-0">
                 <div class="product-image-container">
-                    {% if producto.imagen %}
-                        <img src="{{ producto.imagen.url }}" class="img-fluid w-100" alt="{{ producto.nombre }}">
-                    {% elif producto.imagen_url %}
-                        <img src="{{ producto.imagen_url }}" class="img-fluid w-100" alt="{{ producto.nombre }}">
-                    {% else %}
-                        <img src="{% static 'img/imagenes/imagen1.png' %}" class="img-fluid w-100" alt="Sin imagen">
-                    {% endif %}
+                    {% with imagenes=producto.imagenes_disponibles %}
+                        {% if imagenes %}
+                            <div id="productoCarousel" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    {% for imagen in imagenes %}
+                                    <li data-target="#productoCarousel" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                                    {% endfor %}
+                                </ol>
+                                <div class="carousel-inner">
+                                    {% for imagen in imagenes %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ imagen.url }}" class="d-block w-100" alt="{{ producto.nombre }}" style="max-height:420px; object-fit:contain;">
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <a class="carousel-control-prev" href="#productoCarousel" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Anterior</span>
+                                </a>
+                                <a class="carousel-control-next" href="#productoCarousel" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Siguiente</span>
+                                </a>
+                            </div>
+                            {% if imagenes|length > 1 %}
+                            <div class="d-flex flex-wrap justify-content-center mt-3">
+                                {% for imagen in imagenes %}
+                                <div class="mx-1" role="button" data-toggle="carousel" data-target="#productoCarousel" data-slide-to="{{ forloop.counter0 }}" style="width:72px; height:72px; cursor:pointer;">
+                                    <img src="{{ imagen.url }}" class="img-fluid border rounded" style="width:72px; height:72px; object-fit:cover;">
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        {% else %}
+                            <img src="{% static 'img/imagenes/imagen1.png' %}" class="img-fluid w-100" alt="Sin imagen">
+                        {% endif %}
+                    {% endwith %}
                 </div>
             </div>
             <div class="col-lg-7">
@@ -43,7 +73,10 @@
                             </span>
                         {% endif %}
                     </div>
-                    <span class="badge badge-danger px-3 py-2" style="border-radius: 50px; font-weight: 700; background-color: #ef4444;">{{ producto.categoria.nombre }}</span>
+                    <div class="d-flex flex-wrap align-items-center">
+                        <span class="badge badge-danger px-3 py-2 mr-2" style="border-radius: 50px; font-weight: 700; background-color: #ef4444;">{{ producto.categoria.nombre }}</span>
+                        <span class="badge badge-primary px-3 py-2" style="border-radius: 50px; font-weight: 700; background-color: #1d4ed8;">{{ producto.get_sexo_display }}</span>
+                    </div>
                 </div>
                 
                 <h1 class="display-4 font-weight-bold mb-3" style="color: #0f172a; font-size: 3rem; letter-spacing: -0.02em;">{{ producto.nombre }}</h1>

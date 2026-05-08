@@ -4,13 +4,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.core.permissions import can_manage_inventory
 from apps.categorias.models import Categoria
 from apps.historial.services import registrar_cambio
 
-from .models import Producto
+from .models import Producto, ProductoImagen
 
 
 @login_required
@@ -76,31 +77,47 @@ def detalle_producto_admin(request, producto_id):
 	return render(request, 'productos/detalle.html', {'producto': producto})
 
 
+from django.http import JsonResponse
+
 @login_required
 @user_passes_test(can_manage_inventory, login_url='/login/')
 def crear_producto(request):
 	if request.method == 'POST':
-		categoria = get_object_or_404(Categoria, id=request.POST.get('categoria_id'))
-		imagen = request.FILES.get('imagen')
-		producto = Producto.objects.create(
-			codigo=request.POST.get('codigo', '').strip(),
-			nombre=request.POST.get('nombre', '').strip(),
-			detalle=request.POST.get('detalle', '').strip(),
-			imagen=imagen,
-			categoria=categoria,
-			stock_unidad=int(request.POST.get('stock_unidad', 0) or 0),
-			unidades_por_caja=int(request.POST.get('unidades_por_caja', 1) or 1),
-			precio_usd=Decimal(request.POST.get('precio_usd', '0').replace(',', '.') or '0'),
-			precio_oferta=Decimal(request.POST.get('precio_oferta', '0').replace(',', '.') or '0') if request.POST.get('precio_oferta') else 0,
-			descuento_valor=Decimal(request.POST.get('descuento_valor', '0').replace(',', '.') or '0'),
-			descuento_tipo=request.POST.get('descuento_tipo', 'PORCENTAJE'),
-			tallas=request.POST.get('tallas', '').strip(),
-			colores=request.POST.get('colores', '').strip(),
-			activo=request.POST.get('activo') == 'on',
-			publicado=request.POST.get('publicado') == 'on',
-		)
-		registrar_cambio(producto, request.user, 'CREAR', 'Creacion de producto')
-		messages.success(request, 'Producto creado correctamente.')
+		try:
+			categoria = get_object_or_404(Categoria, id=request.POST.get('categoria_id'))
+			sex = request.POST.get('sexo', 'UNISEX')
+			imagenes = request.FILES.getlist('imagenes')
+			main_image = imagenes[0] if imagenes else None
+			if imagenes:
+				imagenes = imagenes[1:]
+			producto = Producto.objects.create(
+				codigo=request.POST.get('codigo', '').strip(),
+				nombre=request.POST.get('nombre', '').strip(),
+				detalle=request.POST.get('detalle', '').strip(),
+				imagen=main_image,
+				categoria=categoria,
+				sexo=sex,
+				stock_unidad=int(request.POST.get('stock_unidad', 0) or 0),
+				unidades_por_caja=int(request.POST.get('unidades_por_caja', 1) or 1),
+				precio_usd=Decimal(request.POST.get('precio_usd', '0').replace(',', '.') or '0'),
+				precio_oferta=Decimal(request.POST.get('precio_oferta', '0').replace(',', '.') or '0') if request.POST.get('precio_oferta') else 0,
+				descuento_valor=Decimal(request.POST.get('descuento_valor', '0').replace(',', '.') or '0'),
+				descuento_tipo=request.POST.get('descuento_tipo', 'PORCENTAJE'),
+				tallas=request.POST.get('tallas', '').strip(),
+				colores=request.POST.get('colores', '').strip(),
+				activo=request.POST.get('activo') == 'on',
+				publicado=request.POST.get('publicado') == 'on',
+			)
+			for imagen in imagenes:
+				ProductoImagen.objects.create(producto=producto, imagen=imagen)
+			registrar_cambio(producto, request.user, 'CREAR', 'Creacion de producto')
+			messages.success(request, 'Producto creado correctamente.')
+			if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+				return JsonResponse({'status': 'success', 'message': 'Producto creado correctamente.'})
+		except Exception as e:
+			if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+				return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+			messages.error(request, f'Error al crear producto: {str(e)}')
 	return redirect('productos:listar_productos')
 
 
@@ -109,30 +126,66 @@ def crear_producto(request):
 def editar_producto(request, producto_id):
 	producto = get_object_or_404(Producto, id=producto_id)
 	if request.method == 'POST':
-		categoria = get_object_or_404(Categoria, id=request.POST.get('categoria_id'))
-		producto.codigo = request.POST.get('codigo', '').strip()
-		producto.nombre = request.POST.get('nombre', '').strip()
-		producto.detalle = request.POST.get('detalle', '').strip()
-		producto.categoria = categoria
-		producto.stock_unidad = int(request.POST.get('stock_unidad', 0) or 0)
-		producto.unidades_por_caja = int(request.POST.get('unidades_por_caja', 1) or 1)
-		producto.precio_usd = Decimal(request.POST.get('precio_usd', '0').replace(',', '.') or '0')
-		producto.precio_oferta = Decimal(request.POST.get('precio_oferta', '0').replace(',', '.') or '0') if request.POST.get('precio_oferta') else 0
-		producto.descuento_valor = Decimal(request.POST.get('descuento_valor', '0').replace(',', '.') or '0')
-		producto.descuento_tipo = request.POST.get('descuento_tipo', 'PORCENTAJE')
-		producto.tallas = request.POST.get('tallas', '').strip()
-		producto.colores = request.POST.get('colores', '').strip()
-		producto.activo = request.POST.get('activo') == 'on'
-		producto.publicado = request.POST.get('publicado') == 'on'
+		try:
+			categoria = get_object_or_404(Categoria, id=request.POST.get('categoria_id'))
+			producto.codigo = request.POST.get('codigo', '').strip()
+			producto.nombre = request.POST.get('nombre', '').strip()
+			producto.detalle = request.POST.get('detalle', '').strip()
+			producto.categoria = categoria
+			producto.sexo = request.POST.get('sexo', 'UNISEX')
+			producto.stock_unidad = int(request.POST.get('stock_unidad', 0) or 0)
+			producto.unidades_por_caja = int(request.POST.get('unidades_por_caja', 1) or 1)
+			producto.precio_usd = Decimal(request.POST.get('precio_usd', '0').replace(',', '.') or '0')
+			producto.precio_oferta = Decimal(request.POST.get('precio_oferta', '0').replace(',', '.') or '0') if request.POST.get('precio_oferta') else 0
+			producto.descuento_valor = Decimal(request.POST.get('descuento_valor', '0').replace(',', '.') or '0')
+			producto.descuento_tipo = request.POST.get('descuento_tipo', 'PORCENTAJE')
+			producto.tallas = request.POST.get('tallas', '').strip()
+			producto.colores = request.POST.get('colores', '').strip()
+			producto.activo = request.POST.get('activo') == 'on'
+			producto.publicado = request.POST.get('publicado') == 'on'
 
-		imagen = request.FILES.get('imagen')
-		if imagen:
-			producto.imagen = imagen
-			producto.imagen_url = ''
+			imagenes = request.FILES.getlist('imagenes')
+			main_image = imagenes[0] if imagenes else None
+			if imagenes:
+				imagenes = imagenes[1:]
+			if main_image:
+				producto.imagen = main_image
+				producto.imagen_url = ''
 
-		producto.save()
-		registrar_cambio(producto, request.user, 'EDITAR', 'Edicion de producto')
-		messages.success(request, 'Producto actualizado.')
+			eliminar_ids = request.POST.get('imagenes_eliminar', '')
+			if eliminar_ids:
+				ids_to_remove = [int(imagen_id) for imagen_id in eliminar_ids.split(',') if imagen_id.strip().isdigit()]
+				ProductoImagen.objects.filter(producto=producto, id__in=ids_to_remove).delete()
+
+			# Manejar cambio de imagen principal
+			imagen_principal_id = request.POST.get('imagen_principal', 'main')
+			if imagen_principal_id and imagen_principal_id != 'main':
+				try:
+					imagen_principal_id = int(imagen_principal_id)
+					# Obtener la ProductoImagen que será la nueva principal
+					nueva_principal = ProductoImagen.objects.get(id=imagen_principal_id, producto=producto)
+					# Guardar la imagen actual como ProductoImagen
+					if producto.imagen:
+						ProductoImagen.objects.create(producto=producto, imagen=producto.imagen)
+					# Actualizar la imagen principal
+					producto.imagen = nueva_principal.imagen
+					producto.imagen_url = ''
+					# Eliminar el ProductoImagen que ahora es la principal
+					nueva_principal.delete()
+				except (ProductoImagen.DoesNotExist, ValueError):
+					pass
+
+			producto.save()
+			for imagen in imagenes:
+				ProductoImagen.objects.create(producto=producto, imagen=imagen)
+			registrar_cambio(producto, request.user, 'EDITAR', 'Edicion de producto')
+			messages.success(request, 'Producto actualizado.')
+			if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+				return JsonResponse({'status': 'success', 'message': 'Producto actualizado correctamente.'})
+		except Exception as e:
+			if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+				return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+			messages.error(request, f'Error al actualizar producto: {str(e)}')
 	return redirect('productos:listar_productos')
 
 

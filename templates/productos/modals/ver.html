@@ -11,7 +11,18 @@
                 <div class="row">
                     <div class="col-lg-5">
                         <div class="preview-box">
-                            <img id="verImagen" src="" alt="Imagen producto" class="preview-img" style="display:none;">
+                            <div id="verImagenCarousel" class="carousel slide" data-ride="carousel" style="display:none;">
+                                <ol class="carousel-indicators" id="verCarouselIndicators"></ol>
+                                <div class="carousel-inner" id="verCarouselInner"></div>
+                                <a class="carousel-control-prev" href="#verImagenCarousel" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Anterior</span>
+                                </a>
+                                <a class="carousel-control-next" href="#verImagenCarousel" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Siguiente</span>
+                                </a>
+                            </div>
                             <span id="verImagenSinDato" class="text-muted">Sin imagen</span>
                         </div>
                     </div>
@@ -19,6 +30,7 @@
                         <ul class="list-group">
                             <li class="list-group-item"><strong>Nombre:</strong> <span id="verNombre"></span></li>
                             <li class="list-group-item"><strong>Codigo:</strong> <span id="verCodigo"></span></li>
+                            <li class="list-group-item"><strong>Sexo:</strong> <span id="verSexo"></span></li>
                             <li class="list-group-item"><strong>Detalle:</strong> <span id="verDetalle"></span></li>
                             <li class="list-group-item"><strong>Categoria:</strong> <span id="verCategoria"></span></li>
                             <li class="list-group-item"><strong>Stock:</strong> <span id="verStock"></span></li>
