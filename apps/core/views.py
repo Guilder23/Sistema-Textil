@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import F, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.categorias.models import Categoria
@@ -18,6 +18,15 @@ def inicio(request):
 	precio_min_raw = request.GET.get('precio_min', '').strip()
 	precio_max_raw = request.GET.get('precio_max', '').strip()
 	orden = request.GET.get('orden', '').strip()
+
+	# Nuevos filtros
+	solo_ofertas = request.GET.get('oferta', '').strip()  # '1' para activar
+	con_stock = request.GET.get('stock', '').strip()  # '1' para activar
+	sexo = request.GET.get('sexo', '').strip()
+	talla = request.GET.get('talla', '').strip()
+	color = request.GET.get('color', '').strip()
+	descuento_tipo = request.GET.get('descuento_tipo', '').strip()
+	descuento_min_raw = request.GET.get('descuento_min', '').strip()
 
 	productos_qs = Producto.objects.select_related('categoria').filter(publicado=True, activo=True)
 
@@ -39,6 +48,30 @@ def inicio(request):
 		except (InvalidOperation, ValueError):
 			pass
 
+	if solo_ofertas == '1':
+		productos_qs = productos_qs.filter(precio_oferta__gt=0).filter(precio_oferta__lt=F('precio_usd'))
+
+	if con_stock == '1':
+		productos_qs = productos_qs.filter(stock_unidad__gt=0)
+
+	if sexo in {'UNISEX', 'MUJER', 'HOMBRE'}:
+		productos_qs = productos_qs.filter(sexo=sexo)
+
+	if talla:
+		productos_qs = productos_qs.filter(tallas__icontains=talla)
+
+	if color:
+		productos_qs = productos_qs.filter(colores__icontains=color)
+
+	if descuento_tipo in {'PORCENTAJE', 'MONTO'}:
+		productos_qs = productos_qs.filter(descuento_tipo=descuento_tipo)
+
+	if descuento_min_raw:
+		try:
+			productos_qs = productos_qs.filter(descuento_valor__gte=Decimal(descuento_min_raw.replace(',', '.')))
+		except (InvalidOperation, ValueError):
+			pass
+
 	if orden == 'precio_asc':
 		productos_qs = productos_qs.order_by('precio_usd', '-fecha_creacion')
 	elif orden == 'precio_desc':
@@ -51,6 +84,12 @@ def inicio(request):
 	productos_publicados = paginator.get_page(page_number)
 
 	categorias = Categoria.objects.filter(productos__publicado=True, productos__activo=True).distinct().order_by('nombre')
+	productos_destacados = Producto.objects.select_related('categoria').filter(
+		publicado=True, 
+		activo=True, 
+		precio_oferta__gt=0,
+		descuento_valor__gt=0
+	).order_by('-fecha_creacion')[:8]
 
 	return render(
 		request,
@@ -58,11 +97,19 @@ def inicio(request):
 		{
 			'productos_publicados': productos_publicados,
 			'categorias': categorias,
+			'productos_destacados': productos_destacados,
 			'q': q,
 			'categoria_id': categoria_id,
 			'precio_min': precio_min_raw,
 			'precio_max': precio_max_raw,
 			'orden': orden,
+			'oferta': solo_ofertas,
+			'stock': con_stock,
+			'sexo': sexo,
+			'talla': talla,
+			'color': color,
+			'descuento_tipo': descuento_tipo,
+			'descuento_min': descuento_min_raw,
 		},
 	)
 

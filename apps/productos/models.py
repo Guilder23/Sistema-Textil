@@ -8,6 +8,15 @@ class Producto(models.Model):
 	imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
 	imagen_url = models.URLField(blank=True)
 	categoria = models.ForeignKey('categorias.Categoria', on_delete=models.PROTECT, related_name='productos')
+	sexo = models.CharField(
+		max_length=10,
+		choices=[
+			('UNISEX', 'Unisex'),
+			('MUJER', 'Mujer'),
+			('HOMBRE', 'Hombre'),
+		],
+		default='UNISEX',
+	)
 	stock_unidad = models.PositiveIntegerField(default=0)
 	unidades_por_caja = models.PositiveIntegerField(default=1)
 	precio_usd = models.DecimalField(max_digits=10, decimal_places=2, default=0, help_text="Precio normal")
@@ -39,6 +48,16 @@ class Producto(models.Model):
 		return self.precio_oferta and self.precio_oferta > 0 and self.precio_oferta < self.precio_usd
 
 	@property
+	def imagenes_disponibles(self):
+		imagenes = []
+		if self.imagen:
+			imagenes.append({'url': self.imagen.url})
+		elif self.imagen_url:
+			imagenes.append({'url': self.imagen_url})
+		imagenes.extend({'url': img.imagen.url} for img in self.imagenes.all())
+		return imagenes
+
+	@property
 	def get_tallas_list(self):
 		if not self.tallas:
 			return []
@@ -49,3 +68,11 @@ class Producto(models.Model):
 		if not self.colores:
 			return []
 		return [c.strip() for c in self.colores.split(',') if c.strip()]
+
+
+class ProductoImagen(models.Model):
+	producto = models.ForeignKey('Producto', on_delete=models.CASCADE, related_name='imagenes')
+	imagen = models.ImageField(upload_to='productos/')
+
+	def __str__(self):
+		return f'Imagen de {self.producto.nombre}'

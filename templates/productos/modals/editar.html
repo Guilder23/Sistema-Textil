@@ -37,6 +37,15 @@
                             </select>
                         </div>
 
+                        <div class="form-group">
+                            <label>Sexo</label>
+                            <select name="sexo" id="editSexo" class="form-control" required>
+                                <option value="UNISEX">Unisex</option>
+                                <option value="MUJER">Mujer</option>
+                                <option value="HOMBRE">Hombre</option>
+                            </select>
+                        </div>
+
                         <div class="form-row">
                             <div class="col-md-6 form-group">
                                 <label>Stock unidad</label>
@@ -96,14 +105,23 @@
 
                     <div class="col-lg-5">
                         <div class="form-group">
-                            <label>Imagen del producto (opcional, reemplaza la actual)</label>
-                            <input type="file" name="imagen" id="editImagen" class="form-control-file" accept="image/*">
+                            <label>Imágenes</label>
+                            <div class="d-flex align-items-center mb-2">
+                                <button type="button" class="btn btn-outline-primary btn-sm" id="btnAgregarImagenesEditar">
+                                    <i class="fas fa-plus-circle"></i> Agregar imagen
+                                </button>
+                                <small class="form-text text-muted ml-3">Agrega imágenes una por una y elimina las que no quieras.</small>
+                            </div>
+                            <input type="file" name="imagenes" id="editImagen" class="d-none" accept="image/*" multiple>
                         </div>
 
                         <div class="preview-box">
-                            <img id="editImagenPreview" src="" alt="Preview imagen" class="preview-img" style="display:none;">
-                            <span id="editImagenSinDato" class="text-muted">Sin imagen cargada</span>
+                            <div id="editExistingImages" class="d-flex flex-wrap mb-3"></div>
+                            <div id="editImagenesPreview" class="d-flex flex-wrap mb-3"></div>
+                            <span id="editImagenSinDato" class="text-muted">No hay imágenes seleccionadas.</span>
                         </div>
+                        <input type="hidden" name="imagenes_eliminar" id="imagenesEliminar">
+                        <input type="hidden" name="imagen_principal" id="imagenPrincipal" value="">
                     </div>
                 </div>
             </div>

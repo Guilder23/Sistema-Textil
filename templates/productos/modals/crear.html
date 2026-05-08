@@ -1,7 +1,7 @@
-﻿<div class="modal fade" id="modalCrearProducto" tabindex="-1" role="dialog" aria-hidden="true">
+﻿﻿﻿<div class="modal fade" id="modalCrearProducto" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-producto-dialog" role="document">
         <div class="modal-content modal-crear-productos">
-            <form method="post" action="{% url 'productos:crear_producto' %}" enctype="multipart/form-data">
+            <form method="post" id="formCrearProducto" action="{% url 'productos:crear_producto' %}" enctype="multipart/form-data">
                 {% csrf_token %}
             <div class="modal-header">
                 <h5 class="modal-title">Crear Producto</h5>
@@ -34,6 +34,15 @@
                                 {% for c in categorias %}
                                 <option value="{{ c.id }}">{{ c.nombre }}</option>
                                 {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sexo</label>
+                            <select name="sexo" class="form-control" required>
+                                <option value="UNISEX">Unisex</option>
+                                <option value="MUJER">Mujer</option>
+                                <option value="HOMBRE">Hombre</option>
                             </select>
                         </div>
 
@@ -96,14 +105,21 @@
 
                     <div class="col-lg-5">
                         <div class="form-group">
-                            <label>Imagen del producto</label>
-                            <input type="file" id="crearImagen" name="imagen" class="form-control-file" accept="image/*">
+                            <label>Imágenes del producto</label>
+                            <div class="d-flex align-items-center mb-2">
+                                <button type="button" class="btn btn-outline-primary btn-sm" id="btnAgregarImagenesCrear">
+                                    <i class="fas fa-plus-circle"></i> Agregar imagen
+                                </button>
+                                <small class="form-text text-muted ml-3">Agrega imagenes, marca una como principal y elimina las que no quieras.</small>
+                            </div>
+                            <input type="file" name="imagenes" id="crearImagen" class="d-none" accept="image/*" multiple>
                         </div>
 
                         <div class="preview-box">
-                            <img id="crearImagenPreview" src="" alt="Preview imagen" class="preview-img" style="display:none;">
-                            <span id="crearImagenSinDato" class="text-muted">Selecciona una imagen para previsualizar</span>
+                            <div id="crearImagenesPreview" class="d-flex flex-wrap mb-3"></div>
+                            <span id="crearImagenSinDato" class="text-muted">No hay imágenes seleccionadas.</span>
                         </div>
+                        <input type="hidden" name="imagen_principal_index" id="crearImagenPrincipal" value="">
                     </div>
                 </div>
             </div>

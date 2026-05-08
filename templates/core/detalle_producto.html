@@ -24,14 +24,36 @@
     <div class="product-detail-container">
         <div class="row">
             <div class="col-lg-5 mb-4 mb-lg-0">
-                <div class="product-image-container">
-                    {% if producto.imagen %}
-                        <img src="{{ producto.imagen.url }}" class="img-fluid w-100" alt="{{ producto.nombre }}">
-                    {% elif producto.imagen_url %}
-                        <img src="{{ producto.imagen_url }}" class="img-fluid w-100" alt="{{ producto.nombre }}">
-                    {% else %}
-                        <img src="{% static 'img/imagenes/imagen1.png' %}" class="img-fluid w-100" alt="Sin imagen">
-                    {% endif %}
+                <div class="product-image-container text-center">
+                    {% with imagenes=producto.imagenes_disponibles %}
+                        {% if imagenes %}
+                            {# Imagen principal #}
+                            <img id="main-product-image" src="{{ imagenes.0.url }}" alt="{{ producto.nombre }}" class="d-block mx-auto" style="max-height:420px; object-fit:contain; width:100%;">
+
+                            {# Miniaturas debajo de la imagen principal #}
+                            {% if imagenes|length > 1 %}
+                            <div id="product-thumbs" class="d-flex justify-content-center mt-3 flex-wrap">
+                                {% for imagen in imagenes %}
+                                <div class="mx-1 product-thumb-wrapper" style="width:72px; height:72px; cursor:pointer;">
+                                    <img data-src="{{ imagen.url }}" src="{{ imagen.url }}" class="img-fluid border rounded product-thumb{% if forloop.first %} active-thumb{% endif %}" style="width:72px; height:72px; object-fit:cover;">
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {# Guía paso a paso debajo de las miniaturas #}
+                            <div class="guide-box mt-3">
+                                <div class="guide-title"><i class="fas fa-magic"></i> Paso a paso</div>
+                                <ul class="guide-list">
+                                    <li>Selecciona tu talla y color favorito.</li>
+                                    <li>Ajusta la cantidad que necesites.</li>
+                                    <li>Agrégalo al carrito para seguir comprando.</li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <img id="main-product-image" src="{% static 'img/imagenes/imagen1.png' %}" class="img-fluid w-100" alt="Sin imagen">
+                        {% endif %}
+                    {% endwith %}
                 </div>
             </div>
             <div class="col-lg-7">
@@ -43,7 +65,10 @@
                             </span>
                         {% endif %}
                     </div>
-                    <span class="badge badge-danger px-3 py-2" style="border-radius: 50px; font-weight: 700; background-color: #ef4444;">{{ producto.categoria.nombre }}</span>
+                    <div class="product-meta-badges">
+                        <span class="product-category-badge">{{ producto.categoria.nombre }}</span>
+                        <span class="product-gender-badge">{{ producto.get_sexo_display }}</span>
+                    </div>
                 </div>
                 
                 <h1 class="display-4 font-weight-bold mb-3" style="color: #0f172a; font-size: 3rem; letter-spacing: -0.02em;">{{ producto.nombre }}</h1>
@@ -57,12 +82,8 @@
                     {% endif %}
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="detail-label">Código</div>
-                        <div class="detail-value font-weight-bold">{{ producto.codigo }}</div>
-                    </div>
-                    <div class="col-sm-6">
+                <!-- <div class="row">
+                    <div class="col-12">
                         <div class="detail-label">Disponibilidad</div>
                         <div class="detail-value">
                             {% if producto.stock_unidad > 0 %}
@@ -72,10 +93,13 @@
                             {% endif %}
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="detail-label">Descripción</div>
-                <div class="detail-value text-muted" style="line-height: 1.6;">{{ producto.detalle }}</div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="detail-label">Descripción</div>
+                    <button id="toggle-desc-btn" class="btn btn-sm btn-outline-primary">Mostrar descripción</button>
+                </div>
+                <div id="product-description" class="detail-value text-muted" style="line-height: 1.6; display: none;">{{ producto.detalle }}</div>
 
                 {% if producto.get_tallas_list %}
                     <div class="detail-label">Seleccionar Talla</div>
@@ -95,7 +119,6 @@
                     </div>
                 {% endif %}
 
-                <div class="detail-label">Cantidad</div>
                 <div class="d-flex align-items-center mb-4">
                     <div class="input-group" style="width: 140px; height: 45px;">
                         <div class="input-group-prepend">
@@ -108,18 +131,12 @@
                     </div>
                 </div>
                 
-                <div class="guide-box mb-4">
-                    <div class="guide-title"><i class="fas fa-magic"></i> Paso a paso</div>
-                    <ul class="guide-list">
-                        <li>Selecciona tu talla y color favorito.</li>
-                        <li>Ajusta la cantidad que necesites.</li>
-                        <li>Agrégalo al carrito para seguir comprando.</li>
-                    </ul>
-                </div>
+                
                 <div class="mt-4">
                     <button id="add-to-cart-btn" class="whatsapp-btn-large" style="background: #2563eb; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);">
                         <i class="fas fa-shopping-cart"></i> Agregar al carrito
                     </button>
+                    <div id="product-selection-message" class="product-selection-message" aria-live="polite"></div>
                 </div>
             </div>
         </div>

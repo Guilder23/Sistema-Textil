@@ -68,44 +68,54 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    const btnLogin = document.querySelector('.btn-inicio-login');
-    if (btnLogin) {
-        btnLogin.addEventListener('click', function (e) {
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
+    // (Sin ripple en login: ahora es un botón de icono)
 
-            ripple.style.position = 'absolute';
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.style.borderRadius = '50%';
-            ripple.style.background = 'rgba(255, 255, 255, 0.45)';
-            ripple.style.transform = 'scale(0)';
-            ripple.style.animation = 'ripple-anim 0.6s ease-out';
-            ripple.style.pointerEvents = 'none';
+    // Search toggle (show/hide inline search input)
+    const navSearchBtn = document.getElementById('navSearchBtn');
+    const navSearchForm = document.getElementById('navSearchForm');
+    const navSearchInput = document.getElementById('navSearchInput');
 
-            if (!document.querySelector('style[data-navbar-ripple]')) {
-                const style = document.createElement('style');
-                style.setAttribute('data-navbar-ripple', 'true');
-                style.textContent = `
-                    @keyframes ripple-anim {
-                        to {
-                            transform: scale(4);
-                            opacity: 0;
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
+    function closeNavSearch() {
+        if (navSearchForm && !navSearchForm.classList.contains('d-none')) {
+            navSearchForm.classList.add('d-none');
+        }
+    }
+
+    if (navSearchBtn && navSearchForm) {
+        navSearchBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            navSearchForm.classList.toggle('d-none');
+            if (!navSearchForm.classList.contains('d-none')) {
+                setTimeout(() => navSearchInput && navSearchInput.focus(), 0);
             }
+        });
 
-            this.style.position = 'relative';
-            this.style.overflow = 'hidden';
-            this.appendChild(ripple);
+        // Close when clicking outside (also stop propagation when clicking inside)
+        document.addEventListener('click', function(e) {
+            if (!navSearchForm || navSearchForm.classList.contains('d-none')) return;
+            if (navSearchForm.contains(e.target) || navSearchBtn.contains(e.target)) return;
+            navSearchForm.classList.add('d-none');
+        });
 
-            setTimeout(() => ripple.remove(), 600);
+        // Close on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeNavSearch();
+        });
+    }
+
+    // Filtros (dropdown): al abrir, cerrar el buscador inline si está abierto
+    const navFilterBtn = document.getElementById('navFilterBtn');
+    if (navFilterBtn) {
+        navFilterBtn.addEventListener('click', function () {
+            try { closeNavSearch(); } catch (err) {}
+        });
+    }
+
+    // No cerrar el dropdown al interactuar con el formulario de filtros
+    const filtersDropdown = document.querySelector('.nav-filters-dropdown');
+    if (filtersDropdown) {
+        filtersDropdown.addEventListener('click', function (e) {
+            e.stopPropagation();
         });
     }
 

@@ -31,6 +31,18 @@ function renderCart() {
         `;
     });
 
+    html += `
+        <div class="guide-box mt-4">
+            <div class="guide-title"><i class="fas fa-info-circle"></i> ¿Cómo funciona?</div>
+            <ul class="guide-list">
+                <li>Revisa tus productos y cantidades.</li>
+                <li>Haz clic en "Enviar pedido" para abrir WhatsApp.</li>
+                <li>Tu carrito se vaciará tras enviar el mensaje.</li>
+                <li>Coordinaremos el pago y envío por chat.</li>
+            </ul>
+        </div>
+    `;
+
     const total = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
 
     html += '</div>'; // Fin col-lg-8
@@ -54,16 +66,6 @@ function renderCart() {
                     <i class="fab fa-whatsapp"></i> Enviar pedido
                 </button>
                 <button onclick="clearCart()" class="btn btn-link btn-sm btn-block text-muted mt-2">Vaciar carrito</button>
-                
-                <div class="guide-box">
-                    <div class="guide-title"><i class="fas fa-info-circle"></i> ¿Cómo funciona?</div>
-                    <ul class="guide-list">
-                        <li>Revisa tus productos y cantidades.</li>
-                        <li>Haz clic en "Enviar pedido" para abrir WhatsApp.</li>
-                        <li>Tu carrito se vaciará tras enviar el mensaje.</li>
-                        <li>Coordinaremos el pago y envío por chat.</li>
-                    </ul>
-                </div>
             </div>
         </div>
     `;

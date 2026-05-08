@@ -13,6 +13,7 @@
     border: 1px solid #f1f5f9;
     background: #f8fafc;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 1rem;
@@ -52,13 +53,13 @@
 }
 
 .badge-discount {
-    background: #ef4444;
+    background: linear-gradient(135deg, #f97316, #fb7185);
     color: white;
     padding: 0.4rem 0.8rem;
     border-radius: 50px;
     font-weight: 700;
     font-size: 0.9rem;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.18);
 }
 
 .detail-label {
@@ -82,6 +83,38 @@
     flex-wrap: wrap;
     gap: 0.75rem;
     margin-top: 0.5rem;
+}
+
+.product-meta-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.product-category-badge,
+.product-gender-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+}
+
+.product-category-badge {
+    color: #7c2d12;
+    background: #fff7ed;
+    border-color: #fed7aa;
+}
+
+.product-gender-badge {
+    color: #1e3a8a;
+    background: #eff6ff;
+    border-color: #bfdbfe;
 }
 
 .tag-item {
@@ -134,6 +167,32 @@
     text-decoration: none;
 }
 
+.product-selection-message {
+    display: none;
+    margin-top: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.product-selection-message.is-visible {
+    display: block;
+}
+
+.product-selection-message.is-error {
+    color: #991b1b;
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.product-selection-message.is-success {
+    color: #166534;
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
 .guide-box {
     background: #eff6ff;
     border: 1px solid #dbeafe;
@@ -174,4 +233,21 @@
 .breadcrumb-item + .breadcrumb-item::before {
     content: "/";
     color: #94a3b8;
+}
+
+.product-thumb {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.product-thumb:hover {
+    transform: translateY(-4px);
+}
+.active-thumb {
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.14);
+    border: 2px solid #60a5fa !important;
+}
+
+@media (max-width: 991.98px) {
+    .product-meta-badges {
+        justify-content: flex-start;
+    }
 }

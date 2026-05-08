@@ -4,7 +4,6 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeProductoCards();
-    initializeFilterAnimations();
     initializePaginationAnimations();
 });
 
@@ -28,51 +27,7 @@ function initializeProductoCards() {
    ================================================ */
 
 function initializeFilterAnimations() {
-    const filterForm = document.getElementById('formFiltrosInicio');
-    const filterInputs = filterForm ? filterForm.querySelectorAll('input, select') : [];
-    
-    if (!filterForm) return;
-
-    let submitTimer = null;
-    const scheduleSubmit = (delay = 250) => {
-        if (submitTimer) window.clearTimeout(submitTimer);
-        submitTimer = window.setTimeout(() => {
-            // Agregar hash para mantener el scroll en catálogo
-            const form = filterForm;
-            if (form) {
-                const action = form.getAttribute('action') || window.location.pathname;
-                const params = new URLSearchParams(new FormData(form)).toString();
-                window.location.href = action + '?' + params + '#catalogo';
-            }
-        }, delay);
-    };
-
-    filterInputs.forEach(input => {
-        // Efecto focus con sombra
-        input.addEventListener('focus', function() {
-            this.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.3)';
-        });
-
-        input.addEventListener('blur', function() {
-            this.style.boxShadow = '';
-        });
-
-        const tag = (input.tagName || '').toLowerCase();
-        if (tag === 'select') {
-            input.addEventListener('change', function() {
-                scheduleSubmit(0);
-            });
-            return;
-        }
-
-        input.addEventListener('input', function() {
-            scheduleSubmit(300);
-        });
-
-        input.addEventListener('change', function() {
-            scheduleSubmit(0);
-        });
-    });
+    // Filtros embebidos eliminados: ahora se usan desde el modal en el navbar.
 }
 
 /* ================================================
