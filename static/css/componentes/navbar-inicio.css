@@ -13,7 +13,7 @@
 
 .navbar-inicio {
     background: #ffffff;
-    padding: 0.5rem 0;
+    padding: 0.42rem 0;
     position: sticky;
     top: 0;
     z-index: 1050;
@@ -30,6 +30,43 @@
     padding: 0 2.5rem;
     max-width: 1400px;
     margin: 0 auto;
+}
+
+/* Botones de icono del navbar (cuadrados y consistentes) */
+.navbar-inicio .nav-icon-btn,
+.navbar-inicio .nav-link.position-relative.nav-icon-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0 !important;
+    line-height: 1 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #475569;
+    text-decoration: none;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.navbar-inicio .nav-icon-btn i {
+    font-size: 1rem;
+}
+
+.navbar-inicio .nav-icon-btn:hover,
+.navbar-inicio .nav-link.position-relative.nav-icon-btn:hover {
+    background: rgba(148, 163, 184, 0.18);
+    transform: translateY(-1px);
+}
+
+.navbar-inicio .nav-icon-btn:focus,
+.navbar-inicio .nav-link.position-relative.nav-icon-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.22);
+}
+
+.navbar-inicio .nav-login-btn i {
+    color: #2563eb;
 }
 
 /* Buscador del navbar (en flujo: empuja links/acciones) */
@@ -92,14 +129,6 @@
 /* Make navbar actions more compact on large screens */
 @media (min-width: 992px) {
     .navbar-inicio .d-flex.align-items-center.position-relative { gap: 0.6rem; }
-}
-
-/* Forzar que la modal y su backdrop queden por encima del navbar y del buscador inline */
-.modal {
-    z-index: 1080 !important;
-}
-.modal-backdrop {
-    z-index: 1075 !important;
 }
 
 .navbar-brand-inicio {
@@ -165,43 +194,24 @@
     list-style: none;
 }
 
-.navbar-links-inicio .nav-link {
+.navbar-inicio .navbar-links-inicio .nav-link {
     color: #475569;
     text-decoration: none;
     font-weight: 500;
     font-size: 0.78rem;
-    padding: 0.22rem 0.55rem;
-    transition: color 0.2s ease;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.75rem;
+    line-height: 1;
+    border-radius: 999px;
+    transition: color 0.2s ease, background 0.2s ease;
     white-space: nowrap;
 }
 
 .navbar-links-inicio .nav-link:hover {
     color: #2563eb;
-    background: transparent;
-}
-
-.btn-inicio-login {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.22rem 0.65rem;
-    background: #2563eb;
-    color: #ffffff;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 0.78rem;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    white-space: nowrap;
-}
-
-.btn-inicio-login:hover {
-    background: #1d4ed8;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    color: #ffffff;
-    text-decoration: none;
+    background: rgba(148, 163, 184, 0.18);
 }
 
 .navbar-toggler-inicio {
@@ -328,15 +338,8 @@
         color: #1d4ed8;
     }
 
-    .btn-inicio-login {
-        width: 100%;
-        justify-content: center;
+    .navbar-inicio .nav-login-btn {
         margin-top: auto;
-        padding: 1rem 1rem;
-        border-radius: 18px;
-        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-        color: #0f172a;
-        font-size: 0.95rem;
     }
 
     .navbar-toggler-inicio {
@@ -350,7 +353,5 @@
         font-size: 1rem;
     }
 
-    .btn-inicio-login span {
-        display: inline;
-    }
+    /* login es solo icono */
 }

@@ -30,13 +30,13 @@
             <div class="d-flex align-items-center position-relative">
 
                 <!-- Search toggle -->
-                <button id="navSearchBtn" class="btn btn-link p-2 me-2" aria-label="Buscar" type="button">
+                <button id="navSearchBtn" class="btn nav-icon-btn" aria-label="Buscar" title="Buscar" type="button">
                     <i class="fas fa-search"></i>
                 </button>
 
                 <!-- Filters: dropdown (Bootstrap 4) -->
                 <div class="dropdown me-3">
-                    <button id="navFilterBtn" class="btn btn-outline-secondary p-2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Filtros">
+                    <button id="navFilterBtn" class="btn nav-icon-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Filtros" title="Filtros">
                         <i class="fas fa-filter"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right nav-filters-dropdown" aria-labelledby="navFilterBtn">
@@ -89,13 +89,13 @@
                     </div>
                 </div>
                 
-                <a href="{% url 'core:ver_carrito' %}" class="nav-link position-relative me-2" title="Ver Carrito">
+                <a href="{% url 'core:ver_carrito' %}" class="nav-link position-relative nav-icon-btn me-2" title="Ver Carrito" aria-label="Carrito">
                     <i class="fas fa-shopping-cart" style="font-size: 1.1rem; color: #475569;"></i>
                     <span id="cart-counter" class="position-absolute badge bg-danger rounded-pill" style="top:-6px; right:-6px; font-size:0.65rem; display:none; width:18px; height:18px;">0</span>
                 </a>
                 
-                <a href="{% url 'core:login' %}" class="btn-inicio-login btn btn-warning">
-                    <i class="fas fa-sign-in-alt me-1"></i> Iniciar sesión
+                <a href="{% url 'core:login' %}" class="btn nav-icon-btn nav-login-btn" aria-label="Iniciar sesión" title="Iniciar sesión">
+                    <i class="fas fa-sign-in-alt"></i>
                 </a>
             </div>
         </div>

@@ -68,46 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    const btnLogin = document.querySelector('.btn-inicio-login');
-    if (btnLogin) {
-        btnLogin.addEventListener('click', function (e) {
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-
-            ripple.style.position = 'absolute';
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.style.borderRadius = '50%';
-            ripple.style.background = 'rgba(255, 255, 255, 0.45)';
-            ripple.style.transform = 'scale(0)';
-            ripple.style.animation = 'ripple-anim 0.6s ease-out';
-            ripple.style.pointerEvents = 'none';
-
-            if (!document.querySelector('style[data-navbar-ripple]')) {
-                const style = document.createElement('style');
-                style.setAttribute('data-navbar-ripple', 'true');
-                style.textContent = `
-                    @keyframes ripple-anim {
-                        to {
-                            transform: scale(4);
-                            opacity: 0;
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-
-            this.style.position = 'relative';
-            this.style.overflow = 'hidden';
-            this.appendChild(ripple);
-
-            setTimeout(() => ripple.remove(), 600);
-        });
-    }
+    // (Sin ripple en login: ahora es un botón de icono)
 
     // Search toggle (show/hide inline search input)
     const navSearchBtn = document.getElementById('navSearchBtn');
@@ -147,6 +108,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (navFilterBtn) {
         navFilterBtn.addEventListener('click', function () {
             try { closeNavSearch(); } catch (err) {}
+        });
+    }
+
+    // No cerrar el dropdown al interactuar con el formulario de filtros
+    const filtersDropdown = document.querySelector('.nav-filters-dropdown');
+    if (filtersDropdown) {
+        filtersDropdown.addEventListener('click', function (e) {
+            e.stopPropagation();
         });
     }
 
