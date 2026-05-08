@@ -84,7 +84,6 @@
                 <thead>
                     <tr>
                         <th>Imagen</th>
-                        <th>Codigo</th>
                         <th>Nombre</th>
                         <th>Sexo</th>
                         <th>Detalle</th>
@@ -93,7 +92,6 @@
                         <th>Unid/Caja</th>
                         {% comment %} <th>Stock Caja</th> {% endcomment %}
                         <th>Precio Unidad (Bs)</th>
-                        <th>Precio Caja (Bs)</th>
                         <th>Publicado</th>
                         <th>Estado</th>
                         <th class="text-center acciones-col-head">Acciones</th>
@@ -111,7 +109,6 @@
                             <div class="producto-thumb placeholder"><i class="fas fa-image"></i></div>
                             {% endif %}
                         </td>
-                        <td><span class="codigo-badge">{{ producto.codigo }}</span></td>
                         <td><span class="producto-nombre">{{ producto.nombre }}</span></td>
                         <td>{{ producto.get_sexo_display }}</td>
                         <td><span class="producto-detalle">{{ producto.detalle }}</span></td>
@@ -120,7 +117,6 @@
                         <td>{{ producto.unidades_por_caja }}</td>
                         {% comment %} <td><span class="badge-stock">{{ producto.stock_caja }} cajas</span></td> {% endcomment %}
                         <td>Bs. {{ producto.precio_usd|floatformat:2 }}</td>
-                        <td>Bs. {{ producto.precio_caja_bs|floatformat:2 }}</td>
                         <td>
                             <span class="badge-estado {% if producto.publicado %}badge-estado-activo{% else %}badge-estado-inactivo{% endif %}">
                                 {% if producto.publicado %}PUBLICADO{% else %}NO PUBLICADO{% endif %}
@@ -194,7 +190,7 @@
                         </td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="13" class="text-center py-3 text-muted">No hay productos registrados.</td></tr>
+                    <tr><td colspan="11" class="text-center py-3 text-muted">No hay productos registrados.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
