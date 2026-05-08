@@ -62,6 +62,49 @@
     </div>
 </section>
 
+<script>
+// Debug script para verificar botones
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        console.log('=== CAROUSEL BUTTON DEBUG ===');
+        const prevBtn = document.getElementById('carouselPrev');
+        const nextBtn = document.getElementById('carouselNext');
+        
+        if (prevBtn) {
+            const rect = prevBtn.getBoundingClientRect();
+            console.log('PrevBtn styles:', {
+                pointerEvents: window.getComputedStyle(prevBtn).pointerEvents,
+                display: window.getComputedStyle(prevBtn).display,
+                visibility: window.getComputedStyle(prevBtn).visibility,
+                opacity: window.getComputedStyle(prevBtn).opacity,
+                position: window.getComputedStyle(prevBtn).position,
+                zIndex: window.getComputedStyle(prevBtn).zIndex,
+                width: rect.width,
+                height: rect.height,
+                top: rect.top,
+                left: rect.left
+            });
+        }
+        
+        if (nextBtn) {
+            const rect = nextBtn.getBoundingClientRect();
+            console.log('NextBtn styles:', {
+                pointerEvents: window.getComputedStyle(nextBtn).pointerEvents,
+                display: window.getComputedStyle(nextBtn).display,
+                visibility: window.getComputedStyle(nextBtn).visibility,
+                opacity: window.getComputedStyle(nextBtn).opacity,
+                position: window.getComputedStyle(nextBtn).position,
+                zIndex: window.getComputedStyle(nextBtn).zIndex,
+                width: rect.width,
+                height: rect.height,
+                top: rect.top,
+                right: rect.right
+            });
+        }
+    }, 500);
+});
+</script>
+
 <div class="container-fluid py-3 inicio-page-wrap">
     <!-- Buscador y filtros (debajo de la portada) -->
     <form method="get" id="formFiltrosInicio" class="modern-filtros mb-4">
