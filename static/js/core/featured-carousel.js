@@ -28,6 +28,25 @@ document.addEventListener('DOMContentLoaded', function() {
         return Array.from(track.querySelectorAll('.featured-carousel-item'));
     }
 
+    function getVisibleCount() {
+        const viewportWidth = window.innerWidth;
+        const totalItems = getItems().length;
+
+        if (viewportWidth <= 576) {
+            return Math.min(totalItems, 2);
+        }
+
+        if (viewportWidth <= 768) {
+            return Math.min(totalItems, 3);
+        }
+
+        if (viewportWidth <= 1200) {
+            return Math.min(totalItems, 4);
+        }
+
+        return totalItems;
+    }
+
     function calculateItemWidth() {
         const wrapper = track.parentElement;
         const styles = window.getComputedStyle(wrapper);
@@ -35,16 +54,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const paddingRight = parseFloat(styles.paddingRight) || 0;
         const wrapperWidth = wrapper.getBoundingClientRect().width;
         const innerWidth = wrapperWidth - paddingLeft - paddingRight;
-        const totalItems = getItems().length;
+        const visibleCount = getVisibleCount();
 
-        if (!totalItems) {
+        if (!visibleCount) {
             return 0;
         }
 
-        const totalGapWidth = Math.max(totalItems - 1, 0) * gapPx;
+        const totalGapWidth = Math.max(visibleCount - 1, 0) * gapPx;
         const availableWidth = innerWidth - totalGapWidth;
 
-        return Math.max(availableWidth / totalItems, 0);
+        return Math.max(availableWidth / visibleCount, 0);
     }
 
     function setItemWidths() {
