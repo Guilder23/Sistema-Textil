@@ -1,25 +1,19 @@
 {% load static %}
 
 {% if not user.is_authenticated %}
-<nav class="navbar-inicio navbar-expand-lg">
+<nav class="navbar-inicio navbar navbar-expand-lg">
     <div class="container-fluid navbar-inicio-container">
-        <a class="navbar-brand-inicio" href="{% url 'core:inicio' %}">
-            <div class="navbar-logo-wrapper">
-                <img src="{% static 'img/logoAlmacen.png' %}" alt="Logo Almacen" style="height:32px;max-width:140px;object-fit:contain;vertical-align:middle;">
-                <span class="navbar-brand-text" style="font-size:1.05rem;vertical-align:middle;"><span class="brand-primary">American</span> <span class="brand-secondary">Outlet</span></span>
-            </div>
+        <a class="navbar-brand-inicio d-flex align-items-center" href="{% url 'core:inicio' %}">
+            <img src="{% static 'img/logoAlmacen.png' %}" alt="Logo" style="height:32px;max-width:140px;object-fit:contain;">
+            <span class="navbar-brand-text ms-2"><span class="brand-primary">American</span> <span class="brand-secondary">Outlet</span></span>
         </a>
+
         <button class="navbar-toggler-inicio" type="button" aria-controls="navbarInicio" aria-expanded="false" aria-label="Menú">
             <i class="fas fa-bars"></i>
         </button>
-        <div class="navbar-collapse-inicio" id="navbarInicio">
-            <div class="navbar-collapse-header-inicio d-lg-none">
-                <span class="navbar-brand-text"><span class="brand-primary">American</span> <span class="brand-secondary">Outlet</span></span>
-                <button class="navbar-close-inicio" type="button" aria-label="Cerrar">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <ul class="navbar-nav navbar-links-inicio">
+
+        <div class="navbar-collapse-inicio collapse" id="navbarInicio">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-links-inicio">
                 <li class="nav-item"><a class="nav-link" href="{% url 'core:inicio' %}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="#catalogo">Catálogo</a></li>
                 <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
@@ -27,18 +21,87 @@
                 <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
             </ul>
-            <div class="d-flex align-items-center ml-lg-auto">
-                <a href="{% url 'core:ver_carrito' %}" class="nav-link position-relative mr-3" title="Ver Carrito">
+
+            <!-- Search input (in-flow: pushes links/actions on desktop) -->
+            <form id="navSearchForm" method="get" action="{% url 'core:inicio' %}" class="d-none nav-search-form">
+                <input id="navSearchInput" name="q" type="search" class="form-control form-control-sm" placeholder="Buscar producto..." value="{{ q }}">
+            </form>
+
+            <div class="d-flex align-items-center position-relative">
+
+                <!-- Search toggle -->
+                <button id="navSearchBtn" class="btn btn-link p-2 me-2" aria-label="Buscar" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+
+                <!-- Filters: dropdown (Bootstrap 4) -->
+                <div class="dropdown me-3">
+                    <button id="navFilterBtn" class="btn btn-outline-secondary p-2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Filtros">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right nav-filters-dropdown" aria-labelledby="navFilterBtn">
+                        <form method="get" id="formFiltrosNavDropdown" action="{% url 'core:inicio' %}" class="px-3 py-2">
+                            <input type="hidden" name="q" value="{{ q }}">
+
+                            <div class="form-group mb-2">
+                                <label class="mb-1" for="filtroCategoriaNav">Categoría</label>
+                                <select class="form-control form-control-sm" name="categoria" id="filtroCategoriaNav">
+                                    <option value="">Todas</option>
+                                    {% for c in categorias %}
+                                    <option value="{{ c.id }}" {% if categoria_id == c.id|stringformat:'s' %}selected{% endif %}>{{ c.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-6 mb-2">
+                                    <label class="mb-1" for="filtroPrecioMinNav">Precio mín.</label>
+                                    <input type="text" class="form-control form-control-sm" id="filtroPrecioMinNav" name="precio_min" value="{{ precio_min }}" inputmode="decimal" placeholder="0">
+                                </div>
+                                <div class="form-group col-6 mb-2">
+                                    <label class="mb-1" for="filtroPrecioMaxNav">Precio máx.</label>
+                                    <input type="text" class="form-control form-control-sm" id="filtroPrecioMaxNav" name="precio_max" value="{{ precio_max }}" inputmode="decimal" placeholder="—">
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <label class="mb-1" for="filtroSexoNav">Sexo</label>
+                                <select class="form-control form-control-sm" name="sexo" id="filtroSexoNav">
+                                    <option value="" {% if not sexo %}selected{% endif %}>Todos</option>
+                                    <option value="UNISEX" {% if sexo == 'UNISEX' %}selected{% endif %}>Unisex</option>
+                                    <option value="MUJER" {% if sexo == 'MUJER' %}selected{% endif %}>Mujer</option>
+                                    <option value="HOMBRE" {% if sexo == 'HOMBRE' %}selected{% endif %}>Hombre</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="filtroOfertaNav" name="oferta" value="1" {% if oferta == '1' %}checked{% endif %}>
+                                    <label class="custom-control-label" for="filtroOfertaNav">Solo ofertas</label>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <a class="btn btn-sm btn-outline-secondary" href="{% url 'core:inicio' %}">Limpiar</a>
+                                <button type="submit" class="btn btn-sm btn-primary">Aplicar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <a href="{% url 'core:ver_carrito' %}" class="nav-link position-relative me-2" title="Ver Carrito">
                     <i class="fas fa-shopping-cart" style="font-size: 1.1rem; color: #475569;"></i>
-                    <span id="cart-counter" class="position-absolute badge badge-pill badge-danger" 
-                          style="top: -5px; right: -5px; font-size: 0.65rem; display: none; width: 18px; height: 18px; align-items: center; justify-content: center;">0</span>
+                    <span id="cart-counter" class="position-absolute badge bg-danger rounded-pill" style="top:-6px; right:-6px; font-size:0.65rem; display:none; width:18px; height:18px;">0</span>
                 </a>
-                <a href="{% url 'core:login' %}" class="btn-inicio-login">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Iniciar sesión</span>
+                
+                <a href="{% url 'core:login' %}" class="btn-inicio-login btn btn-warning">
+                    <i class="fas fa-sign-in-alt me-1"></i> Iniciar sesión
                 </a>
             </div>
         </div>
     </div>
+
+    <!-- Filtros como desplegable del navbar -->
+
 </nav>
 {% endif %}

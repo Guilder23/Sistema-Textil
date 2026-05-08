@@ -109,6 +109,47 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Search toggle (show/hide inline search input)
+    const navSearchBtn = document.getElementById('navSearchBtn');
+    const navSearchForm = document.getElementById('navSearchForm');
+    const navSearchInput = document.getElementById('navSearchInput');
+
+    function closeNavSearch() {
+        if (navSearchForm && !navSearchForm.classList.contains('d-none')) {
+            navSearchForm.classList.add('d-none');
+        }
+    }
+
+    if (navSearchBtn && navSearchForm) {
+        navSearchBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            navSearchForm.classList.toggle('d-none');
+            if (!navSearchForm.classList.contains('d-none')) {
+                setTimeout(() => navSearchInput && navSearchInput.focus(), 0);
+            }
+        });
+
+        // Close when clicking outside (also stop propagation when clicking inside)
+        document.addEventListener('click', function(e) {
+            if (!navSearchForm || navSearchForm.classList.contains('d-none')) return;
+            if (navSearchForm.contains(e.target) || navSearchBtn.contains(e.target)) return;
+            navSearchForm.classList.add('d-none');
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeNavSearch();
+        });
+    }
+
+    // Filtros (dropdown): al abrir, cerrar el buscador inline si está abierto
+    const navFilterBtn = document.getElementById('navFilterBtn');
+    if (navFilterBtn) {
+        navFilterBtn.addEventListener('click', function () {
+            try { closeNavSearch(); } catch (err) {}
+        });
+    }
+
     window.addEventListener('scroll', function () {
         const navbar = document.querySelector('.navbar-inicio');
         if (navbar) {

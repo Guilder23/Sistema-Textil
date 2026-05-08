@@ -106,62 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <div class="container-fluid py-3 inicio-page-wrap">
-    <!-- Buscador y filtros (debajo de la portada) -->
-    <form method="get" id="formFiltrosInicio" class="modern-filtros mb-4">
-        <div class="filtros-titulo mb-2">
-            <i class="fas fa-filter"></i> Buscar y filtrar catálogo
-        </div>
-        <div class="filtros-inline">
-            <div class="filtro-item filtro-item-busqueda">
-                <label class="filtro-label" for="buscarInicio">Búsqueda</label>
-                <div class="input-group input-group-filtro">
-                    <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    <input type="text" class="form-control" id="buscarInicio" name="q" value="{{ q }}" placeholder="Producto, código o categoría...">
-                </div>
-            </div>
-
-            <div class="filtro-item filtro-item-categoria">
-                <label class="filtro-label" for="categoriaInicio">Categoría</label>
-                <div class="input-group input-group-filtro">
-                    <span class="input-group-text"><i class="fas fa-list"></i></span>
-                    <select class="select-modern" id="categoriaInicio" name="categoria">
-                        <option value="">Todas las categorías</option>
-                        {% for c in categorias %}
-                        <option value="{{ c.id }}" {% if categoria_id == c.id|stringformat:'s' %}selected{% endif %}>{{ c.nombre }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-
-            <div class="filtro-item filtro-item-precio">
-                <label class="filtro-label" for="precioMin">Precio mín. (Bs)</label>
-                <div class="input-group input-group-filtro">
-                    <span class="input-group-text"><i class="fas fa-tag"></i></span>
-                    <input type="text" class="form-control" id="precioMin" name="precio_min" value="{{ precio_min }}" inputmode="decimal" placeholder="0" autocomplete="off">
-                </div>
-            </div>
-
-            <div class="filtro-item filtro-item-precio">
-                <label class="filtro-label" for="precioMax">Precio máx. (Bs)</label>
-                <div class="input-group input-group-filtro">
-                    <span class="input-group-text"><i class="fas fa-tags"></i></span>
-                    <input type="text" class="form-control" id="precioMax" name="precio_max" value="{{ precio_max }}" inputmode="decimal" placeholder="—" autocomplete="off">
-                </div>
-            </div>
-
-            <div class="filtro-item filtro-item-orden">
-                <label class="filtro-label" for="ordenInicio">Orden</label>
-                <div class="input-group input-group-filtro">
-                    <span class="input-group-text"><i class="fas fa-sort"></i></span>
-                    <select class="select-modern select-orden" id="ordenInicio" name="orden">
-                        <option value="" {% if not orden %}selected{% endif %}>Recientes</option>
-                        <option value="precio_asc" {% if orden == 'precio_asc' %}selected{% endif %}>Precio ↑</option>
-                        <option value="precio_desc" {% if orden == 'precio_desc' %}selected{% endif %}>Precio ↓</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </form>
+    <!-- Buscador y filtros ahora accesibles desde el navbar (modal) -->
 
     <!-- CATÁLOGO DE PRODUCTOS -->
     <section id="catalogo" class="inicio-section">
@@ -214,11 +159,11 @@ document.addEventListener('DOMContentLoaded', function() {
         <nav class="mt-2">
             <ul class="pagination pagination-sm mb-0">
                 {% if productos_publicados.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.previous_page_number }}&q={{ q|urlencode }}&categoria={{ categoria_id }}&precio_min={{ precio_min|urlencode }}&precio_max={{ precio_max|urlencode }}&orden={{ orden|urlencode }}">Anterior</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.previous_page_number }}&q={{ q|urlencode }}&categoria={{ categoria_id }}&precio_min={{ precio_min|urlencode }}&precio_max={{ precio_max|urlencode }}&oferta={{ oferta|urlencode }}&sexo={{ sexo|urlencode }}">Anterior</a></li>
                 {% endif %}
                 <li class="page-item active"><span class="page-link">{{ productos_publicados.number }}</span></li>
                 {% if productos_publicados.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.next_page_number }}&q={{ q|urlencode }}&categoria={{ categoria_id }}&precio_min={{ precio_min|urlencode }}&precio_max={{ precio_max|urlencode }}&orden={{ orden|urlencode }}">Siguiente</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ productos_publicados.next_page_number }}&q={{ q|urlencode }}&categoria={{ categoria_id }}&precio_min={{ precio_min|urlencode }}&precio_max={{ precio_max|urlencode }}&oferta={{ oferta|urlencode }}&sexo={{ sexo|urlencode }}">Siguiente</a></li>
                 {% endif %}
             </ul>
         </nav>

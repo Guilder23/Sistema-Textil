@@ -136,6 +136,8 @@
     color: var(--text-light);
 }
 
+
+
 /* ================================================
    PRODUCTO CARDS CON ANIMACIONES
    ================================================ */
@@ -200,18 +202,22 @@
 }
 
 /* Badge de oferta en el catálogo */
+.producto-card > .position-relative { position: relative; }
+
 .badge-oferta-inicio {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: #ef4444;
-    color: white;
-    padding: 4px 10px;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 0.75rem;
-    z-index: 2;
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  left: auto;
+  background: #ef4444;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.78rem;
+  z-index: 6;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+  text-transform: uppercase;
 }
 
 .producto-card-img.placeholder {
@@ -846,94 +852,7 @@
   margin-bottom: 0;
 }
 
-/* === FILTROS MODERNOS === */
-.modern-filtros {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
-  padding: 0.85rem 0.9rem 0.85rem;
-  margin-bottom: 2rem;
-}
-
-.filtros-titulo {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #1e3a8a;
-}
-
-.filtros-inline {
-  display: flex;
-  align-items: flex-end;
-  flex-wrap: nowrap;
-  gap: 0.75rem;
-}
-
-.filtro-item {
-  min-width: 160px;
-}
-
-.filtro-item-busqueda {
-  flex: 1 1 360px;
-  min-width: 280px;
-}
-
-.filtro-item-categoria {
-  flex: 0 0 260px;
-}
-
-.filtro-item-precio {
-  flex: 0 0 170px;
-  min-width: 150px;
-}
-
-.filtro-item-orden {
-  flex: 0 0 170px;
-  min-width: 150px;
-}
-
-.input-group-filtro {
-  width: 100%;
-  display: flex;
-  flex-wrap: nowrap;
-}
-
-.input-group-filtro .input-group-text {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  padding: 0;
-  background: #f1f5f9;
-  border: 1px solid #e5e7eb;
-  color: #64748b;
-  border-radius: 10px 0 0 10px;
-  line-height: 1;
-}
-
-.input-group-filtro .form-control,
-.input-group-filtro .select-modern {
-  height: 40px;
-  border-radius: 0 10px 10px 0;
-}
-
-.input-group-filtro .form-control {
-  border-left: none;
-}
-
-.input-group-filtro .form-control {
-  font-size: 0.95rem;
-}
-
-.input-group-filtro .select-modern {
-  font-size: 0.95rem;
-  background: #fff;
-  border-left: none;
-}
-
-.filtro-label {
-  white-space: nowrap;
-}
+/* Filtros embebidos eliminados (migrados al modal del navbar) */
 
 /* === MÉTRICAS === */
 .inicio-metricas {
@@ -1142,30 +1061,7 @@
   color: #1e3a8a;
 }
 
-.modern-filtros .input-group-text {
-  background: #f1f5f9;
-  color: #64748b;
-  font-size: 1.05rem;
-}
-
-.modern-filtros .form-control:focus,
-.modern-filtros .select-modern:focus {
-  border-color: #1e3a8a;
-  box-shadow: 0 0 0 2px #1e3a8a22;
-}
-
-.modern-filtros .select-modern {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 0.45rem 1.1rem 0.45rem 0.75rem;
-  font-size: 0.95rem;
-  color: #1e293b;
-  width: 100%;
-  appearance: none;
-  outline: none;
-  transition: border 0.2s;
-}
+/* Reglas relacionadas con el antiguo formulario de filtros eliminadas. */
 
 /* ================================================
    PORTADA CON CARRUSEL
