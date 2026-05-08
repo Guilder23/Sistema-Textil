@@ -91,7 +91,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    window.location.href = '/productos/';\n                } else {
+                    window.location.href = '/productos/';}
+                else {
                     alert('Error: ' + data.message);
                 }
             })

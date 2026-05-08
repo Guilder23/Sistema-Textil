@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 id: window.location.pathname.split('/').filter(Boolean).pop(),
                 nombre: document.querySelector('h1').textContent.trim(),
                 precio: parseFloat(document.querySelector('.price-offer, .price-regular').textContent.replace('Bs', '').trim()),
-                imagen: document.querySelector('.product-image-container img').src,
+                imagen: document.getElementById('main-product-image') ? document.getElementById('main-product-image').src : document.querySelector('.product-image-container img').src,
                 talla: selectedTalla || 'N/A',
                 color: selectedColor || 'N/A',
                 cantidad: parseInt(inputQuantity.value)
@@ -76,6 +76,38 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.innerHTML = originalText;
                     this.style.background = '#2563eb';
                 }, 2000);
+            }
+        });
+    }
+
+    // Miniaturas: cambiar imagen principal al hacer click
+    const thumbs = document.querySelectorAll('.product-thumb');
+    const mainImage = document.getElementById('main-product-image');
+    if (thumbs.length && mainImage) {
+        thumbs.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                const src = this.dataset.src || this.getAttribute('src');
+                if (src) mainImage.src = src;
+
+                // marcar miniatura activa
+                thumbs.forEach(t => t.classList.remove('active-thumb'));
+                this.classList.add('active-thumb');
+            });
+        });
+    }
+
+    // Toggle descripción
+    const toggleDescBtn = document.getElementById('toggle-desc-btn');
+    const descDiv = document.getElementById('product-description');
+    if (toggleDescBtn && descDiv) {
+        toggleDescBtn.addEventListener('click', function() {
+            const isHidden = window.getComputedStyle(descDiv).display === 'none';
+            if (isHidden) {
+                descDiv.style.display = 'block';
+                this.textContent = 'Ocultar descripción';
+            } else {
+                descDiv.style.display = 'none';
+                this.textContent = 'Mostrar descripción';
             }
         });
     }
