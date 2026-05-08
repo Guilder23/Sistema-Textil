@@ -28,8 +28,21 @@
     justify-content: space-between;
     gap: 1.5rem;
     padding: 0 2.5rem;
+    width: 100%;
+    box-sizing: border-box;
     max-width: 1400px;
     margin: 0 auto;
+}
+
+.navbar-mobile-title {
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 0.98rem;
+    letter-spacing: 0.01em;
+}
+
+.nav-action-text {
+    display: none;
 }
 
 /* Botones de icono del navbar (cuadrados y consistentes) */
@@ -37,6 +50,7 @@
 .navbar-inicio .nav-link.position-relative.nav-icon-btn {
     width: 36px;
     height: 36px;
+    margin: 0;
     padding: 0 !important;
     line-height: 1 !important;
     display: inline-flex;
@@ -125,12 +139,6 @@
         max-width: 360px;
     }
 }
-
-/* Make navbar actions more compact on large screens */
-@media (min-width: 992px) {
-    .navbar-inicio .d-flex.align-items-center.position-relative { gap: 0.6rem; }
-}
-
 .navbar-brand-inicio {
     text-decoration: none;
     display: flex;
@@ -260,9 +268,16 @@
 }
 
 @media (max-width: 991px) {
+    /* Padding en el padre para que nunca se “corte” por overrides de container */
+    .navbar-inicio {
+        padding-left: calc(1.25rem + env(safe-area-inset-left)) !important;
+        padding-right: calc(1.25rem + env(safe-area-inset-right)) !important;
+    }
+
     .navbar-inicio-container {
         flex-wrap: nowrap;
-        padding: 0 2rem;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 
     .navbar-collapse-inicio {
@@ -323,11 +338,13 @@
     .navbar-close-inicio:hover {
         background: #e5e7eb;
     }
-}
 
+    /* Links a ancho completo */
     .navbar-links-inicio .nav-link {
-        padding: 1rem 1rem;
-        border-radius: 18px;
+        width: 100%;
+        justify-content: flex-start;
+        padding: 0.85rem 1rem;
+        border-radius: 14px;
         background: #f8fafc;
         color: #0f172a;
         transition: background 0.2s ease, color 0.2s ease;
@@ -338,17 +355,88 @@
         color: #1d4ed8;
     }
 
-    .navbar-inicio .nav-login-btn {
+    /* Acciones en columna */
+    .navbar-actions-inicio {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.6rem;
+        padding-top: 0.9rem;
+    }
+
+    .navbar-inicio .navbar-actions-inicio .nav-icon-btn,
+    .navbar-inicio .navbar-actions-inicio .nav-link.position-relative.nav-icon-btn {
+        width: 100%;
+        height: 44px;
+        justify-content: flex-start;
+        padding: 0 0.9rem !important;
+        border-radius: 14px;
+        background: #f8fafc;
+    }
+
+    .navbar-inicio .navbar-actions-inicio .nav-icon-btn:hover,
+    .navbar-inicio .navbar-actions-inicio .nav-link.position-relative.nav-icon-btn:hover {
+        background: #e2e8f0;
+        transform: none;
+    }
+
+    .nav-action-text {
+        display: inline;
+        margin-left: 0.65rem;
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: #0f172a;
+    }
+
+    /* Dropdown de filtros: dentro del panel, sin overflow */
+    .navbar-actions-inicio .dropdown {
+        width: 100%;
+    }
+
+    .navbar-actions-inicio .dropdown-menu.nav-filters-dropdown {
+        position: static !important;
+        float: none;
+        width: 100%;
+        max-width: none;
+        margin-top: 0.4rem;
+        box-shadow: none;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 14px;
+    }
+
+    /* Login al fondo */
+    .navbar-inicio .navbar-actions-inicio .nav-icon-btn.nav-login-btn {
         margin-top: auto;
+        background: #2563eb;
+    }
+
+    .navbar-inicio .navbar-actions-inicio .nav-icon-btn.nav-login-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .navbar-inicio .navbar-actions-inicio .nav-icon-btn.nav-login-btn i,
+    .navbar-inicio .navbar-actions-inicio .nav-icon-btn.nav-login-btn .nav-action-text {
+        color: #ffffff;
     }
 
     .navbar-toggler-inicio {
         position: relative;
         z-index: 1060;
     }
+}
 
 
 @media (max-width: 576px) {
+    .navbar-inicio-container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .navbar-inicio {
+        padding-left: calc(1.6rem + env(safe-area-inset-left)) !important;
+        padding-right: calc(1.6rem + env(safe-area-inset-right)) !important;
+    }
+
     .navbar-brand-text {
         font-size: 1rem;
     }

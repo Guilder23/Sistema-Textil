@@ -13,6 +13,16 @@
         </button>
 
         <div class="navbar-collapse-inicio collapse" id="navbarInicio">
+            <div class="navbar-collapse-header-inicio d-lg-none">
+                <div class="d-flex align-items-center">
+                    <img src="{% static 'img/logoAlmacen.png' %}" alt="Logo" style="height:26px;max-width:120px;object-fit:contain;">
+                    <span class="navbar-mobile-title ms-2">American Outlet</span>
+                </div>
+                <button class="navbar-close-inicio" type="button" aria-label="Cerrar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-links-inicio">
                 <li class="nav-item"><a class="nav-link" href="{% url 'core:inicio' %}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="#catalogo">Catálogo</a></li>
@@ -27,17 +37,19 @@
                 <input id="navSearchInput" name="q" type="search" class="form-control form-control-sm" placeholder="Buscar producto..." value="{{ q }}">
             </form>
 
-            <div class="d-flex align-items-center position-relative">
+            <div class="navbar-actions-inicio d-flex align-items-center position-relative">
 
                 <!-- Search toggle -->
                 <button id="navSearchBtn" class="btn nav-icon-btn" aria-label="Buscar" title="Buscar" type="button">
                     <i class="fas fa-search"></i>
+                    <span class="nav-action-text">Buscar</span>
                 </button>
 
                 <!-- Filters: dropdown (Bootstrap 4) -->
                 <div class="dropdown me-3">
                     <button id="navFilterBtn" class="btn nav-icon-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Filtros" title="Filtros">
                         <i class="fas fa-filter"></i>
+                        <span class="nav-action-text">Filtros</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right nav-filters-dropdown" aria-labelledby="navFilterBtn">
                         <form method="get" id="formFiltrosNavDropdown" action="{% url 'core:inicio' %}" class="px-3 py-2">
@@ -92,10 +104,12 @@
                 <a href="{% url 'core:ver_carrito' %}" class="nav-link position-relative nav-icon-btn me-2" title="Ver Carrito" aria-label="Carrito">
                     <i class="fas fa-shopping-cart" style="font-size: 1.1rem; color: #475569;"></i>
                     <span id="cart-counter" class="position-absolute badge bg-danger rounded-pill" style="top:-6px; right:-6px; font-size:0.65rem; display:none; width:18px; height:18px;">0</span>
+                    <span class="nav-action-text">Carrito</span>
                 </a>
                 
                 <a href="{% url 'core:login' %}" class="btn nav-icon-btn nav-login-btn" aria-label="Iniciar sesión" title="Iniciar sesión">
-                    <i class="fas fa-sign-in-alt"></i>
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span class="nav-action-text">Iniciar sesión</span>
                 </a>
             </div>
         </div>
