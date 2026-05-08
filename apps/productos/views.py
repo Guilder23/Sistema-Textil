@@ -87,9 +87,22 @@ def crear_producto(request):
 			categoria = get_object_or_404(Categoria, id=request.POST.get('categoria_id'))
 			sex = request.POST.get('sexo', 'UNISEX')
 			imagenes = request.FILES.getlist('imagenes')
-			main_image = imagenes[0] if imagenes else None
-			if imagenes:
-				imagenes = imagenes[1:]
+			
+			# Obtener indice de imagen principal
+			imagen_principal_index = request.POST.get('imagen_principal_index', request.POST.get('imagen_principal', ''))
+			try:
+				imagen_principal_index = int(imagen_principal_index) if imagen_principal_index else 0
+			except (ValueError, TypeError):
+				imagen_principal_index = 0
+			
+			# Asegurar que el índice es válido
+			if imagen_principal_index < 0 or imagen_principal_index >= len(imagenes):
+				imagen_principal_index = 0
+			
+			# Obtener imagen principal y el resto
+			main_image = imagenes[imagen_principal_index] if imagenes else None
+			otras_imagenes = [img for i, img in enumerate(imagenes) if i != imagen_principal_index]
+			
 			producto = Producto.objects.create(
 				codigo=request.POST.get('codigo', '').strip(),
 				nombre=request.POST.get('nombre', '').strip(),
@@ -108,7 +121,7 @@ def crear_producto(request):
 				activo=request.POST.get('activo') == 'on',
 				publicado=request.POST.get('publicado') == 'on',
 			)
-			for imagen in imagenes:
+			for imagen in otras_imagenes:
 				ProductoImagen.objects.create(producto=producto, imagen=imagen)
 			registrar_cambio(producto, request.user, 'CREAR', 'Creacion de producto')
 			messages.success(request, 'Producto creado correctamente.')

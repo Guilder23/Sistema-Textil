@@ -1,7 +1,7 @@
-﻿<div class="modal fade" id="modalCrearProducto" tabindex="-1" role="dialog" aria-hidden="true">
+﻿﻿﻿<div class="modal fade" id="modalCrearProducto" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-producto-dialog" role="document">
         <div class="modal-content modal-crear-productos">
-            <form method="post" action="{% url 'productos:crear_producto' %}" enctype="multipart/form-data">
+            <form method="post" id="formCrearProducto" action="{% url 'productos:crear_producto' %}" enctype="multipart/form-data">
                 {% csrf_token %}
             <div class="modal-header">
                 <h5 class="modal-title">Crear Producto</h5>
@@ -110,15 +110,16 @@
                                 <button type="button" class="btn btn-outline-primary btn-sm" id="btnAgregarImagenesCrear">
                                     <i class="fas fa-plus-circle"></i> Agregar imagen
                                 </button>
-                                <small class="form-text text-muted ml-3">Agrega las imágenes una por una y podrás eliminar las que no quieras.</small>
+                                <small class="form-text text-muted ml-3">Agrega imagenes, marca una como principal y elimina las que no quieras.</small>
                             </div>
-                            <input type="file" id="crearImagen" name="imagenes" class="d-none" accept="image/*" multiple>
+                            <input type="file" name="imagenes" id="crearImagen" class="d-none" accept="image/*" multiple>
                         </div>
 
                         <div class="preview-box">
-                            <div id="crearImagenesPreview" class="d-flex flex-wrap"></div>
+                            <div id="crearImagenesPreview" class="d-flex flex-wrap mb-3"></div>
                             <span id="crearImagenSinDato" class="text-muted">No hay imágenes seleccionadas.</span>
                         </div>
+                        <input type="hidden" name="imagen_principal_index" id="crearImagenPrincipal" value="">
                     </div>
                 </div>
             </div>
