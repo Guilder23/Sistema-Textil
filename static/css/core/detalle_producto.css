@@ -167,6 +167,32 @@
     text-decoration: none;
 }
 
+.product-selection-message {
+    display: none;
+    margin-top: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.product-selection-message.is-visible {
+    display: block;
+}
+
+.product-selection-message.is-error {
+    color: #991b1b;
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.product-selection-message.is-success {
+    color: #166534;
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
 .guide-box {
     background: #eff6ff;
     border: 1px solid #dbeafe;
