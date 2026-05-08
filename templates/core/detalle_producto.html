@@ -65,9 +65,9 @@
                             </span>
                         {% endif %}
                     </div>
-                    <div class="d-flex flex-wrap align-items-center">
-                        <span class="badge badge-danger px-3 py-2 mr-2" style="border-radius: 50px; font-weight: 700; background-color: #ef4444;">{{ producto.categoria.nombre }}</span>
-                        <span class="badge badge-primary px-3 py-2" style="border-radius: 50px; font-weight: 700; background-color: #1d4ed8;">{{ producto.get_sexo_display }}</span>
+                    <div class="product-meta-badges">
+                        <span class="product-category-badge">{{ producto.categoria.nombre }}</span>
+                        <span class="product-gender-badge">{{ producto.get_sexo_display }}</span>
                     </div>
                 </div>
                 
@@ -83,11 +83,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="detail-label">Código</div>
-                        <div class="detail-value font-weight-bold">{{ producto.codigo }}</div>
-                    </div>
-                    <div class="col-sm-6">
+                    <div class="col-12">
                         <div class="detail-label">Disponibilidad</div>
                         <div class="detail-value">
                             {% if producto.stock_unidad > 0 %}
@@ -123,7 +119,6 @@
                     </div>
                 {% endif %}
 
-                <div class="detail-label">Cantidad</div>
                 <div class="d-flex align-items-center mb-4">
                     <div class="input-group" style="width: 140px; height: 45px;">
                         <div class="input-group-prepend">
