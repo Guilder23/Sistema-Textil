@@ -9,7 +9,15 @@ echo "RENDER environment variable: $RENDER"
 echo "Checking for Render environment..."
 
 if [ "$RENDER_SERVICE_ID" != "" ] || [ "$RENDER" = "true" ]; then
-    if [ -n "$CLOUDINARY_CLOUD_NAME" ]; then
+    # Igual que Django: solo omitir disco local si hay credenciales completas (URL o cloud+key+secret).
+    USE_CLOUDINARY_MEDIA=false
+    if [ -n "$CLOUDINARY_URL" ]; then
+        USE_CLOUDINARY_MEDIA=true
+    elif [ -n "$CLOUDINARY_CLOUD_NAME" ] && [ -n "$CLOUDINARY_API_KEY" ] && { [ -n "$CLOUDINARY_API_SECRET" ] || [ -n "$CLOUDINARY_API_SECRE" ]; }; then
+        USE_CLOUDINARY_MEDIA=true
+    fi
+
+    if [ "$USE_CLOUDINARY_MEDIA" = "true" ]; then
         echo "☁️ Cloudinary configurado — se omiten directorios media locales y backup en disco."
     else
         echo "🔄 Configurando sistema de persistencia para archivos media..."
@@ -59,7 +67,7 @@ python create_default_users.py || true
 
 # Hacer backup después de la configuración (solo en producción, almacenamiento local)
 if [ "$RENDER_SERVICE_ID" != "" ] || [ "$RENDER" = "true" ]; then
-    if [ -n "$CLOUDINARY_CLOUD_NAME" ]; then
+    if [ "$USE_CLOUDINARY_MEDIA" = "true" ]; then
         echo "☁️ Cloudinary activo — no se ejecuta backup_media en disco."
     else
         echo "💾 Creando backup de archivos media..."

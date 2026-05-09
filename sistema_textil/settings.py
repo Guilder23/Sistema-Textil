@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+import warnings
 from pathlib import Path
 from urllib.parse import urlparse, unquote
 
@@ -46,10 +47,12 @@ def _cloudinary_storage_settings():
             'API_KEY': unquote(parsed.username or ''),
             'API_SECRET': unquote(parsed.password or ''),
         }
+    # CLOUDINARY_API_SECRE: typo frecuente en el dashboard de Render (falta la T final).
+    api_secret = _env_or_config('CLOUDINARY_API_SECRET') or _env_or_config('CLOUDINARY_API_SECRE')
     return {
         'CLOUD_NAME': _env_or_config('CLOUDINARY_CLOUD_NAME'),
         'API_KEY': _env_or_config('CLOUDINARY_API_KEY'),
-        'API_SECRET': _env_or_config('CLOUDINARY_API_SECRET'),
+        'API_SECRET': api_secret,
     }
 
 # Quick-start development settings - unsuitable for production
@@ -100,7 +103,7 @@ MIDDLEWARE = [
 ]
 
 try:
-    import whitenoise  # noqa: F401
+    import whitenoise  # noqa: F401  # pyright: ignore[reportMissingImports]
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
     _STATICFILES_BACKEND = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 except ModuleNotFoundError:
@@ -200,14 +203,23 @@ STATICFILES_STORAGE = _STATICFILES_BACKEND
 # Configuración de Media URL y Storage
 MEDIA_URL = '/media/'
 
-cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME']
-if cloud_name:
-    if not CLOUDINARY_STORAGE['API_KEY'] or not CLOUDINARY_STORAGE['API_SECRET']:
-        raise ImproperlyConfigured(
-            'Cloudinary está configurado (hay CLOUDINARY_CLOUD_NAME o CLOUDINARY_URL) pero faltan '
-            'CLOUDINARY_API_KEY / CLOUDINARY_API_SECRET o el secreto en CLOUDINARY_URL. '
-            'En Render, añada esas variables al servicio web o use solo CLOUDINARY_URL.'
-        )
+# Cloudinary solo con las tres credenciales (nombre, key, secret). Así el build en Render no
+# revienta si CLOUDINARY_CLOUD_NAME existe pero los secretos solo están en runtime, o si faltan vars.
+_use_cloudinary = bool(
+    CLOUDINARY_STORAGE['CLOUD_NAME']
+    and CLOUDINARY_STORAGE['API_KEY']
+    and CLOUDINARY_STORAGE['API_SECRET']
+)
+if CLOUDINARY_STORAGE['CLOUD_NAME'] and not _use_cloudinary:
+    warnings.warn(
+        'Cloudinary incompleto: hay nombre de nube pero faltan CLOUDINARY_API_KEY / '
+        'CLOUDINARY_API_SECRET (o CLOUDINARY_URL con key y secret). Se usa almacenamiento '
+        'local de media hasta que estén las tres credenciales.',
+        UserWarning,
+        stacklevel=1,
+    )
+
+if _use_cloudinary:
     STORAGES = {
         'default': {
             'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
@@ -231,8 +243,7 @@ else:
     else:
         MEDIA_ROOT = BASE_DIR / 'media'
 
-# Alinear cloudinary.config con CLOUDINARY_STORAGE antes de que se importe el storage backend.
-if cloud_name:
+if _use_cloudinary:
     import cloudinary
 
     cloudinary.config(
