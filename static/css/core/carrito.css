@@ -18,6 +18,39 @@
     gap: 0.75rem;
 }
 
+/* Botón eliminar todo encima del primer producto */
+.cart-header-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.btn-clear-all {
+    background: transparent;
+    color: #ef4444;
+    border: 2px solid #ef4444;
+    padding: 0.5rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-clear-all:hover {
+    background: #ef4444;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+}
+
+.btn-clear-all:focus {
+    box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.25);
+    outline: none;
+}
+
 .cart-item {
     border-bottom: 1px solid #f1f5f9;
     padding: 1rem 0;
@@ -256,5 +289,185 @@
     .cart-item-img {
         width: 60px;
         height: 60px;
+    }
+}
+
+/* ================================================
+   MODAL DE CONFIRMACIÓN - DISEÑO MODERNO
+   ================================================ */
+
+/* Overlay más suave */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.15) !important;
+    z-index: 1040 !important;
+}
+
+.modal-backdrop.show {
+    opacity: 1 !important;
+}
+
+/* Forzar centrado del modal solo cuando está visible */
+#cartConfirmModal.show {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 1050 !important;
+}
+
+#cartConfirmModal.show .modal-dialog {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100vw;
+    width: 100vw;
+    transform: none !important;
+    z-index: 1051 !important;
+}
+
+#cartConfirmModal.show .modal-content {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    max-width: 400px;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1052 !important;
+}
+
+/* Resetear estilos cuando el modal no está visible */
+#cartConfirmModal:not(.show) {
+    display: none !important;
+}
+
+#cartConfirmModal:not(.show) .modal-dialog {
+    display: none !important;
+}
+
+/* Icono del modal */
+.modal-confirm-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: #d97706;
+    font-size: 1.5rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(217, 119, 6, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(217, 119, 6, 0);
+    }
+}
+
+.modal-confirm-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.modal-confirm-message {
+    font-size: 0.95rem;
+    color: #6b7280;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+/* Alerta de advertencia */
+.modal-confirm-warning .alert {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Botones del modal */
+.modal-confirm-cancel {
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.modal-confirm-cancel:hover {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+.modal-confirm-confirm {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.modal-confirm-confirm:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* Responsive para móviles */
+@media (max-width: 575.98px) {
+    #cartConfirmModal .modal-dialog {
+        min-height: 100vh !important;
+        margin: 0 !important;
+        padding: 1rem !important;
+    }
+    
+    #cartConfirmModal .modal-content {
+        margin: 0 auto;
+        max-width: calc(100vw - 2rem);
+        width: 100%;
+    }
+    
+    .modal-confirm-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 1.25rem;
+    }
+    
+    .modal-confirm-title {
+        font-size: 1.1rem;
+    }
+    
+    .modal-confirm-message {
+        font-size: 0.9rem;
+    }
+    
+    .modal-footer {
+        padding: 1rem !important;
+    }
+    
+    .modal-confirm-cancel,
+    .modal-confirm-confirm {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
     }
 }

@@ -17,6 +17,15 @@ function renderCart() {
     let html = '<div class="row">';
     html += '<div class="col-lg-8">';
     
+    // Botón eliminar todo encima del primer producto
+    html += `
+        <div class="cart-header-actions mb-3">
+            <button type="button" class="btn-clear-all" onclick="openClearCartConfirm()">
+                <i class="fas fa-eraser"></i> Vaciar carrito
+            </button>
+        </div>
+    `;
+    
     cart.forEach((item, index) => {
         html += `
             <div class="cart-item">
@@ -62,9 +71,6 @@ function renderCart() {
             <div class="cart-summary">
                 <div class="summary-header">
                     <h6 class="summary-title mb-0">Resumen de compra</h6>
-                    <button type="button" class="btn-clear-cart-icon" onclick="openClearCartConfirm()" title="Vaciar carrito" aria-label="Vaciar carrito">
-                        <i class="fas fa-trash"></i>
-                    </button>
                 </div>
                 <div class="summary-row">
                     <span>Productos</span>
@@ -112,19 +118,28 @@ function removeItem(index) {
 
 let pendingCartAction = null;
 
-function openConfirmModal({ title, message, confirmText, confirmClass, action }) {
+function openConfirmModal({ title, message, confirmText, confirmClass, action, showWarning = false }) {
     pendingCartAction = action;
 
     const titleEl = document.getElementById('cartConfirmModalTitle');
     const messageEl = document.getElementById('cartConfirmModalMessage');
     const confirmBtn = document.getElementById('cartConfirmModalConfirm');
+    const warningEl = document.querySelector('.modal-confirm-warning');
 
     if (titleEl) titleEl.textContent = title || 'Confirmar';
     if (messageEl) messageEl.textContent = message || '¿Estás seguro?';
 
+    if (warningEl) {
+        if (showWarning) {
+            warningEl.classList.remove('d-none');
+        } else {
+            warningEl.classList.add('d-none');
+        }
+    }
+
     if (confirmBtn) {
         confirmBtn.textContent = confirmText || 'Confirmar';
-        confirmBtn.className = `btn btn-sm ${confirmClass || 'btn-danger'}`;
+        confirmBtn.className = `btn modal-confirm-confirm ${confirmClass || 'btn-danger'}`;
     }
 
     if (window.$) {
@@ -135,9 +150,10 @@ function openConfirmModal({ title, message, confirmText, confirmClass, action })
 function openClearCartConfirm() {
     openConfirmModal({
         title: 'Vaciar carrito',
-        message: 'Se vaciará tu carrito de compras. ¿Deseas continuar?',
-        confirmText: 'Vaciar',
+        message: 'Se eliminarán todos los productos de tu carrito. ¿Deseas continuar?',
+        confirmText: 'Eliminar todo',
         confirmClass: 'btn-danger',
+        showWarning: true,
         action: { type: 'clear' },
     });
 }
