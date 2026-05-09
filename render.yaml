@@ -22,3 +22,10 @@ services:
       name: media-files
       mountPath: /opt/render/project/src/media
       sizeGB: 1
+
+# Cron job para backup automático de archivos media
+crons:
+  - name: backup-media-files
+    schedule: "0 */6 * * *"  # Cada 6 horas
+    command: "python scheduled_backup.py"
+    service: sistema-textil

@@ -149,10 +149,19 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 # Configuración para almacenamiento persistente en Render
 import os
-if os.environ.get('RENDER'):
+# Detectar entorno de Render de múltiples maneras
+is_render = (
+    os.environ.get('RENDER') == 'true' or 
+    os.environ.get('RENDER_SERVICE_ID') is not None or
+    'RENDER' in os.environ
+)
+
+if is_render:
     MEDIA_ROOT = '/opt/render/project/src/media'
+    print(f"🔧 Render detectado: MEDIA_ROOT = {MEDIA_ROOT}")
 else:
     MEDIA_ROOT = BASE_DIR / 'media'
+    print(f"💻 Desarrollo: MEDIA_ROOT = {MEDIA_ROOT}")
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/productos/'
