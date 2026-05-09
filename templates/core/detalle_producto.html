@@ -27,8 +27,10 @@
                 <div class="product-image-container text-center">
                     {% with imagenes=producto.imagenes_disponibles %}
                         {% if imagenes %}
-                            {# Imagen principal #}
-                            <img id="main-product-image" src="{{ imagenes.0.url }}" alt="{{ producto.nombre }}" class="d-block mx-auto" style="max-height:420px; object-fit:contain; width:100%;">
+                            {# Imagen principal con zoom #}
+                            <div class="product-zoom-container" id="zoomContainer">
+                                <img id="main-product-image" src="{{ imagenes.0.url }}" alt="{{ producto.nombre }}" class="d-block mx-auto product-main-img" style="max-height:420px; object-fit:contain; width:100%;">
+                            </div>
 
                             {# Miniaturas debajo de la imagen principal #}
                             {% if imagenes|length > 1 %}

@@ -147,6 +147,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Miniaturas: cambiar imagen principal al hacer click
     const thumbs = document.querySelectorAll('.product-thumb');
     const mainImage = document.getElementById('main-product-image');
+    const zoomContainer = document.getElementById('zoomContainer');
+    
     if (thumbs.length && mainImage) {
         thumbs.forEach(thumb => {
             thumb.addEventListener('click', function() {
@@ -173,6 +175,56 @@ document.addEventListener('DOMContentLoaded', function() {
                 descDiv.style.display = 'none';
                 this.textContent = 'Mostrar descripción';
             }
+        });
+    }
+
+    // Zoom interactivo que sigue el mouse
+    if (zoomContainer && mainImage) {
+        let isZoomed = false;
+        
+        zoomContainer.addEventListener('mouseenter', function() {
+            isZoomed = true;
+            mainImage.style.transform = 'scale(2.5)';
+        });
+        
+        zoomContainer.addEventListener('mouseleave', function() {
+            isZoomed = false;
+            mainImage.style.transform = 'scale(1)';
+            mainImage.style.transformOrigin = 'center center';
+        });
+        
+        zoomContainer.addEventListener('mousemove', function(e) {
+            if (!isZoomed) return;
+            
+            const rect = zoomContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Asegurarse que los valores estén dentro de los límites
+            const xPercent = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            const yPercent = Math.max(0, Math.min(100, (y / rect.height) * 100));
+            
+            mainImage.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+        });
+        
+        // También funciona para touch en móviles
+        zoomContainer.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = zoomContainer.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            
+            const xPercent = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            const yPercent = Math.max(0, Math.min(100, (y / rect.height) * 100));
+            
+            mainImage.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+            mainImage.style.transform = 'scale(1.5)';
+        });
+        
+        zoomContainer.addEventListener('touchend', function() {
+            mainImage.style.transform = 'scale(1)';
+            mainImage.style.transformOrigin = 'center center';
         });
     }
 });
