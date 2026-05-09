@@ -35,6 +35,18 @@ const CartSystem = {
         this.saveCart(cart);
     },
 
+    setQuantity(index, quantity) {
+        let cart = this.getCart();
+        if (!cart[index]) return;
+
+        let nextQty = parseInt(quantity, 10);
+        if (Number.isNaN(nextQty)) nextQty = 1;
+        if (nextQty < 1) nextQty = 1;
+
+        cart[index].cantidad = nextQty;
+        this.saveCart(cart);
+    },
+
     clearCart() {
         localStorage.removeItem(this.storageKey);
         this.updateCartCounter();

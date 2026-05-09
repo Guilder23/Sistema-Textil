@@ -23,6 +23,35 @@
     </div>
 </div>
 
+<!-- Modal confirmación (vaciar / eliminar) -->
+<div class="modal fade" id="cartConfirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-confirm-dialog" role="document">
+        <div class="modal-content modal-confirm-content">
+            <div class="modal-body text-center py-4">
+                <div class="modal-confirm-icon mb-3">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h5 class="modal-confirm-title mb-2" id="cartConfirmModalTitle">Confirmar</h5>
+                <p class="modal-confirm-message text-muted" id="cartConfirmModalMessage">¿Estás seguro?</p>
+                <div class="modal-confirm-warning d-none">
+                    <div class="alert alert-danger mb-0" role="alert">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <span>Esta acción no se puede deshacer</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 justify-content-center pb-4">
+                <button type="button" class="btn btn-light modal-confirm-cancel" data-dismiss="modal">
+                    <i class="fas fa-times mr-2"></i> Cancelar
+                </button>
+                <button type="button" class="btn modal-confirm-confirm" id="cartConfirmModalConfirm">
+                    <i class="fas fa-check mr-2"></i> Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% include 'componentes/footer-inicio.html' %}
 {% endblock %}
 

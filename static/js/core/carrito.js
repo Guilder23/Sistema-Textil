@@ -17,16 +17,36 @@ function renderCart() {
     let html = '<div class="row">';
     html += '<div class="col-lg-8">';
     
+    // Botón eliminar todo encima del primer producto
+    html += `
+        <div class="cart-header-actions mb-3">
+            <button type="button" class="btn-clear-all" onclick="openClearCartConfirm()">
+                <i class="fas fa-eraser"></i> Vaciar carrito
+            </button>
+        </div>
+    `;
+    
     cart.forEach((item, index) => {
         html += `
             <div class="cart-item">
+                <button class="btn-remove btn-remove-item" onclick="removeItem(${index})" title="Eliminar" aria-label="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
                 <img src="${item.imagen}" class="cart-item-img" alt="${item.nombre}">
                 <div class="cart-item-info">
                     <div class="cart-item-title">${item.nombre}</div>
-                    <div class="cart-item-details">Talla: ${item.talla} | Color: ${item.color} | Cantidad: ${item.cantidad}</div>
+                    <div class="cart-item-details">Talla: ${item.talla} | Color: ${item.color}</div>
+                    <div class="cart-qty-row" aria-label="Cantidad">
+                        <button type="button" class="cart-qty-btn" onclick="changeQty(${index}, -1)" aria-label="Disminuir cantidad">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" class="cart-qty-input" min="1" step="1" value="${item.cantidad}" inputmode="numeric" onchange="setQty(${index}, this.value)" aria-label="Cantidad">
+                        <button type="button" class="cart-qty-btn" onclick="changeQty(${index}, 1)" aria-label="Aumentar cantidad">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="cart-item-price">Bs ${(item.precio * item.cantidad).toFixed(2)}</div>
-                <button class="btn-remove" onclick="removeItem(${index})" title="Eliminar"><i class="fas fa-trash"></i></button>
             </div>
         `;
     });
@@ -49,7 +69,9 @@ function renderCart() {
     html += `
         <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="cart-summary">
-                <h6 class="summary-title">Resumen de compra</h6>
+                <div class="summary-header">
+                    <h6 class="summary-title mb-0">Resumen de compra</h6>
+                </div>
                 <div class="summary-row">
                     <span>Productos</span>
                     <span>Bs ${total.toFixed(2)}</span>
@@ -65,7 +87,9 @@ function renderCart() {
                 <button onclick="sendOrder()" class="whatsapp-order-btn mt-3">
                     <i class="fab fa-whatsapp"></i> Enviar pedido
                 </button>
-                <button onclick="clearCart()" class="btn btn-link btn-sm btn-block text-muted mt-2">Vaciar carrito</button>
+                <a href="/#catalogo" class="continue-shopping-btn btn btn-outline-primary btn-sm btn-block mt-3">
+                    <i class="fas fa-arrow-left"></i> Seguir comprando
+                </a>
             </div>
         </div>
     `;
@@ -74,16 +98,64 @@ function renderCart() {
     container.innerHTML = html;
 }
 
+function setQty(index, value) {
+    CartSystem.setQuantity(index, value);
+    renderCart();
+}
+
+function changeQty(index, delta) {
+    const cart = CartSystem.getCart();
+    const current = cart[index]?.cantidad ?? 1;
+    const next = Math.max(1, parseInt(current, 10) + delta);
+    CartSystem.setQuantity(index, next);
+    renderCart();
+}
+
 function removeItem(index) {
     CartSystem.removeFromCart(index);
     renderCart();
 }
 
-function clearCart() {
-    if(confirm('¿Deseas vaciar el carrito?')) {
-        CartSystem.clearCart();
-        renderCart();
+let pendingCartAction = null;
+
+function openConfirmModal({ title, message, confirmText, confirmClass, action, showWarning = false }) {
+    pendingCartAction = action;
+
+    const titleEl = document.getElementById('cartConfirmModalTitle');
+    const messageEl = document.getElementById('cartConfirmModalMessage');
+    const confirmBtn = document.getElementById('cartConfirmModalConfirm');
+    const warningEl = document.querySelector('.modal-confirm-warning');
+
+    if (titleEl) titleEl.textContent = title || 'Confirmar';
+    if (messageEl) messageEl.textContent = message || '¿Estás seguro?';
+
+    if (warningEl) {
+        if (showWarning) {
+            warningEl.classList.remove('d-none');
+        } else {
+            warningEl.classList.add('d-none');
+        }
     }
+
+    if (confirmBtn) {
+        confirmBtn.textContent = confirmText || 'Confirmar';
+        confirmBtn.className = `btn modal-confirm-confirm ${confirmClass || 'btn-danger'}`;
+    }
+
+    if (window.$) {
+        $('#cartConfirmModal').modal('show');
+    }
+}
+
+function openClearCartConfirm() {
+    openConfirmModal({
+        title: 'Vaciar carrito',
+        message: 'Se eliminarán todos los productos de tu carrito. ¿Deseas continuar?',
+        confirmText: 'Eliminar todo',
+        confirmClass: 'btn-danger',
+        showWarning: true,
+        action: { type: 'clear' },
+    });
 }
 
 function sendOrder() {
@@ -101,5 +173,22 @@ function sendOrder() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    const confirmBtn = document.getElementById('cartConfirmModalConfirm');
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function () {
+            if (!pendingCartAction) return;
+
+            if (pendingCartAction.type === 'clear') {
+                CartSystem.clearCart();
+            }
+
+            pendingCartAction = null;
+            if (window.$) {
+                $('#cartConfirmModal').modal('hide');
+            }
+            renderCart();
+        });
+    }
+
     renderCart();
 });

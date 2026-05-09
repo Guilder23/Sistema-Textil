@@ -14,6 +14,26 @@
 {% block contenido %}
 {% include 'componentes/navbar-inicio.html' %}
 
+<!-- SECCIÓN DE CATEGORÍAS COMPACTA -->
+{% if categorias %}
+<section class="categorias-compact-bar">
+    <div class="container-fluid">
+        <div class="categorias-compact-wrapper">
+            <div class="categorias-compact-scroll">
+                <a href="{% url 'core:inicio' %}" class="categoria-compact-item {% if not categoria_id %}active{% endif %}">
+                    <span class="categoria-compact-name">Todos</span>
+                </a>
+                {% for c in categorias %}
+                <a href="{% url 'core:inicio' %}?categoria={{ c.id }}" class="categoria-compact-item {% if categoria_id == c.id|stringformat:'s' %}active{% endif %}">
+                    <span class="categoria-compact-name">{{ c.nombre }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
 <!-- PORTADA CON CARRUSEL ENCIMA: imagen grande a ancho completo con carrusel transparente -->
 <section class="hero-portada hero-portada-with-carousel" style="--hero-img: url('https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=1920&q=85');">
     <div class="hero-portada-overlay"></div>
