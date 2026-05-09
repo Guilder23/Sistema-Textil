@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'apps.core.apps.CoreConfig',
     'apps.productos.apps.ProductosConfig',
     'apps.categorias.apps.CategoriasConfig',
@@ -137,6 +139,19 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Configuración para almacenamiento persistente en Render
+is_render = (
+    os.environ.get('RENDER') == 'true' or 
+    os.environ.get('RENDER_SERVICE_ID') is not None or
+    'RENDER' in os.environ
+)
+
+# Configuración de Cloudinary
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default=''),
+    'API_KEY': config('CLOUDINARY_API_KEY', default=''),
+    'API_SECRET': config('CLOUDINARY_API_SECRET', default=''),
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -146,6 +161,13 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+try:
+    import whitenoise  # noqa: F401
+    _STATICFILES_BACKEND = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+except ModuleNotFoundError:
+    _STATICFILES_BACKEND = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# Configuración de Media URL y Storage
 MEDIA_URL = '/media/'
 # Configuración para almacenamiento persistente en Render
 import os
