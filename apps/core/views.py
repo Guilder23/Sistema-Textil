@@ -116,7 +116,17 @@ def inicio(request):
 
 def detalle_producto(request, producto_id):
 	producto = get_object_or_404(Producto, id=producto_id, publicado=True, activo=True)
-	return render(request, 'core/detalle_producto.html', {'producto': producto})
+	productos_relacionados = (
+		Producto.objects.select_related('categoria')
+		.filter(publicado=True, activo=True, categoria_id=producto.categoria_id)
+		.exclude(id=producto.id)
+		.order_by('-fecha_creacion')[:4]
+	)
+	return render(
+		request,
+		'core/detalle_producto.html',
+		{'producto': producto, 'productos_relacionados': productos_relacionados},
+	)
 
 
 def ver_carrito(request):
