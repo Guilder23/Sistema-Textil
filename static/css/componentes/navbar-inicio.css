@@ -223,19 +223,57 @@
 }
 
 .navbar-toggler-inicio {
-    background: #f3f4f6;
-    border: 1px solid rgba(15, 23, 42, 0.12);
-    padding: 0.35rem 0.55rem;
-    border-radius: 8px;
-    color: #0f172a;
-    font-size: 1.1rem;
+    background: transparent;
+    border: none;
+    padding: 0.5rem 0.7rem;
+    border-radius: 12px;
+    color: #64748b;
+    font-size: 1.15rem;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
+    outline: none;
 }
 
 .navbar-toggler-inicio:hover {
-    background: #e5e7eb;
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
     transform: translateY(-1px);
+}
+
+.navbar-toggler-inicio:focus,
+.navbar-toggler-inicio:active {
+    outline: none;
+    box-shadow: none;
+    border: none;
+    background: rgba(59, 130, 246, 0.15);
+    color: #2563eb;
+}
+
+/* Contador del carrito con gradiente de colores */
+.cart-counter-badge {
+    background: rgb(22, 190, 126);
+    color: rgb(255, 255, 255);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.65rem;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    border: 2px solid white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+    50% {
+        box-shadow: 0 2px 12px rgba(59, 130, 246, 0.4);
+    }
+    100% {
+        box-shadow: 0 2px 8px rgba(21, 153, 109, 0.3);
+    }
 }
 
 .navbar-overlay {
