@@ -2,8 +2,8 @@
     background: white;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    padding: 2.5rem;
-    margin-top: 1.5rem;
+    padding: 1.5rem;
+    margin-top: 0.75rem;
     border: 1px solid rgba(15, 23, 42, 0.05);
 }
 
@@ -16,7 +16,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 0.75rem;
     height: 100%;
 }
 
@@ -52,6 +52,16 @@
     letter-spacing: -0.025em;
 }
 
+/* Reducir margen del título principal */
+h1.display-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Reducir margen de precios */
+.d-flex.align-items-baseline {
+    margin-bottom: 2rem !important;
+}
+
 .badge-discount {
     background: linear-gradient(135deg, #f97316, #fb7185);
     color: white;
@@ -74,7 +84,7 @@
 .detail-value {
     color: #0f172a;
     font-size: 1.125rem;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1rem;
     font-weight: 500;
 }
 
@@ -83,6 +93,7 @@
     flex-wrap: wrap;
     gap: 0.75rem;
     margin-top: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .product-meta-badges {
@@ -249,5 +260,47 @@
 @media (max-width: 991.98px) {
     .product-meta-badges {
         justify-content: flex-start;
+    }
+}
+
+/* Prevenir scroll horizontal en móviles */
+@media (max-width: 767.98px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+    
+    .container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .product-image-container img {
+        max-height: 350px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100vw;
+        position: relative;
+    }
+    
+    .container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        max-width: 100vw;
+        margin-left: auto;
+        margin-right: auto;
+        overflow-x: hidden;
+    }
+    
+    .product-detail-container {
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 100%;
     }
 }
