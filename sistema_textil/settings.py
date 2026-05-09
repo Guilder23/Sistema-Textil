@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'apps.core.apps.CoreConfig',
     'apps.productos.apps.ProductosConfig',
     'apps.categorias.apps.CategoriasConfig',
@@ -123,15 +125,60 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Configuración para almacenamiento persistente en Render
+is_render = (
+    os.environ.get('RENDER') == 'true' or 
+    os.environ.get('RENDER_SERVICE_ID') is not None or
+    'RENDER' in os.environ
+)
+
+# Configuración de Cloudinary
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default=''),
+    'API_KEY': config('CLOUDINARY_API_KEY', default=''),
+    'API_SECRET': config('CLOUDINARY_API_SECRET', default=''),
+}
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
+try:
+    import whitenoise  # noqa: F401
+    _STATICFILES_BACKEND = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+except ModuleNotFoundError:
+    _STATICFILES_BACKEND = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# Configuración de Media URL y Storage
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+
+# Storage (Django 5+): usar STORAGES. Si Cloudinary está configurado,
+# cualquier ImageField/FileField se guardará en Cloudinary.
+cloud_name = config('CLOUDINARY_CLOUD_NAME', default='')
+if cloud_name:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+        },
+        'staticfiles': {
+            'BACKEND': _STATICFILES_BACKEND,
+        },
+    }
+    MEDIA_ROOT = ''
+else:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        'staticfiles': {
+            'BACKEND': _STATICFILES_BACKEND,
+        },
+    }
+    if is_render:
+        MEDIA_ROOT = '/opt/render/project/src/media'
+    else:
+        MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/productos/'
