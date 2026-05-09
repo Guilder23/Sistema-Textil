@@ -57,7 +57,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -65,6 +64,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+try:
+    import whitenoise  # noqa: F401
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+    _STATICFILES_BACKEND = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+except ModuleNotFoundError:
+    _STATICFILES_BACKEND = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 ROOT_URLCONF = 'sistema_textil.urls'
 
@@ -159,31 +165,35 @@ CLOUDINARY_STORAGE = {
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-try:
-    import whitenoise  # noqa: F401
-    _STATICFILES_BACKEND = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-except ModuleNotFoundError:
-    _STATICFILES_BACKEND = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = _STATICFILES_BACKEND
 
 # Configuración de Media URL y Storage
 MEDIA_URL = '/media/'
-# Configuración para almacenamiento persistente en Render
-import os
-# Detectar entorno de Render de múltiples maneras
-is_render = (
-    os.environ.get('RENDER') == 'true' or 
-    os.environ.get('RENDER_SERVICE_ID') is not None or
-    'RENDER' in os.environ
-)
 
-if is_render:
-    MEDIA_ROOT = '/opt/render/project/src/media'
-    print(f"🔧 Render detectado: MEDIA_ROOT = {MEDIA_ROOT}")
+cloud_name = config('CLOUDINARY_CLOUD_NAME', default='')
+if cloud_name:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+        },
+        'staticfiles': {
+            'BACKEND': _STATICFILES_BACKEND,
+        },
+    }
+    MEDIA_ROOT = ''
 else:
-    MEDIA_ROOT = BASE_DIR / 'media'
-    print(f"💻 Desarrollo: MEDIA_ROOT = {MEDIA_ROOT}")
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        'staticfiles': {
+            'BACKEND': _STATICFILES_BACKEND,
+        },
+    }
+    if is_render:
+        MEDIA_ROOT = '/opt/render/project/src/media'
+    else:
+        MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/productos/'
