@@ -11,10 +11,18 @@ def scheduled_backup():
     if not os.environ.get('RENDER_SERVICE_ID'):
         print("Entorno de desarrollo - omitiendo backup programado")
         return
-    
-    print(f"🕐 [{datetime.now()}] Iniciando backup programado...")
-    
-    current_media = settings.MEDIA_ROOT
+
+    backend = settings.STORAGES.get('default', {}).get('BACKEND', '')
+    if 'cloudinary' in backend.lower():
+        print("[Cloudinary] Omitiendo backup programado en disco.")
+        return
+
+    print(f"[{datetime.now()}] Iniciando backup programado...")
+
+    current_media = str(settings.MEDIA_ROOT)
+    if not current_media.strip():
+        print("[aviso] MEDIA_ROOT vacio; omitiendo backup.")
+        return
     backup_dir = '/opt/render/project/backups/media'
     
     # Crear backup
@@ -35,9 +43,9 @@ def scheduled_backup():
             else:
                 shutil.copy2(s, d)
         
-        print(f"✅ Backup programado completado: {len(os.listdir(backup_dir))} elementos")
+        print(f"Backup programado completado: {len(os.listdir(backup_dir))} elementos")
     else:
-        print("⚠️ No hay archivos para respaldar")
+        print("[aviso] No hay archivos para respaldar")
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sistema_textil.settings')
