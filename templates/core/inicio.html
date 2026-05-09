@@ -410,11 +410,11 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
     </section>
-    <!-- FOOTER INICIO SOLO PARA NO AUTENTICADOS -->
-    {% if not user.is_authenticated %}
-        {% include 'componentes/footer-inicio.html' %}
-    {% endif %}
 </div>
+
+{% if not user.is_authenticated %}
+    {% include 'componentes/footer-inicio.html' %}
+{% endif %}
 {% endblock %}
 
 {% block scripts_extra %}

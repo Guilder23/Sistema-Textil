@@ -11,11 +11,35 @@ document.addEventListener('DOMContentLoaded', function () {
         body.appendChild(navbarOverlay);
     }
 
+    let scrollLockY = 0;
+
+    function isMobileNavBreakpoint() {
+        return window.matchMedia('(max-width: 991.98px)').matches;
+    }
+
+    function lockBodyScroll() {
+        if (!isMobileNavBreakpoint()) return;
+        scrollLockY = window.scrollY || document.documentElement.scrollTop;
+        body.classList.add('navbar-inicio-scroll-locked');
+        body.style.top = '-' + scrollLockY + 'px';
+    }
+
+    function unlockBodyScroll() {
+        if (!body.classList.contains('navbar-inicio-scroll-locked')) {
+            body.style.top = '';
+            return;
+        }
+        body.classList.remove('navbar-inicio-scroll-locked');
+        body.style.top = '';
+        window.scrollTo(0, scrollLockY);
+    }
+
     function openNavbar() {
         if (navbarCollapse) {
             navbarCollapse.classList.add('show');
         }
         navbarOverlay.classList.add('active');
+        lockBodyScroll();
     }
 
     function closeNavbar() {
@@ -23,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
             navbarCollapse.classList.remove('show');
         }
         navbarOverlay.classList.remove('active');
+        unlockBodyScroll();
     }
 
     function toggleNavbar(e) {
@@ -118,6 +143,21 @@ document.addEventListener('DOMContentLoaded', function () {
             e.stopPropagation();
         });
     }
+
+    window.addEventListener('resize', function () {
+        if (!isMobileNavBreakpoint() && navbarCollapse && navbarCollapse.classList.contains('show')) {
+            closeNavbar();
+        }
+        if (!isMobileNavBreakpoint()) {
+            unlockBodyScroll();
+        }
+    });
+
+    window.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && navbarCollapse && navbarCollapse.classList.contains('show')) {
+            closeNavbar();
+        }
+    });
 
     window.addEventListener('scroll', function () {
         const navbar = document.querySelector('.navbar-inicio');
