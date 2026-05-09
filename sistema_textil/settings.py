@@ -12,11 +12,45 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from urllib.parse import urlparse, unquote
+
 from decouple import config, Csv
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+def _env_or_config(name, default=''):
+    """Prefer real OS environment (Render/Heroku) so secrets are never shadowed by an empty .env."""
+    if name in os.environ:
+        return (os.environ.get(name) or '').strip()
+    return (str(config(name, default=default) or '')).strip()
+
+
+def _cloudinary_storage_settings():
+    """
+    Credentials for django-cloudinary-storage / cloudinary.config.
+    Supports CLOUDINARY_URL or CLOUDINARY_CLOUD_NAME + API_KEY + API_SECRET.
+    """
+    url = _env_or_config('CLOUDINARY_URL')
+    if url:
+        parsed = urlparse(url)
+        if parsed.scheme != 'cloudinary':
+            raise ImproperlyConfigured(
+                'CLOUDINARY_URL debe comenzar con cloudinary:// (p. ej. cloudinary://KEY:SECRET@CLOUD_NAME).'
+            )
+        return {
+            'CLOUD_NAME': (parsed.hostname or '').strip(),
+            'API_KEY': unquote(parsed.username or ''),
+            'API_SECRET': unquote(parsed.password or ''),
+        }
+    return {
+        'CLOUD_NAME': _env_or_config('CLOUDINARY_CLOUD_NAME'),
+        'API_KEY': _env_or_config('CLOUDINARY_API_KEY'),
+        'API_SECRET': _env_or_config('CLOUDINARY_API_SECRET'),
+    }
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -152,12 +186,8 @@ is_render = (
     'RENDER' in os.environ
 )
 
-# Configuración de Cloudinary
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default=''),
-    'API_KEY': config('CLOUDINARY_API_KEY', default=''),
-    'API_SECRET': config('CLOUDINARY_API_SECRET', default=''),
-}
+# Configuración de Cloudinary (OS env primero; evita api_secret vacío por .env local)
+CLOUDINARY_STORAGE = _cloudinary_storage_settings()
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -170,8 +200,14 @@ STATICFILES_STORAGE = _STATICFILES_BACKEND
 # Configuración de Media URL y Storage
 MEDIA_URL = '/media/'
 
-cloud_name = config('CLOUDINARY_CLOUD_NAME', default='')
+cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME']
 if cloud_name:
+    if not CLOUDINARY_STORAGE['API_KEY'] or not CLOUDINARY_STORAGE['API_SECRET']:
+        raise ImproperlyConfigured(
+            'Cloudinary está configurado (hay CLOUDINARY_CLOUD_NAME o CLOUDINARY_URL) pero faltan '
+            'CLOUDINARY_API_KEY / CLOUDINARY_API_SECRET o el secreto en CLOUDINARY_URL. '
+            'En Render, añada esas variables al servicio web o use solo CLOUDINARY_URL.'
+        )
     STORAGES = {
         'default': {
             'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
@@ -194,6 +230,17 @@ else:
         MEDIA_ROOT = '/opt/render/project/src/media'
     else:
         MEDIA_ROOT = BASE_DIR / 'media'
+
+# Alinear cloudinary.config con CLOUDINARY_STORAGE antes de que se importe el storage backend.
+if cloud_name:
+    import cloudinary
+
+    cloudinary.config(
+        cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
+        api_key=CLOUDINARY_STORAGE['API_KEY'],
+        api_secret=CLOUDINARY_STORAGE['API_SECRET'],
+        secure=True,
+    )
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/productos/'
