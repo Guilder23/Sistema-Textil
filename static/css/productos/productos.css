@@ -97,6 +97,16 @@
     border-radius: 0.25rem;
     border: 1px solid;
     font-size: 0.72rem;
+    white-space: nowrap;
+}
+
+.badge-oferta {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.65rem;
+}
+
+.badge-oferta i {
+    margin-right: 0.2rem;
 }
 
 .badge-estado-activo {

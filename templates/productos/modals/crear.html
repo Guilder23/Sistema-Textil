@@ -25,25 +25,26 @@
 
                         <div class="form-group">
                             <label>Detalle</label>
-                            <input type="text" name="detalle" class="form-control" required>
+                            <textarea name="detalle" class="form-control" rows="4" required></textarea>
                         </div>
 
-                        <div class="form-group">
-                            <label>Categoria</label>
-                            <select name="categoria_id" class="form-control" required>
-                                {% for c in categorias %}
-                                <option value="{{ c.id }}">{{ c.nombre }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Sexo</label>
-                            <select name="sexo" class="form-control" required>
-                                <option value="UNISEX">Unisex</option>
-                                <option value="MUJER">Mujer</option>
-                                <option value="HOMBRE">Hombre</option>
-                            </select>
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label>Categoria</label>
+                                <select name="categoria_id" class="form-control" required>
+                                    {% for c in categorias %}
+                                    <option value="{{ c.id }}">{{ c.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Sexo</label>
+                                <select name="sexo" class="form-control" required>
+                                    <option value="UNISEX">Unisex</option>
+                                    <option value="MUJER">Mujer</option>
+                                    <option value="HOMBRE">Hombre</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-row">
@@ -60,18 +61,20 @@
                         <div class="form-row">
                             <div class="col-md-6 form-group">
                                 <label>Precio normal (Bs)</label>
-                                <input type="number" step="0.01" name="precio_usd" class="form-control" value="0" required>
+                                <input type="number" step="any" name="precio_usd" class="form-control" value="0" required>
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>Precio oferta (Bs - opcional)</label>
-                                <input type="number" step="0.01" name="precio_oferta" class="form-control" value="0">
+                                <div style="background-color: #fff3cd; padding: 1px; border-radius: 4px; border: 2px solid #078fff;">
+                                    <input type="number" step="any" name="precio_oferta" id="precioOfertaCrear" class="form-control" value="0">
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col-md-6 form-group">
                                 <label>Valor Descuento</label>
-                                <input type="number" step="0.01" name="descuento_valor" class="form-control" value="0">
+                                <input type="number" step="any" name="descuento_valor" class="form-control" value="0">
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>Tipo Descuento</label>

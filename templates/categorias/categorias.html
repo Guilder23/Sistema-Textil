@@ -62,7 +62,7 @@
                         <td><span class="categoria-badge">{{ categoria.nombre }}</span></td>
                         <td>{{ categoria.descripcion }}</td>
                         <td><span class="badge-estado {% if categoria.activa %}badge-estado-activo{% else %}badge-estado-inactivo{% endif %}">{% if categoria.activa %}ACTIVO{% else %}INACTIVO{% endif %}</span></td>
-                        <td class="text-center acciones-col">
+                        <td class="text-center acciones-col" style="display: flex; gap: 0.25rem; justify-content: center; flex-wrap: wrap;">
                             <button
                                 class="btn btn-info btn-sm btn-ver-categoria"
                                 data-toggle="modal"

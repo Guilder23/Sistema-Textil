@@ -14,3 +14,36 @@
     background: #3b82f6;
     color: #fff;
 }
+
+.badge-accion {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge-accion-editar {
+    color: #1565c0;
+}
+
+.badge-accion-crear {
+    color: #2e7d32;
+}
+
+.badge-accion-eliminar {
+    color: #c62828;
+}
+
+.badge-accion-stock {
+    color: #7b1fa2;
+}
+
+.badge-accion-destacar {
+    color: #e65100;
+}
+
+.badge-accion-publicar {
+    color: #558b2f;
+}
