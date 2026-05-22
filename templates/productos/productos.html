@@ -89,7 +89,7 @@
                         <th>Detalle</th>
                         <th>Categoria</th>
                         <th>Stock Unidad</th>
-                        <th>Unid/Caja</th>
+                        <th>Oferta</th>
                         {% comment %} <th>Stock Caja</th> {% endcomment %}
                         <th>Precio Unidad (Bs)</th>
                         <th>Publicado</th>
@@ -113,8 +113,14 @@
                         <td>{{ producto.get_sexo_display }}</td>
                         <td><span class="producto-detalle">{{ producto.detalle }}</span></td>
                         <td>{{ producto.categoria.nombre }}</td>
-                        <td><span class="badge-stock">{{ producto.stock_unidad }} unidades</span></td>
-                        <td>{{ producto.unidades_por_caja }}</td>
+                        <td><span class="badge-stock">{{ producto.stock_unidad }} uds</span></td>
+                        <td>
+                            {% if producto.tiene_descuento %}
+                                <span class="badge-estado badge-estado-activo badge-oferta"><i class="fas fa-tag"></i> EN OFERTA</span>
+                            {% else %}
+                                <span class="badge-estado badge-estado-inactivo badge-oferta">SIN OFERTA</span>
+                            {% endif %}
+                        </td>
                         {% comment %} <td><span class="badge-stock">{{ producto.stock_caja }} cajas</span></td> {% endcomment %}
                         <td>Bs. {{ producto.precio_usd|floatformat:2 }}</td>
                         <td>

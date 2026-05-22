@@ -135,7 +135,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('editStock').value = this.dataset.stock || '0';
                 document.getElementById('editUnidades').value = this.dataset.unidades || '1';
                 document.getElementById('editPrecioUsd').value = this.dataset.precioUnidadBs || '0';
-                document.getElementById('editPrecioOferta').value = this.dataset.precioOferta || '0';
+                const precioOferta = parseFloat(this.dataset.precioOferta || '0');
+                document.getElementById('editPrecioOferta').value = precioOferta || '0';
                 document.getElementById('editDescuentoValor').value = this.dataset.descuentoValor || '0';
                 document.getElementById('editDescuentoTipo').value = this.dataset.descuentoTipo || 'PORCENTAJE';
                 document.getElementById('editTallas').value = this.dataset.tallas || '';
