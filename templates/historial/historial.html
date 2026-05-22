@@ -21,16 +21,32 @@
         <div class="table-responsive">
             <table class="table table-sm mb-0">
                 <thead>
-                    <tr><th>Fecha</th><th>Usuario</th><th>Accion</th><th>Producto</th><th class="text-center">Acciones</th></tr>
+                    <tr><th>Fecha</th><th>Usuario</th><th>Accion</th><th>Producto</th><th>Descripcion</th></tr>
                 </thead>
                 <tbody>
                     {% for item in cambios %}
                     <tr>
                         <td>{{ item.fecha|date:'d/m/Y H:i' }}</td>
                         <td>{{ item.usuario.username|default:'Sistema' }}</td>
-                        <td>{{ item.accion }}</td>
-                        <td>{{ item.producto.detalle|default:'Sin producto' }}</td>
-                        <td class="text-center">{{ item.descripcion|default:'-' }}</td>
+                        <td>
+                            {% if item.accion == 'EDITAR' %}
+                                <span class="badge-accion badge-accion-editar">{{ item.accion }}</span>
+                            {% elif item.accion == 'CREAR' %}
+                                <span class="badge-accion badge-accion-crear">{{ item.accion }}</span>
+                            {% elif item.accion == 'ELIMINAR' %}
+                                <span class="badge-accion badge-accion-eliminar">{{ item.accion }}</span>
+                            {% elif item.accion == 'STOCK' %}
+                                <span class="badge-accion badge-accion-stock">{{ item.accion }}</span>
+                            {% elif item.accion == 'DESTACAR' or item.accion == 'Q_DESTACAR' %}
+                                <span class="badge-accion badge-accion-destacar">{{ item.get_accion_display }}</span>
+                            {% elif item.accion == 'PUBLICAR' or item.accion == 'Q_PUBLICAR' %}
+                                <span class="badge-accion badge-accion-publicar">{{ item.get_accion_display }}</span>
+                            {% else %}
+                                <span class="badge-accion">{{ item.accion }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.producto.nombre|default:'Sin producto' }}</td>
+                        <td>{{ item.descripcion|default:'-' }}</td>
                     </tr>
                     {% empty %}
                     <tr><td colspan="5" class="text-center py-3 text-muted">No hay cambios registrados.</td></tr>

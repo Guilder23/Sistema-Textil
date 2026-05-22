@@ -24,7 +24,6 @@
                     <tr>
                         <th>Codigo</th>
                         <th>Nombre</th>
-                        <th>Detalle</th>
                         <th>Categoria</th>
                         <th>Sexo</th>
                         <th>Stock</th>
@@ -39,7 +38,6 @@
                     <tr>
                         <td>{{ item.codigo }}</td>
                         <td>{{ item.nombre }}</td>
-                        <td>{{ item.detalle }}</td>
                         <td>{{ item.categoria.nombre }}</td>
                         <td>{{ item.get_sexo_display }}</td>
                         <td>{{ item.stock_unidad }}</td>
@@ -58,7 +56,7 @@
                         </td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="10" class="text-center py-3 text-muted">No hay productos destacados.</td></tr>
+                    <tr><td colspan="9" class="text-center py-3 text-muted">No hay productos destacados.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -70,14 +68,13 @@
         <div class="table-responsive">
             <table class="table table-sm mb-0">
                 <thead>
-                    <tr><th>Codigo</th><th>Nombre</th><th>Detalle</th><th>Categoria</th><th>Stock</th><th>Precio</th><th>Destacado</th><th class="text-center">Accion</th></tr>
+                    <tr><th>Codigo</th><th>Nombre</th><th>Categoria</th><th>Stock</th><th>Precio</th><th>Destacado</th><th class="text-center">Accion</th></tr>
                 </thead>
                 <tbody>
                     {% for p in productos %}
                     <tr>
                         <td>{{ p.codigo }}</td>
                         <td>{{ p.nombre }}</td>
-                        <td>{{ p.detalle }}</td>
                         <td>{{ p.categoria.nombre }}</td>
                         <td>{{ p.stock_unidad }}</td>
                         <td>Bs. {{ p.precio_usd|floatformat:2 }}</td>
@@ -96,7 +93,7 @@
                         </td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="8" class="text-center py-3 text-muted">No hay productos registrados.</td></tr>
+                    <tr><td colspan="7" class="text-center py-3 text-muted">No hay productos registrados.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
