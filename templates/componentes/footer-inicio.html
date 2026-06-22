@@ -1,57 +1,53 @@
 {% load static %}
 {% if not user.is_authenticated %}
-<!-- FOOTER MODERNO American Outlet -->
 <footer class="footer-inicio">
     <div class="container-fluid footer-inicio-container">
         <div class="footer-top">
-            <h5 class="footer-section-title"><i class="fas fa-map-marked-alt"></i> Ubicación</h5>
-                        <div class="footer-map-container">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.897732935904!2d-68.1199765!3d-16.4966445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915edf1c1b1b1b1b%3A0x1b1b1b1b1b1b1b1b!2sCentro%20Comercial%20Principal!5e0!3m2!1ses!2sbo!4v1234567890"
-                                width="100%" 
-                                height="200" 
-                                style="border:0; border-radius: 8px;" 
-                                allowfullscreen="" 
-                                loading="lazy"
-                                class="footer-map">
-                            </iframe>
-                        </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-2 mb-lg-0">
-                    <div class="footer-section">
-                        <h5 class="footer-section-title">
-                            <img src="{% static 'img/logoAlmacen.png' %}" alt="Logo Almacen" style="height:48px;max-width:180px;object-fit:contain;vertical-align:middle;"> American Outlet
-                        </h5>
-                        <p class="footer-description">Tu tienda de confianza para encontrar productos de textil con stock actualizado y precios competitivos.</p>
-                        <div class="footer-social">
-                            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+            <div class="footer-grid">
+                <section class="footer-card footer-brand-card">
+                    <div class="footer-brand-header">
+                        <img src="{% static 'img/logoAlmacen.png' %}" alt="Logo Almacen">
+                        <div>
+                            <span class="footer-brand-kicker">American Outlet</span>
+                            <h5>Tu tienda de confianza</h5>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-2 mb-lg-0">
-                    <div class="footer-section">
-                        <h5 class="footer-section-title"><i class="fas fa-info-circle"></i> Información</h5>
-                        <ul class="footer-links">
-                            <li><a href="#"><i class="fas fa-phone-alt"></i> +58 000-0000000</a></li>
-                            <li><a href="mailto:contacto@sistematextil.com"><i class="fas fa-envelope"></i> contacto@sistematextil.com</a></li>
-                            <li class="footer-link-static"><i class="fas fa-map-marker-alt"></i> Centro Comercial Principal, Planta Baja</li>
-                            <li class="footer-link-static"><i class="fas fa-clock"></i> Lunes a Sábado, 8:00 AM - 7:00 PM</li>
-                        </ul>
+                    <p class="footer-description">Encuentra productos de textil con stock actualizado, asesoría personalizada y precios competitivos.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
                     </div>
-                </div>
-                <!-- <div class="col-lg-4 col-md-6">
-                    <div class="footer-section">
-                        <h5 class="footer-section-title"><i class="fas fa-headset"></i> Atención al Cliente</h5>
-                        <ul class="footer-links">
-                            <li><a href="#catalogo"><i class="fas fa-store"></i> Catálogo</a></li>
-                            <li><a href="#servicios"><i class="fas fa-bolt"></i> Servicios</a></li>
-                            <li><a href="#faq"><i class="fas fa-question-circle"></i> Preguntas Frecuentes</a></li>
-                            <li><a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
-                        </ul>
+                </section>
+
+                <section class="footer-card footer-map-card">
+                    <div class="footer-card-header">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h5>Ubicación</h5>
                     </div>
-                </div> -->
+                    <div class="footer-map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.897732935904!2d-68.1199765!3d-16.4966445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915edf1c1b1b1b1b%3A0x1b1b1b1b1b1b1b!2sCentro%20Comercial%20Principal!5e0!3m2!1ses!2sbo!4v1234567890"
+                            class="footer-map"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </section>
+
+                <section class="footer-card footer-info-card">
+                    <div class="footer-card-header">
+                        <i class="fas fa-info-circle"></i>
+                        <h5>Información</h5>
+                    </div>
+                    <ul class="footer-links">
+                        <li><a href="tel:+580000000000"><i class="fas fa-phone-alt"></i> +58 000-0000000</a></li>
+                        <li><a href="mailto:contacto@sistematextil.com"><i class="fas fa-envelope"></i> contacto@sistematextil.com</a></li>
+                        <li class="footer-link-static"><i class="fas fa-map-marker-alt"></i> Centro Comercial Principal, Planta Baja</li>
+                        <li class="footer-link-static"><i class="fas fa-clock"></i> Lunes a Sábado, 8:00 AM - 7:00 PM</li>
+                    </ul>
+                </section>
             </div>
         </div>
         <div class="footer-bottom">

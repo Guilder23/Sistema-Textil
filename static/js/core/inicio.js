@@ -5,100 +5,85 @@
 document.addEventListener('DOMContentLoaded', function() {
     initializeProductoCards();
     initializePaginationAnimations();
+    initializeFaqAccordion();
+    initializeRevealAnimations();
 });
 
-/* ================================================
-   PRODUCTO CARDS - ANIMACIONES Y HOVER
-   ================================================ */
-
 function initializeProductoCards() {
-    const cards = document.querySelectorAll('.producto-card');
-    
-    cards.forEach(card => {
-        // Efecto hover
+    document.querySelectorAll('.producto-card').forEach(card => {
         card.addEventListener('mouseenter', function() {
             this.style.animation = 'none';
         });
     });
 }
 
-/* ================================================
-   FILTROS - ANIMACIONES
-   ================================================ */
-
-function initializeFilterAnimations() {
-    // Filtros embebidos eliminados: ahora se usan desde el modal en el navbar.
-}
-
-/* ================================================
-   PAGINACIÓN - ANIMACIONES
-   ================================================ */
-
 function initializePaginationAnimations() {
-    const paginationLinks = document.querySelectorAll('.pagination a');
-    
-    paginationLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Agregar efecto de clic
-            const ripple = document.createElement('span');
-            ripple.style.position = 'absolute';
-            ripple.style.borderRadius = '50%';
-            ripple.style.background = 'rgba(255, 255, 255, 0.5)';
-            ripple.style.width = '20px';
-            ripple.style.height = '20px';
-            ripple.style.animation = 'rippleEffect 0.6s ease-out';
+    document.querySelectorAll('.pagination a').forEach(link => {
+        link.addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 180);
         });
     });
 }
 
-/* ================================================
-   ANIMACIÓN RIPPLE (CSS-based)
-   ================================================ */
+function initializeFaqAccordion() {
+    document.querySelectorAll('.faq-item').forEach(item => {
+        const button = item.querySelector('.faq-question');
+        if (!button) return;
 
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes rippleEffect {
-        from {
-            opacity: 1;
-            transform: scale(1);
-        }
-        to {
-            opacity: 0;
-            transform: scale(2);
-        }
-    }
-`;
-document.head.appendChild(style);
+        button.addEventListener('click', () => {
+            const wasActive = item.classList.contains('active');
 
-/* ================================================
-   UTILIDADES
-   ================================================ */
+            document.querySelectorAll('.faq-item').forEach(faqItem => {
+                faqItem.classList.remove('active');
+                const faqButton = faqItem.querySelector('.faq-question');
+                if (faqButton) {
+                    faqButton.setAttribute('aria-expanded', 'false');
+                }
+            });
 
-// Scroll suave
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-});
-
-// Lazy loading de imágenes
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src || img.src;
-                img.classList.add('loaded');
-                observer.unobserve(img);
+            if (!wasActive) {
+                item.classList.add('active');
+                button.setAttribute('aria-expanded', 'true');
             }
         });
     });
-
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-    });
 }
+
+function initializeRevealAnimations() {
+    const elements = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || elements.length === 0) {
+        elements.forEach(el => el.classList.add('visible'));
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.12
+    });
+
+    elements.forEach(el => observer.observe(el));
+}
+
+// Scroll suave para anclas
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        const targetSelector = this.getAttribute('href');
+        if (!targetSelector || targetSelector === '#') return;
+
+        const target = document.querySelector(targetSelector);
+        if (!target) return;
+
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+});
+

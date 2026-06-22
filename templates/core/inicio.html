@@ -217,104 +217,282 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </section>
 
-    <section id="proceso" class="inicio-section">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="mb-3" style="font-size:1.3rem; color:#1e3a8a; font-weight:700;"><i class="fas fa-route"></i> Cómo trabajamos</h2>
-            </div>
-            <div class="col-lg-5 mb-3">
-                <div class="inicio-media-card h-100">
-                    <img class="inicio-media-img" src="{% static 'img/imagenes/imagen6.png' %}" alt="Proceso de confección" loading="lazy">
-                    <div class="inicio-media-body">
-                        <h5 class="mb-1" style="color:#0f172a; font-weight:800;">De la idea a la entrega</h5>
-                        <p class="mb-0" style="color:#64748b;">Acompañamiento desde la selección del material hasta la entrega final.</p>
-                    </div>
+    <section id="proceso" class="inicio-section process-section">
+        <div class="section-heading reveal">
+            <span class="section-eyebrow">Cómo trabajamos</span>
+            <h2>De la idea a la entrega</h2>
+        </div>
+        <div class="process-shell">
+            <div class="process-visual reveal">
+                <img src="{% static 'img/ideaEntrega.png' %}" alt="Proceso de confección" loading="lazy">
+                <div class="process-visual-caption">
+                    <h3>Tu proyecto, acompañado en cada etapa</h3>
+                    <p>Acompañamiento desde la selección del material hasta la entrega final.</p>
                 </div>
             </div>
-            <div class="col-lg-7">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 mb-3">
-                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
-                            <div class="card-body">
-                                <h5 class="mb-2" style="color:#1e3a8a; font-weight:700;"><i class="fas fa-magnifying-glass"></i> 1. Encuentra</h5>
-                                <p class="mb-0" style="color:#64748b;">Filtra por categoría y precio, y revisa stock real.</p>
-                            </div>
-                        </div>
+            <div class="process-steps">
+                <article class="process-step reveal">
+                    <span class="process-step-number">01</span>
+                    <div>
+                        <h4><i class="fas fa-lightbulb"></i> Descubre</h4>
+                        <p>Explora nuestros tejidos y encuentra la opción ideal para tu proyecto.</p>
                     </div>
-                    <div class="col-lg-6 col-md-6 mb-3">
-                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
-                            <div class="card-body">
-                                <h5 class="mb-2" style="color:#1e3a8a; font-weight:700;"><i class="fas fa-comments"></i> 2. Asesoría</h5>
-                                <p class="mb-0" style="color:#64748b;">Te guiamos según tu tipo de confección y necesidad.</p>
-                            </div>
-                        </div>
+                </article>
+                <article class="process-step reveal">
+                    <span class="process-step-number">02</span>
+                    <div>
+                        <h4><i class="fas fa-comments"></i> Consulta</h4>
+                        <p>Resolvemos dudas sobre materiales, tallas, stock y recomendaciones.</p>
                     </div>
-                    <div class="col-lg-6 col-md-6 mb-3">
-                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
-                            <div class="card-body">
-                                <h5 class="mb-2" style="color:#1e3a8a; font-weight:700;"><i class="fas fa-box"></i> 3. Preparamos</h5>
-                                <p class="mb-0" style="color:#64748b;">Armamos tu pedido con control de calidad.</p>
-                            </div>
-                        </div>
+                </article>
+                <article class="process-step reveal">
+                    <span class="process-step-number">03</span>
+                    <div>
+                        <h4><i class="fas fa-calculator"></i> Cotiza</h4>
+                        <p>Te mostramos el mejor costo según cantidad, unidades o presentación.</p>
                     </div>
-                    <div class="col-lg-6 col-md-6 mb-3">
-                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
-                            <div class="card-body">
-                                <h5 class="mb-2" style="color:#1e3a8a; font-weight:700;"><i class="fas fa-truck"></i> 4. Entregamos</h5>
-                                <p class="mb-0" style="color:#64748b;">Entrega rápida y seguimiento del envío.</p>
-                            </div>
-                        </div>
+                </article>
+                <article class="process-step reveal">
+                    <span class="process-step-number">04</span>
+                    <div>
+                        <h4><i class="fas fa-box"></i> Preparamos</h4>
+                        <p>Armamos tu pedido con revisión y cuidado en cada detalle.</p>
                     </div>
-                </div>
+                </article>
+                <article class="process-step reveal">
+                    <span class="process-step-number">05</span>
+                    <div>
+                        <h4><i class="fas fa-shield-alt"></i> Revisamos</h4>
+                        <p>Confirmamos calidad, cantidades y condiciones antes del envío.</p>
+                    </div>
+                </article>
+                <article class="process-step reveal">
+                    <span class="process-step-number">06</span>
+                    <div>
+                        <h4><i class="fas fa-truck"></i> Entregamos</h4>
+                        <p>Coordinar el despacho y darte seguimiento hasta recibir tu pedido.</p>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <section id="faq" class="inicio-section">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="mb-3" style="font-size:1.3rem; color:#1e3a8a; font-weight:700;"><i class="fas fa-circle-question"></i> Preguntas frecuentes</h2>
-            </div>
-            <div class="col-lg-4 mb-3">
-                <div class="inicio-media-card h-100">
-                    <img class="inicio-media-img" src="{% static 'img/imagenes/imagen7.png' %}" alt="Asesoría textil" loading="lazy">
-                    <div class="inicio-media-body">
-                        <h5 class="mb-1" style="color:#0f172a; font-weight:800;">Respuestas claras</h5>
-                        <p class="mb-0" style="color:#64748b;">Información rápida sobre stock, compras y pedidos.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="row">
-                    <div class="col-lg-6 mb-3">
-                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
-                            <div class="card-body">
-                                <h6 class="mb-2" style="color:#0f172a; font-weight:700;">¿El stock es real?</h6>
-                                <p class="mb-0" style="color:#64748b;">Sí, trabajamos con inventario actualizado para que compres con confianza.</p>
+    <section id="faq" class="inicio-section faq-section">
+        <div class="section-heading reveal">
+            <span class="section-eyebrow">Preguntas frecuentes</span>
+            <h2>Respuestas rápidas para decisiones seguras</h2>
+        </div>
+        <div class="faq-layout">
+            <div class="faq-accordion reveal">
+                <div class="faq-columns">
+                    <div class="faq-column">
+                        <div class="faq-item active">
+                            <button class="faq-question" type="button" aria-expanded="true">
+                                <span>¿Cómo puedo realizar un pedido?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Elige el producto, revisa la disponibilidad y comunícate con nosotros para confirmar tu compra.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Cómo me comunico con ustedes por WhatsApp?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Puedes escribirnos al número de contacto disponible en la tienda o en nuestras redes sociales.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Cuál es el horario de atención?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Atendemos de lunes a sábado, de 8:00 AM a 7:00 PM.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Las camisas publicadas están disponibles?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>La disponibilidad puede cambiar, pero siempre verificamos el stock antes de confirmar un pedido.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Las fotografías son reales?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Sí, las imágenes corresponden a los productos reales que tenemos disponibles.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Las camisas son originales?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Trabajamos con productos originales y verificamos la procedencia de cada referencia.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Qué marcas tienen disponibles?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Contamos con distintas marcas según el catálogo vigente y la disponibilidad del momento.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Cada cuánto actualizan su catálogo?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Actualizamos constantemente nuestro catálogo conforme llegan nuevos productos y cambios de stock.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Cómo puedo consultar el stock de una camisa?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Revisa la información del producto en la web o contáctanos para confirmar tallas y cantidades.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Qué métodos de pago aceptan?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Aceptamos distintos métodos de pago según la modalidad de compra y la confirmación del pedido.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Debo pagar antes del envío?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>La forma de pago se confirma según el pedido y la disponibilidad del producto.</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 mb-3">
-                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
-                            <div class="card-body">
-                                <h6 class="mb-2" style="color:#0f172a; font-weight:700;">¿Puedo pedir por caja o unidad?</h6>
-                                <p class="mb-0" style="color:#64748b;">Sí, los productos muestran precio por unidad y por caja cuando aplica.</p>
+                    <div class="faq-column">
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Realizan envíos a todo el país?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Sí, coordinamos envíos a distintas zonas del país según el servicio disponible.</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 mb-3">
-                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
-                            <div class="card-body">
-                                <h6 class="mb-2" style="color:#0f172a; font-weight:700;">¿Tienen asesoría para elegir materiales?</h6>
-                                <p class="mb-0" style="color:#64748b;">Sí, te orientamos según tu tipo de confección y uso final.</p>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Cuánto cuesta el envío?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>El costo depende del destino, el peso y el tipo de entrega que elijas.</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 mb-3">
-                        <div class="card h-100" style="border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 4px 20px rgba(15, 23, 42, 0.06);">
-                            <div class="card-body">
-                                <h6 class="mb-2" style="color:#0f172a; font-weight:700;">¿Cómo se realizan las entregas?</h6>
-                                <p class="mb-0" style="color:#64748b;">Coordinamos entrega y te mantenemos informado durante el proceso.</p>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Cuánto tarda en llegar mi pedido?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>El tiempo suele variar según la zona y la empresa de transporte, pero te lo confirmamos al momento del envío.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Puedo recoger mi pedido personalmente?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Sí, puedes coordinar una recojo personal si esta opción está disponible para tu pedido.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Cómo sé que mi pedido fue confirmado?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Te confirmamos por el medio acordado una vez validamos el pago y la disponibilidad.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Me enviarán una foto de mi pedido antes del envío?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Podemos enviarte una verificación visual si así lo solicitas antes de despachar.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Puedo cambiar una camisa por otra talla?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Depende del estado del pedido y de la disponibilidad de la nueva talla, pero lo revisamos contigo.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Aceptan devoluciones?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Las devoluciones se analizan según la condición del producto y las políticas del pedido.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Qué hago si recibí un producto incorrecto?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Contáctanos inmediatamente y te ayudamos a resolver la situación con la mayor prontitud.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Tienen promociones o descuentos?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Periódicamente lanzamos promociones, y también podemos consultar opciones especiales según tu compra.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Puedo reservar una camisa?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Sí, en algunos casos podemos reservar una referencia mientras confirmas la compra.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>¿Venden al por mayor?</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Sí, podemos asesorarte sobre compras por mayor, cantidades y condiciones especiales.</p>
                             </div>
                         </div>
                     </div>
@@ -358,56 +536,39 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </section> {% endcomment %}
 
-    <section class="inicio-section" aria-hidden="false">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="mb-3" style="font-size:1.3rem; color:#1e3a8a; font-weight:700;"><i class="fas fa-images"></i> Galería</h2>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen1.png' %}" alt="Galería 1" loading="lazy">
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen2.png' %}" alt="Galería 2" loading="lazy">
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen3.png' %}" alt="Galería 3" loading="lazy">
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen5.png' %}" alt="Galería 4" loading="lazy">
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen6.png' %}" alt="Galería 5" loading="lazy">
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen7.png' %}" alt="Galería 6" loading="lazy">
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen8.png' %}" alt="Galería 7" loading="lazy">
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen9.png' %}" alt="Galería 8" loading="lazy">
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="inicio-galeria-card">
-                    <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen10.png' %}" alt="Galería 9" loading="lazy">
-                </div>
-            </div>
+    <section class="inicio-section gallery-section" aria-hidden="false">
+        <div class="section-heading reveal">
+            <span class="section-eyebrow"><i class="fas fa-images"></i> Galería</span>
+            <h2>Momentos de nuestro trabajo</h2>
+        </div>
+        <div class="gallery-grid">
+            <figure class="inicio-galeria-card reveal">
+                <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen1.png' %}" alt="Galería 1" loading="lazy">
+            </figure>
+            <figure class="inicio-galeria-card reveal">
+                <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen2.png' %}" alt="Galería 2" loading="lazy">
+            </figure>
+            <figure class="inicio-galeria-card reveal">
+                <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen3.png' %}" alt="Galería 3" loading="lazy">
+            </figure>
+            <figure class="inicio-galeria-card reveal">
+                <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen5.png' %}" alt="Galería 4" loading="lazy">
+            </figure>
+            <figure class="inicio-galeria-card reveal">
+                <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen6.png' %}" alt="Galería 5" loading="lazy">
+            </figure>
+            <figure class="inicio-galeria-card reveal">
+                <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen7.png' %}" alt="Galería 6" loading="lazy">
+            </figure>
+            <figure class="inicio-galeria-card reveal">
+                <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen8.png' %}" alt="Galería 7" loading="lazy">
+            </figure>
+            <figure class="inicio-galeria-card reveal">
+                <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen9.png' %}" alt="Galería 8" loading="lazy">
+            </figure>
+            <figure class="inicio-galeria-card reveal">
+                <img class="inicio-galeria-img" src="{% static 'img/imagenes/imagen10.png' %}" alt="Galería 9" loading="lazy">
+            </figure>
         </div>
     </section>
 </div>
