@@ -1,55 +1,66 @@
 {% load static %}
+
 {% if not user.is_authenticated %}
 <footer class="footer-inicio">
     <div class="container-fluid footer-inicio-container">
         <div class="footer-top">
             <div class="footer-grid">
-                <section class="footer-card footer-brand-card">
-                    <div class="footer-brand-header">
-                        <img src="{% static 'img/logoAlmacen.png' %}" alt="Logo Almacen">
-                        <div>
-                            <span class="footer-brand-kicker">American Outlet</span>
-                            <h5>Tu tienda de confianza</h5>
-                        </div>
-                    </div>
-                    <p class="footer-description">Encuentra productos de textil con stock actualizado, asesoría personalizada y precios competitivos.</p>
+                <!-- Brand Section -->
+                <section class="footer-brand">
+                    <a class="navbar-brand-inicio" href="{% url 'core:inicio' %}">
+                        <img src="{% static 'img/logoAlmacen.png' %}" alt="Logo" class="navbar-logo">
+                        <span class="navbar-brand-text">
+                            <span class="brand-american">AMERICAN</span> <span class="brand-outlet">OUTLET</span>
+                        </span>
+                    </a>
+                    <p class="footer-tagline">Tu tienda de confianza en productos textiles. Calidad, variedad y precios competitivos.</p>
+                </section>
+
+                <!-- Enlaces -->
+                <section class="footer-section">
+                    <h4 class="footer-title">Enlaces</h4>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'core:inicio' %}">Inicio</a></li>
+                        <li><a href="#catalogo">Catálogo</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#proceso">Proceso</a></li>
+                    </ul>
+                </section>
+
+                <!-- Información -->
+                <section class="footer-section">
+                    <h4 class="footer-title">Información</h4>
+                    <ul class="footer-links">
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                        <li><a href="#">Políticas de envío</a></li>
+                        <li><a href="#">Términos y condiciones</a></li>
+                    </ul>
+                </section>
+
+                <!-- Contacto -->
+                <section class="footer-section">
+                    <h4 class="footer-title">Contacto</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-phone"></i> +58 000-0000000</li>
+                        <li><i class="fas fa-envelope"></i> contacto@sistematextil.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Centro Comercial Principal, Planta Baja</li>
+                    </ul>
+                </section>
+
+                <!-- Horario -->
+                <section class="footer-section">
+                    <h4 class="footer-title">Horario</h4>
+                    <p class="footer-schedule">Lunes a Sábado<br>8:00 AM - 7:00 PM</p>
                     <div class="footer-social">
                         <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </section>
-
-                <section class="footer-card footer-map-card">
-                    <div class="footer-card-header">
-                        <i class="fas fa-map-marked-alt"></i>
-                        <h5>Ubicación</h5>
-                    </div>
-                    <div class="footer-map-container">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.897732935904!2d-68.1199765!3d-16.4966445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915edf1c1b1b1b1b%3A0x1b1b1b1b1b1b1b!2sCentro%20Comercial%20Principal!5e0!3m2!1ses!2sbo!4v1234567890"
-                            class="footer-map"
-                            allowfullscreen=""
-                            loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
-                    </div>
-                </section>
-
-                <section class="footer-card footer-info-card">
-                    <div class="footer-card-header">
-                        <i class="fas fa-info-circle"></i>
-                        <h5>Información</h5>
-                    </div>
-                    <ul class="footer-links">
-                        <li><a href="tel:+580000000000"><i class="fas fa-phone-alt"></i> +58 000-0000000</a></li>
-                        <li><a href="mailto:contacto@sistematextil.com"><i class="fas fa-envelope"></i> contacto@sistematextil.com</a></li>
-                        <li class="footer-link-static"><i class="fas fa-map-marker-alt"></i> Centro Comercial Principal, Planta Baja</li>
-                        <li class="footer-link-static"><i class="fas fa-clock"></i> Lunes a Sábado, 8:00 AM - 7:00 PM</li>
-                    </ul>
-                </section>
             </div>
         </div>
+
         <div class="footer-bottom">
             <p class="footer-copyright">&copy; 2026 American Outlet - Todos los derechos reservados | v1.0.0</p>
         </div>
