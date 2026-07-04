@@ -70,7 +70,8 @@
 /* Hacer las cards del carrusel solo imagen */
 .featured-item-link {
   background: transparent;
-  border-radius: 0;
+  border-radius: 16px; /* mantener bordes redondeados como en PC */
+  overflow: hidden;
   padding: 0;
   transition: all 0.3s ease;
 }
@@ -186,5 +187,32 @@
 
   .carousel-nav-next {
     right: 0.5rem;
+  }
+}
+
+/* Ajustes para evitar que la barra de categorías (sticky) tape el carrusel en móvil */
+@media (max-width: 991px) {
+  .featured-carousel-wrapper {
+    margin-top: 16px; /* reducir espacio entre categorias y carrusel */
+  }
+  .featured-offer-badge {
+    z-index: 3000; /* estar por encima de la barra de categorias */
+    top: 20px;
+  }
+  /* Asegurar que el overlay del carrusel y sus items estén por encima de la barra de categorias sticky */
+  .featured-carousel-overlay {
+    z-index: 1000 !important; /* debajo de la barra de categorias (1020) */
+  }
+  .featured-carousel-overlay .featured-carousel-wrapper {
+    z-index: 1055 !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .featured-carousel-wrapper {
+    margin-top: 8px;
+  }
+  .featured-offer-badge {
+    top: 20px;
   }
 }

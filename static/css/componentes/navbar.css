@@ -827,6 +827,13 @@
     .navbar-user-btn i.fa-chevron-down {
         display: none;
     }
+    /* Separación para evitar que los iconos queden pegados a la esquina */
+    .sidebar-toggle-btn {
+        margin-left: 0.5rem;
+    }
+    .navbar-user-btn {
+        margin-right: 0.5rem;
+    }
 }
 
 @media (max-width: 576px) {
@@ -850,6 +857,13 @@
     
     .navbar-right {
         gap: 0.375rem;
+    }
+    /* Aumentar separación en móviles muy pequeños */
+    .sidebar-toggle-btn {
+        margin-left: 0.6rem;
+    }
+    .navbar-user-btn {
+        margin-right: 0.6rem;
     }
     
     .notificaciones-dropdown,

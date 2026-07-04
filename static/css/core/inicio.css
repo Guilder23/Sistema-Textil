@@ -755,9 +755,13 @@
 
 @media (max-width: 991px) {
     .hero-portada-inner {
-        padding-top: 3rem;
+    padding-top: 4.5rem; /* un poco más de espacio superior en mobile para evitar superposición */
         padding-bottom: 2.5rem;
     }
+  /* Mover todo el hero (incluido el carrusel) debajo de la barra de categorías sticky */
+  .hero-portada {
+    margin-top: 70px; /* ajusta si necesitas más/menos espacio */
+  }
 
     .hero-portada-gallery {
         flex-basis: 100%;
@@ -1927,5 +1931,28 @@
     padding: 0.3rem 0.6rem;
     font-size: 0.7rem;
     border-radius: 30px;
+  }
+}
+
+/* Asegurar que la barra de categorías quede debajo del navbar fijo en móvil */
+@media (max-width: 991px) {
+  .categorias-compact-bar {
+    top: 76px; /* un poco más de espacio para separarla del navbar */
+  }
+  /* Evitar que el catálogo quede oculto por la barra de categorías y el navbar */
+  .inicio-page-wrap {
+    padding-top: 100px;
+  }
+}
+
+/* Ajustes para badges de oferta en pantallas muy pequeñas */
+@media (max-width: 575.98px) {
+  .badge-oferta-inicio {
+    top: 16px; /* empujar un poco hacia abajo para evitar superposición */
+    right: 8px;
+    padding: 4px 8px;
+    font-size: 0.68rem;
+    white-space: nowrap;
+    z-index: 2000; /* asegurar que esté por encima de la barra de categorías */
   }
 }

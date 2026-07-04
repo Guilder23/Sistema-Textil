@@ -229,11 +229,13 @@
     .nav-icon-btn {
         font-size: 1.25rem;
         padding: 0.45rem;
+        margin-right: 0.6rem;
     }
 
     .mobile-nav-toggle {
         font-size: 1.45rem;
         padding: 0.45rem;
+        margin-left: 0.6rem;
     }
 }
 
