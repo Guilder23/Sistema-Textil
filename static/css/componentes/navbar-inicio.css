@@ -37,7 +37,7 @@
 }
 
 .mobile-nav-toggle:hover {
-    color: #ffc107;
+    color: #dc2626;
 }
 
 .navbar-brand-inicio {
@@ -95,7 +95,7 @@
 }
 
 .navbar-desktop-links .nav-link:hover {
-    color: #ffc107;
+    color: #dc2626;
 }
 
 .nav-search-form-inline {
@@ -133,7 +133,7 @@
 }
 
 .nav-icon-btn:hover {
-    color: #ffc107;
+    color: #dc2626;
 }
 
 .cart-counter-badge {
