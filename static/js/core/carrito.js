@@ -56,7 +56,7 @@ function renderCart() {
             <div class="guide-title"><i class="fas fa-info-circle"></i> ¿Cómo funciona?</div>
             <ul class="guide-list">
                 <li>Revisa tus productos y cantidades.</li>
-                <li>Haz clic en "Enviar pedido" para abrir WhatsApp.</li>
+                <li>Haz clic en "Enviar pedido" para abrir WhatsApp al 75000343.</li>
                 <li>Tu carrito se vaciará tras enviar el mensaje.</li>
                 <li>Coordinaremos el pago y envío por chat.</li>
             </ul>
@@ -85,7 +85,7 @@ function renderCart() {
                     <span>Bs ${total.toFixed(2)}</span>
                 </div>
                 <button onclick="sendOrder()" class="whatsapp-order-btn mt-3">
-                    <i class="fab fa-whatsapp"></i> Enviar pedido
+                    <i class="fab fa-whatsapp"></i> Enviar pedido al 75000343
                 </button>
                 <a href="/#catalogo" class="continue-shopping-btn btn btn-outline-primary btn-sm btn-block mt-3">
                     <i class="fas fa-arrow-left"></i> Seguir comprando
@@ -161,7 +161,7 @@ function openClearCartConfirm() {
 function sendOrder() {
     const message = CartSystem.formatWhatsAppMessage();
     if (message) {
-        const phoneNumber = '59168440201';
+        const phoneNumber = '59175000343';
         window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
         
         // Vaciar carrito después de un pequeño delay

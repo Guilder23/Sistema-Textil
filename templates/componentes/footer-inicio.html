@@ -1,61 +1,71 @@
 {% load static %}
+
 {% if not user.is_authenticated %}
-<!-- FOOTER MODERNO American Outlet -->
 <footer class="footer-inicio">
     <div class="container-fluid footer-inicio-container">
         <div class="footer-top">
-            <h5 class="footer-section-title"><i class="fas fa-map-marked-alt"></i> Ubicación</h5>
-                        <div class="footer-map-container">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.897732935904!2d-68.1199765!3d-16.4966445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915edf1c1b1b1b1b%3A0x1b1b1b1b1b1b1b1b!2sCentro%20Comercial%20Principal!5e0!3m2!1ses!2sbo!4v1234567890"
-                                width="100%" 
-                                height="200" 
-                                style="border:0; border-radius: 8px;" 
-                                allowfullscreen="" 
-                                loading="lazy"
-                                class="footer-map">
-                            </iframe>
-                        </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-2 mb-lg-0">
-                    <div class="footer-section">
-                        <h5 class="footer-section-title">
-                            <img src="{% static 'img/logoAlmacen.png' %}" alt="Logo Almacen" style="height:48px;max-width:180px;object-fit:contain;vertical-align:middle;"> American Outlet
-                        </h5>
-                        <p class="footer-description">Tu tienda de confianza para encontrar productos de textil con stock actualizado y precios competitivos.</p>
-                        <div class="footer-social">
-                            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
-                        </div>
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <section class="footer-brand">
+                    <a class="navbar-brand-inicio" href="{% url 'core:inicio' %}">
+                        <img src="{% static 'img/logoAlmacen.png' %}" alt="Logo" class="navbar-logo">
+                        <span class="navbar-brand-text">
+                            <span class="brand-american">AMERICAN</span> <span class="brand-outlet">OUTLET</span>
+                        </span>
+                    </a>
+                    <p class="footer-tagline">Camisas importadas, atencion cercana y envios a toda Bolivia con el respaldo de American Outlet.</p>
+                </section>
+
+                <!-- Enlaces -->
+                <section class="footer-section">
+                    <h4 class="footer-title">Enlaces</h4>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'core:inicio' %}">Inicio</a></li>
+                        <li><a href="#catalogo">Catálogo</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#proceso">Proceso</a></li>
+                    </ul>
+                </section>
+
+                <!-- Información -->
+                <section class="footer-section">
+                    <h4 class="footer-title">Información</h4>
+                    <ul class="footer-links">
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                        <li><a href="#">Políticas de envío</a></li>
+                        <li><a href="#">Términos y condiciones</a></li>
+                    </ul>
+                </section>
+
+                <!-- Contacto -->
+                <section id="contacto" class="footer-section">
+                    <h4 class="footer-title">Contacto</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fab fa-whatsapp"></i> WhatsApp: 75000343</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Calle Ingavi 370</li>
+                        <li><i class="fas fa-truck"></i> Enviamos a toda Bolivia</li>
+                    </ul>
+                </section>
+
+                <!-- Horario -->
+                <section class="footer-section">
+                    <h4 class="footer-title">Horario</h4>
+                    <p class="footer-schedule">Lunes a Viernes<br>9:00 AM - 12:00 PM<br>3:00 PM - 7:00 PM<br>Sabado: 9:00 AM - 1:00 PM</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/americanoutlet2.0?rdid=kzkvFpIMRQ6wOcdv&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1EEsNsRMVr%2F#" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/americanoutlet_sc?igsh=MWt3cDNmOXg5czQzZA==" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@americanoutlet_scz?_r=1&_t=ZS-97hZlKtDS3W" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://wa.me/59175000343" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-2 mb-lg-0">
-                    <div class="footer-section">
-                        <h5 class="footer-section-title"><i class="fas fa-info-circle"></i> Información</h5>
-                        <ul class="footer-links">
-                            <li><a href="#"><i class="fas fa-phone-alt"></i> +58 000-0000000</a></li>
-                            <li><a href="mailto:contacto@sistematextil.com"><i class="fas fa-envelope"></i> contacto@sistematextil.com</a></li>
-                            <li class="footer-link-static"><i class="fas fa-map-marker-alt"></i> Centro Comercial Principal, Planta Baja</li>
-                            <li class="footer-link-static"><i class="fas fa-clock"></i> Lunes a Sábado, 8:00 AM - 7:00 PM</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- <div class="col-lg-4 col-md-6">
-                    <div class="footer-section">
-                        <h5 class="footer-section-title"><i class="fas fa-headset"></i> Atención al Cliente</h5>
-                        <ul class="footer-links">
-                            <li><a href="#catalogo"><i class="fas fa-store"></i> Catálogo</a></li>
-                            <li><a href="#servicios"><i class="fas fa-bolt"></i> Servicios</a></li>
-                            <li><a href="#faq"><i class="fas fa-question-circle"></i> Preguntas Frecuentes</a></li>
-                            <li><a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
-                        </ul>
-                    </div>
-                </div> -->
+                </section>
             </div>
         </div>
+
         <div class="footer-bottom">
-            <p class="footer-copyright">&copy; 2026 American Outlet - Todos los derechos reservados | v1.0.0</p>
+            <p class="footer-bottom-item">&copy; 2026 American Outlet</p>
+            <p class="footer-bottom-item">Todos los derechos reservados</p>
+            <p class="footer-bottom-item">Desarrollado por <a href="https://appyaa.com" class="footer-bottom-link" target="_blank" rel="noopener noreferrer">appyaa</a></p>
         </div>
     </div>
 </footer>
