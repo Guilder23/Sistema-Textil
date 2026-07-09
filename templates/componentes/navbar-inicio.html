@@ -21,8 +21,7 @@
             <ul class="navbar-desktop-links d-none d-lg-flex">
                 <li><a class="nav-link" href="{% url 'core:inicio' %}">Inicio</a></li>
                 <li><a class="nav-link" href="#catalogo">Catálogo</a></li>
-                <li><a class="nav-link" href="#servicios">Servicios</a></li>
-                <li><a class="nav-link" href="#proceso">Proceso</a></li>
+                <li><a class="nav-link" href="#proceso">¿Cómo trabajamos?</a></li>
                 <li><a class="nav-link" href="#faq">FAQ</a></li>
                 <li><a class="nav-link" href="#contacto">Contacto</a></li>
             </ul>
@@ -61,16 +60,6 @@
                                 <label class="mb-1" for="navFilterPrecioMax">Precio máx.</label>
                                 <input type="text" class="form-control form-control-sm" id="navFilterPrecioMax" name="precio_max" value="{{ precio_max }}" inputmode="decimal" placeholder="—">
                             </div>
-                        </div>
-                        
-                        <div class="form-group mb-2">
-                            <label class="mb-1" for="navFilterSexo">Sexo</label>
-                            <select class="form-control form-control-sm" name="sexo" id="navFilterSexo">
-                                <option value="" {% if not sexo %}selected{% endif %}>Todos</option>
-                                <option value="UNISEX" {% if sexo == 'UNISEX' %}selected{% endif %}>Unisex</option>
-                                <option value="MUJER" {% if sexo == 'MUJER' %}selected{% endif %}>Mujer</option>
-                                <option value="HOMBRE" {% if sexo == 'HOMBRE' %}selected{% endif %}>Hombre</option>
-                            </select>
                         </div>
                         
                         <div class="form-group mb-2">
@@ -117,8 +106,7 @@
     <ul class="mobile-nav-links">
         <li><a class="nav-link" href="{% url 'core:inicio' %}">Inicio</a></li>
         <li><a class="nav-link" href="#catalogo">Catálogo</a></li>
-        <li><a class="nav-link" href="#servicios">Servicios</a></li>
-        <li><a class="nav-link" href="#proceso">Proceso</a></li>
+        <li><a class="nav-link" href="#proceso">Cómo trabajamos</a></li>
         <li><a class="nav-link" href="#faq">FAQ</a></li>
         <li><a class="nav-link" href="#contacto">Contacto</a></li>
     </ul>
@@ -144,16 +132,6 @@
             <div class="form-group mb-2">
                 <label class="mb-1" for="navFilterPrecioMaxMobile">Precio máx.</label>
                 <input type="text" class="form-control form-control-sm" id="navFilterPrecioMaxMobile" name="precio_max" value="{{ precio_max }}" inputmode="decimal" placeholder="—">
-            </div>
-            
-            <div class="form-group mb-2">
-                <label class="mb-1" for="navFilterSexoMobile">Sexo</label>
-                <select class="form-control form-control-sm" name="sexo" id="navFilterSexoMobile">
-                    <option value="" {% if not sexo %}selected{% endif %}>Todos</option>
-                    <option value="UNISEX" {% if sexo == 'UNISEX' %}selected{% endif %}>Unisex</option>
-                    <option value="MUJER" {% if sexo == 'MUJER' %}selected{% endif %}>Mujer</option>
-                    <option value="HOMBRE" {% if sexo == 'HOMBRE' %}selected{% endif %}>Hombre</option>
-                </select>
             </div>
             
             <div class="form-group mb-3">

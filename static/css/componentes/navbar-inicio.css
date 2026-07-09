@@ -163,6 +163,26 @@
 
 .nav-filter-dropdown .form-control-sm {
     border-radius: 6px;
+    min-height: 38px;
+    padding: 0.5rem 0.75rem;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: unset;
+}
+
+.nav-filter-dropdown select.form-control-sm {
+    min-width: 100%;
+    width: 100%;
+    height: auto;
+    appearance: auto;
+    padding-right: 2.2rem;
+}
+
+.nav-filter-dropdown .form-group label {
+    display: block;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
 }
 
 /* Mobile Navbar */
